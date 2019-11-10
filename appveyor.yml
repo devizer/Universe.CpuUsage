@@ -33,9 +33,7 @@ install:
 
     Say "Install Complete"
 
-- sh: |
-    mono --version || true
-    dotnet --info || true
+# - sh: 'mono --version || true; dotnet --info || true; '
 
 
 before_build:
@@ -51,7 +49,7 @@ build_script:
 - sh: |
       Say "Remove net 4.8 target"
       sed -i 's/net48;//g' Universe.CpuUsage/Universe.CpuUsage.csproj
-      cat Universe.CpuUsage/Universe.CpuUsage.csproj
+      # cat Universe.CpuUsage/Universe.CpuUsage.csproj
       
 - ps: |
       pushd Universe.CpuUsage
