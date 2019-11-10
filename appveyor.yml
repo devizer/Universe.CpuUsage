@@ -68,7 +68,7 @@ build_script:
       cp -r "Universe.CpuUsage/bin/Any CPU/Debug/." Tests4Linux/bin/
       echo "Mono Tests: nuget restore"
       pushd Tests4Linux
-      nuget restore
+      nuget restore -verbosity quiet
       echo "Mono Tests: msbuild rebuild"
       cfg=Release
       msbuild /t:Rebuild /p:Configuration=$cfg /v:q
