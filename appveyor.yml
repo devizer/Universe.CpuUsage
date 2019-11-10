@@ -12,11 +12,16 @@ init:
 - ps: |
 
     # copy paste it
-    $Work="$($Env:LocalAppData)"; if ($Work -eq "") { $Work="$($Env:UserProfile)"; }; $Work="$Work\Temp\Sql-Installers"
-    if (-not (Test-Path $Work)) { New-Item -ItemType Directory -Path $Work -EA SilentlyContinue | out-null }
-    Write-Host "Downloading Bootstrap.ps1 to: $Work" -ForegroundColor Cyan
-    (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/devizer/glist/master/bin/SQL-Express/Sql-Setup-Bootstrap.ps1', "$Work\Sql-Setup-Bootstrap.ps1")
-    pushd $Work; . .\Sql-Setup-Bootstrap.ps1; popd
+    function Say { param( [string] $message )
+        Write-Host "$(Get-Elapsed) " -NoNewline -ForegroundColor Magenta
+        Write-Host "$message" -ForegroundColor Yellow
+    }
+    
+    function Get-Elapsed
+    {
+        if ($Global:startAt -eq $null) { $Global:startAt = [System.Diagnostics.Stopwatch]::StartNew(); }
+        [System.String]::Concat("[", (new-object System.DateTime(0)).AddMilliseconds($Global:startAt.ElapsedMilliseconds).ToString("mm:ss"), "]");
+    }; Get-Elapsed | out-null;
 
 
 install:
