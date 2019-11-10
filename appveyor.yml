@@ -48,6 +48,12 @@ build_script:
       Say "RESTORE and BUILD"
       & dotnet restore
 
+- sh: |
+      Say "Remove net 4.8 target"
+      sed -i 's/>net48;//g' Universe.CpuUsage/Universe.CpuUsage.csproj
+      cat Universe.CpuUsage/Universe.CpuUsage.csproj
+      
+- ps: |
       pushd Universe.CpuUsage
       & dotnet test -f netcoreapp3.0
       & msbuild /t:rebuild /p:Configuration=Release /v:q

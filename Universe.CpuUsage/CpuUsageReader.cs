@@ -29,51 +29,27 @@ namespace Universe.CpuUsage
         
         public static CpuUsage? Get(CpuUsageScope scope)
         {
+            var platform = CrossInfo.ThePlatform;
             if (scope == CpuUsageScope.Process)
             {
-                if (IsLinux() || IsMacOs())
+                if (platform == CrossInfo.Platform.Linux || platform == CrossInfo.Platform.MacOSX)
                     return LinuxResourceUsage.GetByProcess();
                 else
-                    // throw new NotSupportedException("CPU Usage in the scope of the process is supported on Linux and OS X only");
                     return WindowsCpuUsage.Get(CpuUsageScope.Process);
             }
 
-            if (IsLinux())
+            if (platform == CrossInfo.Platform.Linux)
                 return LinuxResourceUsage.GetByThread();
             
-            else if (IsMacOs())
+            else if (platform == CrossInfo.Platform.MacOSX)
                 return MacOsThreadInfo.GetByThread();
             
-            else if (IsWindows())
+            else if (platform == CrossInfo.Platform.Windows)
                 // throw new NotImplementedException("CPU Usage in the scope of the thread is not yet implemented for Windows");
                 return WindowsCpuUsage.Get(CpuUsageScope.Thread);
             
-            throw new InvalidOperationException($"CPU usage in the scope of {scope} is a kind of an unknown on the {Universe.CrossInfo.ThePlatform}");
+            throw new InvalidOperationException($"CPU usage in the scope of {scope} is a kind of an unknown on the {platform}");
         }
 
-        static bool IsWindows()
-        {
-#if NETCOREAPP || NETSTANDARD
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-#else
-            return Universe.CrossInfo.ThePlatform == Universe.CrossInfo.Platform.Windows;
-#endif
-        }
-        static bool IsLinux()
-        {
-#if NETCOREAPP || NETSTANDARD
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-#else
-            return Universe.CrossInfo.ThePlatform == Universe.CrossInfo.Platform.Linux;
-#endif
-        }
-        static bool IsMacOs()
-        {
-#if NETCOREAPP || NETSTANDARD
-            return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-#else
-            return Universe.CrossInfo.ThePlatform == Universe.CrossInfo.Platform.MacOSX;
-#endif
-        }
     }
 }
