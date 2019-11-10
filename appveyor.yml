@@ -58,7 +58,7 @@ build_script:
       & dotnet restore
 
 - sh: |
-      echo "Remove net 4.8 target"
+      Say "Remove net 4.8 target for msbuild on linux"
       sed -i 's/net48;//g' Universe.CpuUsage/Universe.CpuUsage.csproj
       # cat Universe.CpuUsage/Universe.CpuUsage.csproj
       
