@@ -22,8 +22,8 @@
             FreeBSD,
             Unknown,
         }
-        
-        static Lazy<Platform> _Platform = new Lazy<Platform>(() =>
+
+        private static Lazy<Platform> _Platform = new Lazy<Platform>(() =>
         {
 #if NETCOREAPP || NETSTANDARD
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -31,6 +31,9 @@
 
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return Platform.Windows;
+            
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return Platform.Linux;
 
             // Community ports Core to FreeBSD
             else
@@ -46,7 +49,7 @@
                 return GetPlatform_OnLinux_OSX_BSD();
 
             else
-                return Platform.Unknown;
+                return Platform.Linux;
 #endif
         });
         
