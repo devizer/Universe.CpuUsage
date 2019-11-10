@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Universe.CpuUsage.Tests
 {
     [TestFixture]
-    public class SmokeTest
+    public class SmokeCpuUsage
     {
 
         [Test]
@@ -37,4 +37,5 @@ namespace Universe.CpuUsage.Tests
             Assert.IsTrue(usage.HasValue);
         }
     }
+    
 }
