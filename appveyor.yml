@@ -55,6 +55,11 @@ test_script:
     & dotnet test -f netcoreapp3.0
     popd
 
+    pushd "Universe.CpuUsage.Tests\bin\Any CPU\Debug\netcoreapp3.0"
+    nunit3-console Universe.CpuUsage.Tests --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
+    popd
+
+
     # & nunit3-console $assembly --workers=1 "--result=$($file).xml;format=AppVeyor"
 
 - ps: | 
