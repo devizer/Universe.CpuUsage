@@ -58,7 +58,7 @@
         private static Platform GetPlatform_OnLinux_OSX_BSD()
         {
 #if NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_6 
-            return IsMacOsX() ? Platform.MacOSX : Platform.Linux;
+            return IsMacOsX_On_OldNetStandard() ? Platform.MacOSX : Platform.Linux;
 #else
             var sName = ExecUName("-s");
             if ("Linux".Equals(sName, StringComparison.OrdinalIgnoreCase))
@@ -73,7 +73,7 @@
 #endif
         }
 
-        static bool IsMacOsX()
+        static bool IsMacOsX_On_OldNetStandard()
         {
             const string systemLibPath = "/usr/lib/libSystem.dylib";
             if (!File.Exists(systemLibPath)) return false;
