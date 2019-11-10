@@ -51,10 +51,14 @@ after_build:
 
 test_script:
 - ps: |
+    Say ".NET Core Tests"
     pushd Universe.CpuUsage.Tests 
     & dotnet test -f netcoreapp3.0
     popd
 
+- ps: |
+    Say ".NET Framework Tests"
+    dotnet build -f net46 -c Debug
     pushd "Universe.CpuUsage.Tests\bin\Any CPU\Debug\netcoreapp3.0"
     nunit3-console Universe.CpuUsage.Tests.dll --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
     popd
