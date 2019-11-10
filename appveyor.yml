@@ -55,11 +55,9 @@ build_script:
       
 - ps: |
       pushd Universe.CpuUsage
-      & dotnet test -f netcoreapp3.0
-      & msbuild /t:rebuild /p:Configuration=Release /v:q
-      & msbuild /t:rebuild /p:Configuration=Debug /v:q
-      & msbuild /t:pack /p:Configuration=Release /v:q
-      & msbuild /t:pack /p:Configuration=Debug /v:q
+      & dotnet test -f netcoreapp3.0 -v n
+      & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
+      & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
       popd
 
 
