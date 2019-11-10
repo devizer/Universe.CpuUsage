@@ -53,6 +53,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo_Tests.cs">
+      <Link>LinkedTests\CrossInfo_Tests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\SmokeCpuUsage.cs">
+      <Link>LinkedTests\SmokeCpuUsage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\Test_IsSupported.cs">
+      <Link>LinkedTests\Test_IsSupported.cs</Link>
+    </Compile>
     <Compile Include="FirstTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +71,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
