@@ -72,6 +72,24 @@ build_script:
       & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
       popd
 
+after_build:
+
+test_script:
+- ps: |
+    Say ".NET Core Tests"
+    pushd Universe.CpuUsage.Tests 
+    & dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    popd
+
+- ps: |
+    if ($isWindows) {
+        Say ".NET Framework Tests"
+        dotnet build -f net46 -c Debug
+        pushd "Universe.CpuUsage.Tests\bin\Debug\net46"
+        nunit3-console Universe.CpuUsage.Tests.dll --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
+        popd
+    }
+
 - sh: |
       Say "Mono Tests: Copy the build folder"
       mkdir -p Tests4Linux/bin
@@ -96,29 +114,6 @@ build_script:
       
       popd
       Say "Mono Tests: Done"
-
-
-
-after_build:
-
-test_script:
-- ps: |
-    Say ".NET Core Tests"
-    pushd Universe.CpuUsage.Tests 
-    & dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
-    popd
-
-- ps: |
-    if ($isWindows) {
-        Say ".NET Framework Tests"
-        dotnet build -f net46 -c Debug
-        pushd "Universe.CpuUsage.Tests\bin\Debug\net46"
-        nunit3-console Universe.CpuUsage.Tests.dll --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
-        popd
-    }
-
-
-    # & nunit3-console $assembly --workers=1 "--result=$($file).xml;format=AppVeyor"
 
 - ps: | 
 
