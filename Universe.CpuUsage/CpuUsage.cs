@@ -6,8 +6,9 @@ namespace Universe.CpuUsage
     [StructLayout(LayoutKind.Sequential)]
     public struct CpuUsage
     {
-        public TimeValue UserUsage;
-        public TimeValue KernelUsage;
+        
+        public TimeValue UserUsage { get; set; }
+        public TimeValue KernelUsage { get; set; }
 
         public override string ToString()
         {
@@ -28,11 +29,12 @@ namespace Universe.CpuUsage
     }
     
 
+    // replacing it to long will limit usage by 3,170,979 years
     [StructLayout(LayoutKind.Sequential)] 
     public struct TimeValue
     {
-        public long Seconds;
-        public long MicroSeconds;
+        public long Seconds { get; set; }
+        public long MicroSeconds { get; set; }
 
         public long TotalMicroSeconds => Seconds * 1000000 + MicroSeconds;
         public double TotalSeconds => Seconds + MicroSeconds / 1000000d;
