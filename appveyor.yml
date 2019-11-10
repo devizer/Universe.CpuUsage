@@ -1,6 +1,7 @@
 version: 'Universe.CpuUsage Integration tests on Windows #{build}'
 image:
 - Visual Studio 2019
+- Ubuntu
 
 skip_commits:
   files:

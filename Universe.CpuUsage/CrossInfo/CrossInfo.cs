@@ -6,7 +6,7 @@
     using System.Runtime.InteropServices;
     using System.Text;
 
-    public class CrossInfo
+    public static class CrossInfo
     {
 
         public static Platform ThePlatform
