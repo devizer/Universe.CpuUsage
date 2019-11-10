@@ -54,7 +54,7 @@ build_script:
       
 - sh: |
       echo "Mono Tests: nuget restore"
-      pushd Tests4Linux/Universe.CpuUsage.MonoTests.sln
+      pushd Tests4Linux
       nuget restore
       echo "Mono Tests: msbuild rebuild"
       msbuild /t:Rebuild /p:Configuration=Release /v:q
