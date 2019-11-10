@@ -109,7 +109,7 @@ test_script:
       Say "Mono Tests: Run Tests using '$runner'"
 
       pushd Universe.CpuUsage.MonoTests/bin/$cfg
-      eval "$runner Universe.CpuUsage.MonoTests.exe" || (Say "TESTING NET 2.0 ERROR"; exit 666)
+      eval "nunit3-console --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor" || (Say "TESTING NET 2.0 ERROR"; exit 666)
       popd
       
       popd
