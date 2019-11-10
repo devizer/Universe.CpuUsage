@@ -1,13 +1,21 @@
-version: 'Universe.CpuUsage Integration tests on Windows #{build}'
+version: '2.1.{build}'
 image:
 - Ubuntu1804
-# - Ubuntu1604
 - Visual Studio 2019
 
 skip_commits:
   files:
     - .circleci/*
 
+dotnet_csproj:
+  patch: true
+  file: '**\Version.props'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+  
 platform: Any CPU
 init:
 - ps: |

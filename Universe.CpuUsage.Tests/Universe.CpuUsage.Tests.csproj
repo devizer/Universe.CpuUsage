@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\Shared\Version.props" />
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;net46</TargetFrameworks>
