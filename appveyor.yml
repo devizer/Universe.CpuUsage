@@ -1,4 +1,4 @@
-version: 'SqlProfiler API Integration Tests #{build}'
+version: 'Universe.CpuUsage Integration tests on Windows #{build}'
 image:
 - Visual Studio 2019
 
@@ -41,6 +41,8 @@ build_script:
       & dotnet test -f netcoreapp3.0
       & msbuild.exe /t:rebuild /p:Configuration=Release /v:q
       & msbuild.exe /t:rebuild /p:Configuration=Debug /v:q
+      & msbuild.exe /t:pack /p:Configuration=Release /v:q
+      & msbuild.exe /t:pack /p:Configuration=Debug /v:q
       popd
 
 

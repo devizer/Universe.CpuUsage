@@ -8,6 +8,22 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>Universe.CpuUsage</PackageId>
+        <Title>Universe.CpuUsage</Title>
+        <Authors>Volodymyr Hoida</Authors>
+        <Product>Universe.CpuUsage</Product>
+        <Description>It receives the amount of time that the current **thread/process** has executed in _**kernel**_ and _**user**_ mode.
+Works everywhere: Linux, OSX and Windows.
+Targets everywhere: Net Framework 2.0+ and Net Standard 1.3+, Net Core 1.0+</Description>
+        <PackageProjectUrl>https://github.com/devizer/Universe.CpuUsage</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIconUrl>https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/images/CpuUsage.Icon.png</PackageIconUrl>
+        <PackageTags>metrics kernel kernel-time user-time getrusage thread_info GetProcessTimes GetThreadTimes cpu-usage linux windows osx</PackageTags>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+
     <ItemGroup Condition=" '$(TargetFramework)' == 'net35'">
         <AssemblyAttribute Include="System.Runtime.Versioning.TargetFrameworkAttribute">
             <_Parameter1>.NETFramework,Version=v3.5</_Parameter1>
@@ -24,13 +40,7 @@
         </AssemblyAttribute>
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
-        <PackageReference Include="Theraot.Core" Version="3.0.2" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net30' ">
-        <PackageReference Include="Theraot.Core" Version="3.0.2" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net20' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net35' Or '$(TargetFramework)' == 'net30' Or '$(TargetFramework)' == 'net20' ">
         <PackageReference Include="Theraot.Core" Version="3.0.2" />
     </ItemGroup>
 
