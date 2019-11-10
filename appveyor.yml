@@ -65,7 +65,7 @@ build_script:
 - sh: |
       echo "Mono Tests: Copy the build folder"
       mkdir -p Tests4Linux/bin
-      cp -r "Universe.CpuUsage/bin/Any CPU/Debug" Tests4Linux/bin
+      cp -r "Universe.CpuUsage/bin/Any CPU/Debug/*" Tests4Linux/bin
       echo "Mono Tests: nuget restore"
       pushd Tests4Linux
       nuget restore
