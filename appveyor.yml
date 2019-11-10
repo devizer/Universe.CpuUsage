@@ -52,7 +52,20 @@ build_script:
       sed -i 's/net48;//g' Universe.CpuUsage/Universe.CpuUsage.csproj
       # cat Universe.CpuUsage/Universe.CpuUsage.csproj
       
+- ps: |
+      pushd Universe.CpuUsage
+      #Say "Test using netcoreapp3.0"
+      #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
+      Say "Rebuild and pack Release"
+      & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
+      Say "Rebuild and pack Debug"
+      & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
+      popd
+
 - sh: |
+      echo "Mono Tests: Copy the build folder"
+      mkdir -p Tests4Linux/bin
+      cp -r "Universe.CpuUsage/bin/Any CPU/Debug" Tests4Linux/bin
       echo "Mono Tests: nuget restore"
       pushd Tests4Linux
       nuget restore
@@ -66,16 +79,6 @@ build_script:
       pushd Universe.CpuUsage.MonoTests/bin/$cfg
       eval "$runner Universe.CpuUsage.MonoTests.exe"
       popd
-      popd
-
-- ps: |
-      pushd Universe.CpuUsage
-      #Say "Test using netcoreapp3.0"
-      #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
-      Say "Rebuild and pack Release"
-      & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
-      Say "Rebuild and pack Debug"
-      & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
       popd
 
 
