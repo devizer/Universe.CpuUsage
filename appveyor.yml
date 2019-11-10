@@ -7,7 +7,7 @@ skip_commits:
   files:
     - .circleci/*
 
-clone_depth: false
+clone_depth: 99999999
 
 dotnet_csproj:
   patch: true
