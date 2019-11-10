@@ -90,6 +90,7 @@ build_script:
       eval "$runner Universe.CpuUsage.MonoTests.exe"
       popd
       popd
+      Say "Mono Tests: Done"
 
 
 
