@@ -1,0 +1,66 @@
+version: 'SqlProfiler API Integration Tests #{build}'
+image:
+- Visual Studio 2019
+
+environment:
+
+skip_commits:
+  files:
+    - .circleci/*
+
+platform: Any CPU
+init:
+- ps: |
+
+    # copy paste it
+    $Work="$($Env:LocalAppData)"; if ($Work -eq "") { $Work="$($Env:UserProfile)"; }; $Work="$Work\Temp\Sql-Installers"
+    if (-not (Test-Path $Work)) { New-Item -ItemType Directory -Path $Work -EA SilentlyContinue | out-null }
+    Write-Host "Downloading Bootstrap.ps1 to: $Work" -ForegroundColor Cyan
+    (new-object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/devizer/glist/master/bin/SQL-Express/Sql-Setup-Bootstrap.ps1', "$Work\Sql-Setup-Bootstrap.ps1")
+    pushd $Work; . .\Sql-Setup-Bootstrap.ps1; popd
+
+
+install:
+- ps: '$Env:ARTIFACT = "$($Env:APPVEYOR_BUILD_FOLDER)\Artifact"; mkdir $Env:ARTIFACT | out-null; Say "ARTIFACT folder: $($Env:ARTIFACT)"'
+- ps: '$Env:SQL_SETUP_LOG_FOLDER = $Env:ARTIFACT; Say "SQL_SETUP_LOG_FOLDER is [$($Env:SQL_SETUP_LOG_FOLDER)]"'
+- ps: Start-Transcript "Artifact\Detailed-Build.log" -Force
+- git submodule update --init --recursive
+- ps: |
+
+    Say "Install Complete"
+
+before_build:
+- ps: | 
+    
+    # Upgrade-PSReadLine
+
+build_script:
+- ps: | 
+      Say "RESTORE and BUILD"
+      & dotnet restore
+
+
+after_build:
+
+test_script:
+- ps: |
+    pushd Universe.CpuUsage.Tests 
+    & dotnet test -f netcoreapp3.0
+    popd
+
+    # & nunit3-console $assembly --workers=1 "--result=$($file).xml;format=AppVeyor"
+
+- ps: | 
+
+    Say "Pack working folder as the 'AppVeyor Build Folder.7z' artifact"
+    & "7z" a -t7z -mx=3 -ms=on "AppVeyor Build Folder.7z" .
+    Say "Bye-bye"
+
+after_test:
+- ps: Stop-Transcript;
+# - cmd: bash -c 'time echo "Hello from $(bash --version)"'
+
+# Error uploading artifact the storage: The underlying connection was closed: An unexpected error occurred on a send.
+artifacts:
+ - path: Artifact
+ - path: 'AppVeyor Build Folder.7z'
