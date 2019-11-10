@@ -37,6 +37,13 @@ build_script:
       Say "RESTORE and BUILD"
       & dotnet restore
 
+      pushd Universe.CpuUsage
+      & dotnet test -f netcoreapp3.0
+      & msbuild.exe /t:rebuild /p:Configuration=Release /v:q
+      & msbuild.exe /t:rebuild /p:Configuration=Debug /v:q
+      popd
+
+
 
 after_build:
 
