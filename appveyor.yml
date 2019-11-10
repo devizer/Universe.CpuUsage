@@ -76,20 +76,24 @@ build_script:
       Say "Mono Tests: Copy the build folder"
       mkdir -p Tests4Linux/bin
       cp -r "Universe.CpuUsage/bin/Any CPU/Debug/." Tests4Linux/bin/
-      pushd packages/NUnit.ConsoleRunner*/tools
-      runner=$(pwd)/nunit3-console.exe
-      popd
-      Say "Mono Tests: runner is '$runner'"
+
       Say "Mono Tests: nuget restore"
       pushd Tests4Linux
       nuget restore -verbosity quiet
+      
       Say "Mono Tests: msbuild rebuild"
       cfg=Release
       msbuild /t:Rebuild /p:Configuration=$cfg /v:q
-      Say "Mono Tests: Run Tests"
+      
+      pushd packages/NUnit.ConsoleRunner*/tools
+      runner=$(pwd)/nunit3-console.exe
+      popd
+      Say "Mono Tests: Run Tests using '$runner'"
+
       pushd Universe.CpuUsage.MonoTests/bin/$cfg
       eval "$runner Universe.CpuUsage.MonoTests.exe"
       popd
+      
       popd
       Say "Mono Tests: Done"
 
