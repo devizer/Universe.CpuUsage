@@ -52,6 +52,14 @@ build_script:
       sed -i 's/net48;//g' Universe.CpuUsage/Universe.CpuUsage.csproj
       # cat Universe.CpuUsage/Universe.CpuUsage.csproj
       
+- sh: |
+      Say "Mono Tests: nuget restore"
+      pushd Tests4Linux/Universe.CpuUsage.MonoTests.sln
+      nuget restore
+      Say "Mono Tests: msbuild rebuild"
+      msbuild /t:Rebuild /p:Configuration=Release
+      popd
+
 - ps: |
       pushd Universe.CpuUsage
       #Say "Test using netcoreapp3.0"
