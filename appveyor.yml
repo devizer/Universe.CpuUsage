@@ -57,7 +57,15 @@ build_script:
       pushd Tests4Linux
       nuget restore
       echo "Mono Tests: msbuild rebuild"
-      msbuild /t:Rebuild /p:Configuration=Release /v:q
+      cfg=Release
+      msbuild /t:Rebuild /p:Configuration=$cfg /v:q
+      echo "Mono Tests: Run Tests"
+      pushd packages/NUnit.ConsoleRunner*/tools
+      runner=$(pwd)/nunit3-console.exe
+      popd
+      pushd Universe.CpuUsage.MonoTests/bin/$cfg
+      eval "$runner Universe.CpuUsage.MonoTests.exe"
+      popd
       popd
 
 - ps: |
