@@ -6,6 +6,9 @@ namespace KernelManagementJam.Tests
 {
     public class WindowsCpuUsage
     {
+        public static bool IsSupported => _IsSupported.Value;
+
+        
         [DllImport("kernel32.dll")]
         static extern IntPtr GetCurrentThread();
 
@@ -84,5 +87,20 @@ namespace KernelManagementJam.Tests
             };
 
         }
+        
+        static Lazy<bool> _IsSupported = new Lazy<bool>(() =>
+        {
+            try
+            {
+                Get(CpuUsageScope.Process);
+                Get(CpuUsageScope.Thread);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        });
+
     }
 }
