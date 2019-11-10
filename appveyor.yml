@@ -91,7 +91,7 @@ build_script:
       Say "Mono Tests: Run Tests using '$runner'"
 
       pushd Universe.CpuUsage.MonoTests/bin/$cfg
-      eval "$runner Universe.CpuUsage.MonoTests.exe"
+      eval "$runner Universe.CpuUsage.MonoTests.exe" || (Say "TESTING NET 2.0 ERROR"; exit 666)
       popd
       
       popd
