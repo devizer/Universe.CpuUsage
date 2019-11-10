@@ -32,6 +32,8 @@ install:
 - ps: |
 
     Say "Install Complete"
+    mono --version || true
+    dotnet --info || true
 
 before_build:
 - ps: | 
