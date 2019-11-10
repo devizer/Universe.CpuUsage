@@ -56,7 +56,7 @@ test_script:
     popd
 
     pushd "Universe.CpuUsage.Tests\bin\Any CPU\Debug\netcoreapp3.0"
-    nunit3-console Universe.CpuUsage.Tests --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
+    nunit3-console Universe.CpuUsage.Tests.dll --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
     popd
 
 
