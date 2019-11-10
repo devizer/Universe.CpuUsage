@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace Universe.CpuUsage.Tests
@@ -9,25 +10,31 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Does_Not_Fail_ByThread()
         {
-            CpuUsage? kernel = CpuUsageReader.GetByThread();
+            CpuUsage? usage = CpuUsageReader.GetByThread();
+            Console.WriteLine($"Thread's CPU Usage: {usage}");
         }
 
         [Test]
         public void Is_Not_Null_ByThread()
         {
-            Assert.IsTrue(CpuUsageReader.GetByThread().HasValue);
+            var usage = CpuUsageReader.GetByThread();
+            Console.WriteLine($"Thread's CPU Usage: {usage}");
+            Assert.IsTrue(usage.HasValue);
         }
 
         [Test]
         public void Does_Not_Fail_ByProcess()
         {
-            CpuUsage? kernel = CpuUsageReader.GetByProcess();
+            CpuUsage? usage = CpuUsageReader.GetByProcess();
+            Console.WriteLine($"Process's CPU Usage: {usage}");
         }
 
         [Test]
         public void Is_Not_Null_ByProcess()
         {
-            Assert.IsTrue(CpuUsageReader.GetByProcess().HasValue);
+            var usage = CpuUsageReader.GetByProcess();
+            Console.WriteLine($"Process's CPU Usage: {usage}");
+            Assert.IsTrue(usage.HasValue);
         }
     }
 }

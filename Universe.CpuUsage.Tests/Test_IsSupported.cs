@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace Universe.CpuUsage.Tests
@@ -31,6 +32,14 @@ namespace Universe.CpuUsage.Tests
             {
                 Assert.IsTrue(LinuxResourceUsage.IsSupported);
             }
+        }
+
+        [Test]
+        public void Show_Is_Supported()
+        {
+            Console.WriteLine($"LinuxResourceUsage.IsSupported: {LinuxResourceUsage.IsSupported}");
+            Console.WriteLine($"MacOsThreadInfo.IsSupported: {MacOsThreadInfo.IsSupported}");
+            Console.WriteLine($"WindowsCpuUsage.IsSupported: {WindowsCpuUsage.IsSupported}");
         }
 
         

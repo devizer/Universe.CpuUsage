@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Universe.CpuUsage
 {
-    public class WindowsCpuUsage
+    public static class WindowsCpuUsage
     {
         public static bool IsSupported => _IsSupported.Value;
         
