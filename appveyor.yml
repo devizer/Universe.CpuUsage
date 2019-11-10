@@ -53,11 +53,11 @@ build_script:
       # cat Universe.CpuUsage/Universe.CpuUsage.csproj
       
 - sh: |
-      Say "Mono Tests: nuget restore"
+      echo "Mono Tests: nuget restore"
       pushd Tests4Linux/Universe.CpuUsage.MonoTests.sln
       nuget restore
-      Say "Mono Tests: msbuild rebuild"
-      msbuild /t:Rebuild /p:Configuration=Release
+      echo "Mono Tests: msbuild rebuild"
+      msbuild /t:Rebuild /p:Configuration=Release /v:q
       popd
 
 - ps: |
