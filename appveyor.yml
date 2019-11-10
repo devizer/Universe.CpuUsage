@@ -2,8 +2,6 @@ version: 'SqlProfiler API Integration Tests #{build}'
 image:
 - Visual Studio 2019
 
-environment:
-
 skip_commits:
   files:
     - .circleci/*
