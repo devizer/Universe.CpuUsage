@@ -12,11 +12,11 @@ clone_depth: 99999999
 dotnet_csproj:
   patch: true
   file: '**\Version.props'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
+  version: '{version}.${COMMIT_COUNT}'
+  package_version: '{version}.${COMMIT_COUNT}'
+  assembly_version: '{version}.${COMMIT_COUNT}'
+  file_version: '{version}.${COMMIT_COUNT}'
+  informational_version: '{version}.${COMMIT_COUNT}'
   
 platform: Any CPU
 init:
