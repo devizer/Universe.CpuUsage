@@ -1,7 +1,7 @@
 version: 'Universe.CpuUsage Integration tests on Windows #{build}'
 image:
 - Ubuntu1804
-- Ubuntu1604
+# - Ubuntu1604
 - Visual Studio 2019
 
 skip_commits:
@@ -54,8 +54,8 @@ build_script:
       
 - ps: |
       pushd Universe.CpuUsage
-      Say "Test using netcoreapp3.0"
-      & dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
+      #Say "Test using netcoreapp3.0"
+      #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
       Say "Rebuild and pack Release"
       & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
       Say "Rebuild and pack Debug"
