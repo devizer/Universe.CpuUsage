@@ -41,7 +41,6 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine($"MacOsThreadInfo.IsSupported: {MacOsThreadInfo.IsSupported}");
             Console.WriteLine($"WindowsCpuUsage.IsSupported: {WindowsCpuUsage.IsSupported}");
         }
-
         
     }
 }
