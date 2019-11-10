@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 
-namespace KernelManagementJam.ThreadInfo
+namespace Universe.CpuUsage
 {
     public class LinuxResourceUsage
     {

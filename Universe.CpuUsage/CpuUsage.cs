@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace KernelManagementJam.ThreadInfo
+namespace Universe.CpuUsage
 {
     // Supported by kernel 2.6.26+ and mac os 10.9+, Windows XP/2003 and above
     [StructLayout(LayoutKind.Sequential)]

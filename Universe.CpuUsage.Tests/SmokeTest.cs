@@ -1,4 +1,3 @@
-using KernelManagementJam.ThreadInfo;
 using NUnit.Framework;
 
 namespace Universe.CpuUsage.Tests
@@ -10,7 +9,7 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Does_Not_Fail_ByThread()
         {
-            KernelManagementJam.ThreadInfo.CpuUsage? kernel = CpuUsageReader.GetByThread();
+            CpuUsage? kernel = CpuUsageReader.GetByThread();
         }
 
         [Test]
@@ -22,7 +21,7 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Does_Not_Fail_ByProcess()
         {
-            KernelManagementJam.ThreadInfo.CpuUsage? kernel = CpuUsageReader.GetByProcess();
+            CpuUsage? kernel = CpuUsageReader.GetByProcess();
         }
 
         [Test]

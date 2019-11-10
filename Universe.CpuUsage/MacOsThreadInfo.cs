@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace KernelManagementJam.ThreadInfo
+namespace Universe.CpuUsage
 {
     public class MacOsThreadInfo
     {

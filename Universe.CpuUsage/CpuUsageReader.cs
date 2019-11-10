@@ -1,8 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
-using KernelManagementJam.Tests;
 
-namespace KernelManagementJam.ThreadInfo
+namespace Universe.CpuUsage
 {
     public class CpuUsageReader
     {

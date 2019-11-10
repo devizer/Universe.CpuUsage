@@ -1,13 +1,11 @@
 using System;
 using System.Runtime.InteropServices;
-using KernelManagementJam.ThreadInfo;
 
-namespace KernelManagementJam.Tests
+namespace Universe.CpuUsage
 {
     public class WindowsCpuUsage
     {
         public static bool IsSupported => _IsSupported.Value;
-
         
         [DllImport("kernel32.dll")]
         static extern IntPtr GetCurrentThread();

@@ -1,5 +1,3 @@
-using KernelManagementJam.Tests;
-using KernelManagementJam.ThreadInfo;
 using NUnit.Framework;
 
 namespace Universe.CpuUsage.Tests
