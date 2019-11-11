@@ -1,10 +1,10 @@
-language: csharp
+language: shell
 
 git:
   depth: false
 
-mono:
-  - latest
+# mono:
+#  - latest
 
 matrix:
   include:
@@ -30,6 +30,11 @@ before_script:
   export PATH="$HOME/net:$PATH"
   export DOTNET_ROOT="$HOME/net"
   dotnet --info || true
+
+- | 
+    MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
+    curl -o ~/mono.pkg $MONO_Url
+    sudo installer -verbose -pkg ~/mono.pkg -target /
   
 script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
