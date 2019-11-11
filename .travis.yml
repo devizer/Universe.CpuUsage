@@ -32,11 +32,17 @@ before_script:
   echo "Docker server BEFORE [$(docker version --format '{{.Server.Version}}')]" || true
 
   mono --version || true
-  nuget | head -4
+  nuget || head -4
+
+  time (curl -ksSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -c 3.0 -i ~/net)
+  export PATH="$HOME/net:$PATH"
+  dotnet --info || true
+
   
 script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
 - export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; export DOTNET_CLI_TELEMETRY_OPTOUT=1;
 - export CI=false
+- dotnet restore --disable-parallel
 - nuget restore || true
 
