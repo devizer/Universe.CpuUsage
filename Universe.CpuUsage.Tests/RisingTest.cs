@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography;
@@ -32,6 +33,10 @@ namespace Universe.CpuUsage.Tests
                 EatSomeCpu();
                 EatSomeMem();
             }
+            
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
             
             CpuUsage? next = CpuUsageReader.Get(scope);
             double microSeconds = sw.ElapsedTicks * 1000000d / Stopwatch.Frequency; 
