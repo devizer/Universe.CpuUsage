@@ -24,10 +24,18 @@ matrix:
 # https://docs.travis-ci.com/user/caching/
 before_script:
 - |
-  DOTNET_Url=https://dot.net/v1/dotnet-install.sh; time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/net)
-  export PATH="$HOME/net:$PATH"
-  export DOTNET_ROOT="$HOME/net"
-  dotnet --info || true
+    OS_X_VER=$(sw_vers | grep BuildVer | awk '{print $2}' | cut -c1-2); OS_X_VER=$((OS_X_VER-4))
+
+    
+
+- |
+  DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
+  if [ $OS_X_VER -ge 13 ]; then
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/net)
+      export PATH="$HOME/net:$PATH"
+      export DOTNET_ROOT="$HOME/net"
+      dotnet --info || true
+  fi
 
 - | 
   MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
@@ -41,9 +49,9 @@ script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
 - export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; export DOTNET_CLI_TELEMETRY_OPTOUT=1;
 - export CI=false
-- dotnet restore --disable-parallel || true
+#- dotnet restore --disable-parallel || true
+- [ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 | cat)
 - nuget restore || true
-- dotnet test -f netcoreapp3.0 | cat
 
 - 'pushd Tests4Mac; bash -e test-using-mono-only.sh; popd'
     
