@@ -116,21 +116,22 @@ test_script:
       
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
-        echo "TARGET: $target"
+
+        Say "Mono Tests: msbuild rebuild for [$target]"
+        cfg=Release
+        msbuild /t:Rebuild /p:Configuration=$cfg /v:q
+        
+        pushd packages/NUnit.ConsoleRunner*/tools
+        runner=$(pwd)/nunit3-console.exe
+        popd
+
+        Say "Mono Tests: Run Tests for [$target]"
+        pushd Universe.CpuUsage.MonoTests/bin/$cfg
+        $runner --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor || (Say "TESTING NET 2.0 ERROR"; exit 666)
+        popd
+      
       done
 
-      Say "Mono Tests: msbuild rebuild"
-      cfg=Release
-      msbuild /t:Rebuild /p:Configuration=$cfg /v:q
-      
-      pushd packages/NUnit.ConsoleRunner*/tools
-      runner=$(pwd)/nunit3-console.exe
-      popd
-      Say "Mono Tests: Run Tests using '$runner'"
-
-      pushd Universe.CpuUsage.MonoTests/bin/$cfg
-      eval "$runner --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor" || (Say "TESTING NET 2.0 ERROR"; exit 666)
-      popd
       
       popd
       Say "Mono Tests: Done"
