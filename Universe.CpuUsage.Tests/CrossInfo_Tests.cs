@@ -1,10 +1,11 @@
 using System;
 using NUnit.Framework;
+using Tests;
 
 namespace Universe.CpuUsage.Tests
 {
     [TestFixture]
-    public class CrossInfo_Tests
+    public class CrossInfo_Tests : NUnitTestsBase
     {
     
         [Test]

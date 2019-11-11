@@ -43,7 +43,7 @@ script:
 - export CI=false
 - dotnet restore --disable-parallel || true
 - nuget restore || true
-- dotnet test -f netcoreapp3.0
+- dotnet test -f netcoreapp3.0 | cat
 
 - 'pushd Tests4Mac; bash -e test-using-mono-only.sh; popd'
     

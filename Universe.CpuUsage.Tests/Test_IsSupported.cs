@@ -1,10 +1,11 @@
 using System;
 using NUnit.Framework;
+using Tests;
 
 namespace Universe.CpuUsage.Tests
 {
     [TestFixture]
-    public class Test_IsSupported
+    public class Test_IsSupported: NUnitTestsBase
     {
 
         [Test]

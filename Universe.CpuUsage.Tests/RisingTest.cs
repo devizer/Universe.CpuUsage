@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using NUnit.Framework;
+using Tests;
 
 namespace Universe.CpuUsage.Tests
 {
     [TestFixture]
-    public class RisingTest
+    public class RisingTest: NUnitTestsBase
     {
         [Test]
         public void Test_Thread()
@@ -53,7 +54,7 @@ namespace Universe.CpuUsage.Tests
                 delta,
                 scope);
             
-            TestContext.Progress.WriteLine(message);
+            Console.WriteLine(message);
         }
 
         void EatSomeMem()
