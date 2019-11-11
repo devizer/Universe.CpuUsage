@@ -33,16 +33,19 @@ cd Theraot.Core*/lib
 for subdir in $(ls -1); do
   Say "TRY ${copyto}/${subdir}"
   if [[ -d "${copyto}/${subdir}" ]]; then
-    Say "COPY [Theraot.Core $raot_ver] to ${copyto}/${subdir}"
+    Say "COPY [Theraot.Core $RAOT_VER] @ ${subdir} to ${copyto}/${subdir}"
     cp -r ${subdir}/. "${copyto}/${subdir}"
   fi
 done
 # popd
 pwd
 
+Say "LIST OF THE $(pwd)"
+find .
 
 
-cd Universe.CpuUsage*/lib 
+# cd Universe.CpuUsage*/lib 
+cd $copyto
 rm -rf net47 net472 net48 netcoreapp3.0 netstandard2.1
 mkdir -p  ../../../../Tests4Linux/bin
 cp -r ./. ../../../../Tests4Linux/bin/
