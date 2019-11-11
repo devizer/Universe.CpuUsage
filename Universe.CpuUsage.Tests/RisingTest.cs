@@ -40,10 +40,12 @@ namespace Universe.CpuUsage.Tests
             Assert.GreaterOrEqual(next.Value.KernelUsage.TotalMicroSeconds, prev.Value.KernelUsage.TotalMicroSeconds, "Kernel usage should be greater or equal zero");
             Assert.Greater(next.Value.UserUsage.TotalMicroSeconds, prev.Value.UserUsage.TotalMicroSeconds, "User usage should be greater or equal zero");
 
-            string message = string.Format("Duration: {0:f3}, CPU: {1:f3} = {2}", 
+            string message = string.Format("Duration: {0:f3}, CPU@{3}: {1:f3} = {2}", 
                 microSeconds/1000, 
                 (delta.KernelUsage.MicroSeconds + delta.UserUsage.MicroSeconds)/1000d,
-                delta);
+                delta,
+                scope);
+            
             TestContext.Progress.WriteLine(message);
         }
 
