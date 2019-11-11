@@ -51,9 +51,8 @@ mkdir -p  ../../../../Tests4Linux/bin
 cp -r ./. ../../../../Tests4Linux/bin/
 popd
 
-Say "RESTORE for [$(pwd)]"
 cd ../Tests4Linux
-
+Say "RESTORE for [$(pwd)]"
 nuget restore
 pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
 msbuild /t:Rebuild /p:Configuration=Release
