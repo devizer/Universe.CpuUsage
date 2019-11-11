@@ -67,7 +67,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         sed_cmd="s/net20/${target}/g"
         
         cp -f ${proj}-bak ${proj}
-        sed -i "$sed_cmd" $proj
+        sed "$sed_cmd" ${proj}-bak > ${proj}
         echo "REF: $(cat $proj | grep $target)"
         cat $proj
         
