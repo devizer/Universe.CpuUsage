@@ -68,8 +68,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         
         cp -f ${proj}-bak ${proj}
         sed "$sed_cmd" ${proj}-bak > ${proj}
-        echo "REF: $(cat $proj | grep $target)"
-        cat $proj
+        echo "REF: {$(cat $proj | grep $target)}"
         
         cfg=Release
         msbuild /t:Rebuild /p:Configuration=$cfg /v:q
