@@ -11,8 +11,8 @@ pushd bin
 nuget install Universe.CpuUsage || nuget install Universe.CpuUsage || true
 cd Universe.CpuUsage*/lib 
 rm -rf net47 net472 net48 netcoreapp3.0 netstandard2.1
-mkdir -p  ../../../../../Test4Linux/bin
-cp -r ./. ../../../../../Test4Linux/bin/
+mkdir -p  ../../../../../Tests4Linux/bin
+cp -r ./. ../../../../../Tests4Linux/bin/
 popd
 
 cd ../Tests4Linux
