@@ -114,7 +114,8 @@ test_script:
       pushd Tests4Linux
       nuget restore -verbosity quiet
       
-      for target in $(ls -d bin/*/); do
+      for target_dir in $(ls -d bin/*/); do
+        target=$(basename $target_dir)
         echo "TARGET: $target"
       done
 
