@@ -45,6 +45,7 @@ find .
 
 # cd Universe.CpuUsage*/lib 
 cd $copyto
+Say "CpuUsage libraries: {$(pwd)}"
 rm -rf net47 net472 net48 netcoreapp3.0 netstandard2.1
 mkdir -p  ../../../../Tests4Linux/bin
 cp -r ./. ../../../../Tests4Linux/bin/
