@@ -29,6 +29,13 @@ namespace Universe.CpuUsage
                 var arg1 = threadId; // waiting for test result
                 int resDeallocate =
                     MacOsThreadInfoInterop.mach_port_deallocate(arg1, threadId);
+
+#if DEBUG
+                if (resDeallocate != 0)
+                {
+                    Console.WriteLine($"Warning! mach_port_deallocate({arg1},{threadId}) returned {resDeallocate}");
+                }
+#endif                
             }
 
         }

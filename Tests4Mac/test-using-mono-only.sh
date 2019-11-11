@@ -71,7 +71,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         sed "$sed_cmd" ${proj}-bak > ${proj}
         echo "REF: {$(cat $proj | grep $target)}"
         
-        cfg=Release
+        cfg=Debug
         msbuild /t:Rebuild /p:Configuration=$cfg /v:q
         mono ./Universe.CpuUsage.MonoTests/bin/$cfg/Universe.CpuUsage.MonoTests.exe
         
