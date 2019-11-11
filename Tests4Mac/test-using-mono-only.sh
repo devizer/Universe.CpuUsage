@@ -1,4 +1,4 @@
-# work=$HOME/build/devizer; rm -rf $work mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mac
+# work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mac
 
 echo '<?xml version="1.0" encoding="utf-8"?>
 <configuration>
