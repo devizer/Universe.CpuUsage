@@ -15,17 +15,17 @@ namespace Universe.CpuUsage
 
         static CpuUsage? Get()
         {
-            if (false)
+            int threadId = MacOsThreadInfoInterop.mach_thread_self();
+            try
             {
-                int threadId = MacOsThreadInfoInterop.mach_thread_self();
-                try
-                {
-                    if (threadId == 0) return null;
+                if (threadId == 0) return null;
 
-                    var ret = MacOsThreadInfoInterop.GetThreadInfo(threadId);
-                    return ret;
-                }
-                finally
+                var ret = MacOsThreadInfoInterop.GetThreadInfo(threadId);
+                return ret;
+            }
+            finally
+            {
+                if (false)
                 {
                     int? self = null;
                     int kResult2 = -424242;
