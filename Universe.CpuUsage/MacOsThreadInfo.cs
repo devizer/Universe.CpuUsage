@@ -24,8 +24,10 @@ namespace Universe.CpuUsage
             }
             finally
             {
+                // var arg1 = MacOsThreadInfoInterop.mach_thread_self(); // crash
+                var arg1 = threadId; // waiting for test result
                 int resDeallocate =
-                    MacOsThreadInfoInterop.mach_port_deallocate(MacOsThreadInfoInterop.mach_thread_self(), threadId);
+                    MacOsThreadInfoInterop.mach_port_deallocate(arg1, threadId);
             }
 
         }
