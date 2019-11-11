@@ -45,6 +45,6 @@ script:
 - nuget restore || true
 - dotnet test -f netcoreapp3.0
 
-- 'pushd Tests4Mac; bash test-using-mono-only.sh; popd'
+- 'pushd Tests4Mac; bash -e test-using-mono-only.sh; popd'
     
 

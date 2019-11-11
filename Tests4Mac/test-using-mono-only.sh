@@ -57,6 +57,7 @@ nuget restore
 pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
 msbuild /t:Rebuild /p:Configuration=Release
 
+      errors=0;
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
       for target_dir in $(ls -d bin/*/); do
@@ -79,10 +80,14 @@ msbuild /t:Rebuild /p:Configuration=Release
 
         Say "Mono Tests: Run Tests for [$target]"
         pushd Universe.CpuUsage.MonoTests/bin/$cfg
-        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (Say "TESTING NET 2.0 ERROR"; exit 666)
+        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (Say "TESTING [$target] ERROR"; errors=$((errors+1)))
         popd
       
       done
 
-      
-      Say "Mono Tests: Done"
+if [[ $errors == "0" ]]; then
+    Say "Mono Tests: Done"
+else
+    Say "Mono Tests: FAIL. Total $errors error(s)"
+    exit 666
+fi
