@@ -56,6 +56,9 @@
     <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo_Tests.cs">
       <Link>LinkedTests\CrossInfo_Tests.cs</Link>
     </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\RisingTest.cs">
+      <Link>LinkedTests\RisingTest.cs</Link>
+    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\SmokeCpuUsage.cs">
       <Link>LinkedTests\SmokeCpuUsage.cs</Link>
     </Compile>
