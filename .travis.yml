@@ -24,10 +24,7 @@ matrix:
 # https://docs.travis-ci.com/user/caching/
 before_script:
 - |
-  echo "Docker server BEFORE [$(docker version --format '{{.Server.Version}}')]" || true
-
-  mono --version || true
-  nuget || head -4
+  mono --version || true;  nuget help install || head -4
 
   time (curl -ksSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -c 3.0 -i ~/net)
   export PATH="$HOME/net:$PATH"
@@ -42,6 +39,6 @@ script:
 - dotnet restore --disable-parallel || true
 - nuget restore || true
 
-- 'pushd Tests4Mac; bash test-using-mono-only.sh'
+- 'pushd Tests4Mac; bash test-using-mono-only.sh; popd'
     
 

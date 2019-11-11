@@ -8,13 +8,13 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 
 mkdir -p bin
 pushd bin
-nuget install Universe.CpuUsage
+nuget install Universe.CpuUsage || nuget install Universe.CpuUsage || true
 cd Universe.CpuUsage*/lib 
 rm -rf net47 net472 net48 netcoreapp3.0 netstandard2.1
-cp -r ./. ../../../Test4Linux/bin/
+mkdir     ../../../../Test4Linux/bin/
+cp -r ./. ../../../../Test4Linux/bin/
 popd
 
 cd ../Test4Linux
 nuget restore
 msbuild /t:Rebuild /p:Configuration=Release
-
