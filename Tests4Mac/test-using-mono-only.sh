@@ -80,7 +80,7 @@ msbuild /t:Rebuild /p:Configuration=Release
 
         Say "Mono Tests: Run Tests for [$target]"
         pushd Universe.CpuUsage.MonoTests/bin/$cfg
-        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor || (Say "TESTING NET 2.0 ERROR"; exit 666)
+        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (Say "TESTING NET 2.0 ERROR"; exit 666)
         popd
       
       done
