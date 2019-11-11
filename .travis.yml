@@ -36,6 +36,7 @@ before_script:
 
   time (curl -ksSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -c 3.0 -i ~/net)
   export PATH="$HOME/net:$PATH"
+  export DOTNET_ROOT="$HOME/net"
   dotnet --info || true
 
   
