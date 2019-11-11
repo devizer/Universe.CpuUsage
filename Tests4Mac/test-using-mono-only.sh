@@ -17,4 +17,5 @@ popd
 
 cd ../Tests4Linux
 nuget restore
+find .
 msbuild /t:Rebuild /p:Configuration=Release
