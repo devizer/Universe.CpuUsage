@@ -17,6 +17,9 @@ namespace Tests
         private Stopwatch StartAt;
         private CpuUsage? _CpuUsage_OnStart;
         private int TestCounter = 0;
+        private static int GlobalTestCounter = 0;
+        private int GlobalThisTestCounter = 0;
+
 
         [SetUp]
         public void BaseSetUp()
@@ -26,10 +29,11 @@ namespace Tests
             StartAt = Stopwatch.StartNew();
             _CpuUsage_OnStart = GetCpuUsage();
             Interlocked.Increment(ref TestCounter);
+            GlobalThisTestCounter = Interlocked.Increment(ref GlobalTestCounter);
 
             var testClassName = TestContext.CurrentContext.Test.ClassName;
             testClassName = testClassName.Split('.').LastOrDefault();
-            Console.WriteLine($"#{TestCounter} {{{TestContext.CurrentContext.Test.Name}}} @ {testClassName} starting...");
+            Console.WriteLine($"#{GlobalThisTestCounter}.{TestCounter} {{{TestContext.CurrentContext.Test.Name}}} @ {testClassName} starting...");
         }
 
         CpuUsage? GetCpuUsage()
@@ -64,7 +68,7 @@ namespace Tests
                 }
             }
 
-            Console.WriteLine($"#{TestCounter} {{{TestContext.CurrentContext.Test.Name}}} >{TestContext.CurrentContext.Result.Outcome.Status.ToString().ToUpper()}< in {elapsed}{cpuUsage}{Environment.NewLine}");
+            Console.WriteLine($"#{GlobalThisTestCounter}.{TestCounter} {{{TestContext.CurrentContext.Test.Name}}} >{TestContext.CurrentContext.Result.Outcome.Status.ToString().ToUpper()}< in {elapsed}{cpuUsage}{Environment.NewLine}");
         }
 
         [OneTimeSetUp]
