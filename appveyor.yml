@@ -118,8 +118,7 @@ test_script:
         target=$(basename $target_dir)
 
         Say "Mono Tests: msbuild rebuild for [$target]"
-        sed_cmd="s/\.\.\\bin\\net20\\Universe/\.\.\\bin\\$target\\Universe/g"
-        sed_cmd="s/net20\\Universe/s/\.\.\\bin\\$target\\Universe/g"
+        sed_cmd="s/\.\.\\bin\\net20\\Universe/\.\.\\bin\\${target}\\Universe/g"
         proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
         sed -i "$sed_cmd" $proj
         cat $proj
