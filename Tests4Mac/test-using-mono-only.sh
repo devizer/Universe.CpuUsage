@@ -21,7 +21,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 
 mkdir -p bin ../Tests4Linux/bin
 pushd bin
-Say "Loading Universe.CpuUsage to $(pwd)"
+Say "Loading Universe.CpuUsage to [$(pwd)]"
 nuget install Universe.CpuUsage || nuget install Universe.CpuUsage || true
 pushd Universe.CpuUsage*/lib
 copyto=$(pwd)
@@ -37,10 +37,9 @@ for subdir in $(ls -1); do
     cp -r ${subdir}/. "${copyto}/${subdir}"
   fi
 done
-# popd
-pwd
+popd
 
-Say "LIST OF THE $(pwd)"
+Say "LIST OF THE [$(pwd)]"
 find .
 
 
@@ -51,7 +50,9 @@ mkdir -p  ../../../../Tests4Linux/bin
 cp -r ./. ../../../../Tests4Linux/bin/
 popd
 
+Say "RESTORE for [$(pwd)]"
 cd ../Tests4Linux
+
 nuget restore
 pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
 msbuild /t:Rebuild /p:Configuration=Release
