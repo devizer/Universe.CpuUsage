@@ -13,6 +13,7 @@ namespace Universe.CpuUsage.MonoTests
         {
             var c = Console.BackgroundColor;
             Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"The Platform: {CrossInfo.ThePlatform}");
             Console.WriteLine($"CPU Usage by Process: {CpuUsageReader.GetByProcess()}");
             Console.WriteLine($"CPU Usage by Thread: {CpuUsageReader.GetByThread()}");
             Console.BackgroundColor = c;
