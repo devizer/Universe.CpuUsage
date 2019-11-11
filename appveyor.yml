@@ -140,11 +140,18 @@ after_test:
 - ps: Stop-Transcript;
 # - cmd: bash -c 'time echo "Hello from $(bash --version)"'
 
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true     # disable publishing of .nupkg artifacts to account/project feeds for pull request builds
+  publish_wap_octopus: false
+  
 # Error uploading artifact the storage: The underlying connection was closed: An unexpected error occurred on a send.
 artifacts:
  - path: Artifact
  - path: 'AppVeyor Build Folder.7z'
+ - path: '**\Release\*.nupkg'
 
-on_success:
-- cmd: 'appveyor PushArtifact "Universe.CpuUsage\bin\Any CPU\Release\*.nupkg"'
+# on_success:
+# - cmd: 'appveyor PushArtifact "Universe.CpuUsage\bin\Any CPU\Release\*.nupkg"'
 
