@@ -114,6 +114,10 @@ test_script:
       pushd Tests4Linux
       nuget restore -verbosity quiet
       
+      for target in $(ls -d bin/); do
+        echo "TARGET: $target"
+      done
+
       Say "Mono Tests: msbuild rebuild"
       cfg=Release
       msbuild /t:Rebuild /p:Configuration=$cfg /v:q
