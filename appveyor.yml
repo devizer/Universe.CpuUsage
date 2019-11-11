@@ -141,7 +141,7 @@ after_test:
 # - cmd: bash -c 'time echo "Hello from $(bash --version)"'
 
 nuget:
-  account_feed: true
+  account_feed: false
   project_feed: true
   disable_publish_on_pr: true     # disable publishing of .nupkg artifacts to account/project feeds for pull request builds
   
