@@ -27,7 +27,7 @@ pushd Universe.CpuUsage*/lib
 copyto=$(pwd)
 popd
 RAOT_VER=3.0.2
-Say "Loading Theraot.Core to $(pwd)"
+Say "Loading Theraot.Core ${RAOT_VER} to $(pwd)"
 nuget install Theraot.Core -version $RAOT_VER || true
 cd Theraot.Core*/lib
 for subdir in $(ls -1); do
