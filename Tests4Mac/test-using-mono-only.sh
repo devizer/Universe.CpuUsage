@@ -17,5 +17,5 @@ popd
 
 cd ../Tests4Linux
 nuget restore
-pushd ~/devizer/Universe.CpuUsage; find . ; popd
+pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
 msbuild /t:Rebuild /p:Configuration=Release
