@@ -1,0 +1,42 @@
+language: shell
+
+git:
+  depth: false
+
+mono:
+  - latest
+
+matrix:
+  include:
+  - name: OS X 10.10
+    os: osx
+    osx_image: xcode6.4
+  - name: OS X 10.12
+    os: osx
+    osx_image: xcode8.3
+  - name: OS X 10.13
+    os: osx
+    osx_image: xcode9.3
+  - name: OS X 10.14
+    os: osx
+    osx_image: xcode10.2
+
+# https://docs.travis-ci.com/user/caching/
+cache:
+  directories:
+    - /home/travis/.cache/yarn
+    - /home/travis/.nuget/packages 
+
+before_script:
+- |
+  echo "Docker server BEFORE [$(docker version --format '{{.Server.Version}}')]" || true
+
+  mono --version || true
+  nuget | head -4
+  
+script:
+- export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
+- export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; export DOTNET_CLI_TELEMETRY_OPTOUT=1;
+- export CI=false
+- nuget restore || true
+
