@@ -114,13 +114,16 @@ test_script:
       pushd Tests4Linux
       nuget restore -verbosity quiet
       
+      proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
+      cp -f ${proj} ${proj}-bak
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
 
         Say "Mono Tests: msbuild rebuild for [$target]"
         sed_cmd="s/\.\.\\bin\\net20\\Universe/\.\.\\bin\\${target}\\Universe/g"
         sed_cmd="s/net20/${target}/g"
-        proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
+        
+        cp -f ${proj}-bak ${proj}
         sed -i "$sed_cmd" $proj
         echo "REF: $(cat $proj | grep $target)"
         
