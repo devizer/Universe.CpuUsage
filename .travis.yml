@@ -24,7 +24,7 @@ matrix:
 # https://docs.travis-ci.com/user/caching/
 before_script:
 - |
-  mono --version || true;  nuget help install || head -4
+  mono --version || true;  nuget 2>&1 | head -4
 
   time (curl -ksSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -c 3.0 -i ~/net)
   export PATH="$HOME/net:$PATH"
