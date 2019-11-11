@@ -21,11 +21,13 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 
 mkdir -p bin ../Tests4Linux/bin
 pushd bin
+Say "Loading Universe.CpuUsage to $(pwd)"
 nuget install Universe.CpuUsage || nuget install Universe.CpuUsage || true
 pushd Universe.CpuUsage*/lib
 copyto=$(pwd)
 popd
 RAOT_VER=3.0.2
+Say "Loading Theraot.Core to $(pwd)"
 nuget install Theraot.Core -version $RAOT_VER || true
 cd Theraot.Core*/lib
 for subdir in $(ls -1); do
