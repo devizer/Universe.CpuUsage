@@ -11,13 +11,15 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Test_Thread()
         {
-            Load(CpuUsageScope.Thread, 420);
+            for(int i=1; i<5; i++)
+                Load(CpuUsageScope.Thread, 123);
         }
 
         [Test]
         public void Test_Process()
         {
-            Load(CpuUsageScope.Process, 420);
+            for(int i=1; i<5; i++)
+                Load(CpuUsageScope.Process, 123);
         }
 
         void Load(CpuUsageScope scope, int milliseconds)
@@ -51,8 +53,9 @@ namespace Universe.CpuUsage.Tests
 
         void EatSomeMem()
         {
+            Stopwatch sw = Stopwatch.StartNew();
             List<object> list = new List<object>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10 && sw.ElapsedMilliseconds < 1000; i++)
                 list.Add(new byte[10 * 1024 * 1024]);
         }
 
