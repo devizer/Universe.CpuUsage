@@ -22,6 +22,24 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 mkdir -p bin ../Tests4Linux/bin
 pushd bin
 nuget install Universe.CpuUsage || nuget install Universe.CpuUsage || true
+pushd Universe.CpuUsage*/lib
+copyto=$(pwd)
+popd
+RAOT_VER=3.0.2
+nuget install Theraot.Core -version $RAOT_VER || true
+cd Theraot.Core*/lib
+for subdir in $(ls -1); do
+  Say "TRY ${copyto}/${subdir}"
+  if [[ -d "${copyto}/${subdir}" ]]; then
+    Say "COPY [Theraot.Core $raot_ver] to ${copyto}/${subdir}"
+    cp -r ${subdir}/. "${copyto}/${subdir}"
+  fi
+done
+popd
+pwd
+
+
+
 cd Universe.CpuUsage*/lib 
 rm -rf net47 net472 net48 netcoreapp3.0 netstandard2.1
 mkdir -p  ../../../../Tests4Linux/bin
