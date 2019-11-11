@@ -31,6 +31,7 @@ namespace Universe.CpuUsage
                     MacOsThreadInfoInterop.mach_port_deallocate(threadId, threadId);
 
                 // https://opensource.apple.com/source/xnu/xnu-792/osfmk/mach/kern_return.h
+                // KERN_INVALID_TASK 16: target task isn't an active task.
                 if (kResult1 != 0)
                 {
                     self = MacOsThreadInfoInterop.mach_thread_self();
@@ -43,7 +44,7 @@ namespace Universe.CpuUsage
     mach_port_deallocate({threadId}, {threadId}) returned {kResult1}
     mach_port_deallocate(mach_thread_self() == {self}, {threadId}) returned {kResult2}");
                 }
-#endif                
+#endif
             }
 
         }
@@ -63,7 +64,8 @@ namespace Universe.CpuUsage
 
     }
 
-    namespace Interop {
+    namespace Interop
+    {
         public class MacOsThreadInfoInterop
         {
             private const int THREAD_BASIC_INFO_COUNT = 10;
@@ -102,22 +104,8 @@ namespace Universe.CpuUsage
 
             public static unsafe CpuUsage? GetThreadInfo(int threadId)
             {
-#if NETCOREAPP || NETSTANDARD
-            int* ptr = stackalloc int[THREAD_BASIC_INFO_COUNT];
-            {
-                int count = THREAD_BASIC_INFO_SIZE;
-                IntPtr threadInfo = new IntPtr(ptr);
-                int result = thread_info_custom(threadId, THREAD_BASIC_INFO, threadInfo, ref count);
-                if (result != 0) return null;
-                return new CpuUsage()
-                {
-                    UserUsage = new TimeValue() {Seconds = *ptr, MicroSeconds = *(ptr+1)},
-                    KernelUsage = new TimeValue() {Seconds = *(ptr+2), MicroSeconds = *(ptr+3)},
-                };
-            }
-#else
-                int[] raw = new int[THREAD_BASIC_INFO_COUNT];
-                fixed (int* ptr = &raw[0])
+#if NETCOREAPP || NETSTANDARD || true
+                int* ptr = stackalloc int[THREAD_BASIC_INFO_COUNT];
                 {
                     int count = THREAD_BASIC_INFO_SIZE;
                     IntPtr threadInfo = new IntPtr(ptr);
@@ -125,10 +113,24 @@ namespace Universe.CpuUsage
                     if (result != 0) return null;
                     return new CpuUsage()
                     {
-                        UserUsage = new TimeValue() {Seconds = raw[0], MicroSeconds = raw[1]},
-                        KernelUsage = new TimeValue() {Seconds = raw[2], MicroSeconds = raw[3]},
+                        UserUsage = new TimeValue() {Seconds = *ptr, MicroSeconds = *(ptr + 1)},
+                        KernelUsage = new TimeValue() {Seconds = *(ptr + 2), MicroSeconds = *(ptr + 3)},
                     };
                 }
+#else
+        int[] raw = new int[THREAD_BASIC_INFO_COUNT];
+        fixed (int* ptr = &raw[0])
+        {
+            int count = THREAD_BASIC_INFO_SIZE;
+            IntPtr threadInfo = new IntPtr(ptr);
+            int result = thread_info_custom(threadId, THREAD_BASIC_INFO, threadInfo, ref count);
+            if (result != 0) return null;
+            return new CpuUsage()
+            {
+                UserUsage = new TimeValue() {Seconds = raw[0], MicroSeconds = raw[1]},
+                KernelUsage = new TimeValue() {Seconds = raw[2], MicroSeconds = raw[3]},
+            };
+        }
 #endif
             }
 
