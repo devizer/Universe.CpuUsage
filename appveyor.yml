@@ -122,7 +122,7 @@ test_script:
         sed_cmd="s/net20/${target}/g"
         proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
         sed -i "$sed_cmd" $proj
-        cat $proj
+        echo "REF: $(cat $proj | grep $target)"
         
         cfg=Release
         msbuild /t:Rebuild /p:Configuration=$cfg /v:q
