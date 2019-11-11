@@ -36,10 +36,10 @@ namespace Universe.CpuUsage
                     self = MacOsThreadInfoInterop.mach_thread_self();
                     kResult2 = MacOsThreadInfoInterop.mach_port_deallocate(self.Value, threadId);
                 }
-#if DEBUG
+#if DEBUG || true
                 if (kResult1 != 0 || kResult2 != 0)
                 {
-                    Console.WriteLine($@"Warning! 
+                    Console.WriteLine($@"{(kResult1 == 0 || kResult2 == 0 ? "Info" : "Warning!!!!!")} 
     mach_port_deallocate({threadId}, {threadId}) returned {kResult1}
     mach_port_deallocate(mach_thread_self() == {self}, {threadId}) returned {kResult2}");
                 }
