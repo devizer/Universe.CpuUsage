@@ -61,5 +61,4 @@ msbuild /t:Rebuild /p:Configuration=Release
       done
 
       
-      popd
       Say "Mono Tests: Done"
