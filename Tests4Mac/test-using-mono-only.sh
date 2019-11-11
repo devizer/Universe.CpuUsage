@@ -1,3 +1,5 @@
+# work=$HOME/build/devizer; rm -rf $work mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mac
+
 echo '<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <packageSources>
@@ -6,7 +8,8 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 </configuration>
 ' > nuget.config
 
-mkdir -p bin
+
+mkdir -p bin ../Tests4Linux/bin
 pushd bin
 nuget install Universe.CpuUsage || nuget install Universe.CpuUsage || true
 cd Universe.CpuUsage*/lib 
