@@ -73,6 +73,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         
         cfg=Release
         msbuild /t:Rebuild /p:Configuration=$cfg /v:q
+        mono ./Universe.CpuUsage.MonoTests/bin/$cfg/Universe.CpuUsage.MonoTests.exe
         
         pushd packages/NUnit.ConsoleRunner*/tools
         runner=$(pwd)/nunit3-console.exe

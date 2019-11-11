@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Console = System.Console;
 
 namespace Universe.CpuUsage.MonoTests
 {
@@ -10,6 +11,11 @@ namespace Universe.CpuUsage.MonoTests
     {
         static void Main(string[] args)
         {
+            var c = Console.BackgroundColor;
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"CPU Usage by Process: {CpuUsageReader.GetByProcess()}");
+            Console.WriteLine($"CPU Usage by Thread: {CpuUsageReader.GetByThread()}");
+            Console.BackgroundColor = c;
         }
     }
 }
