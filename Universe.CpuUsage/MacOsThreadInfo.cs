@@ -25,15 +25,23 @@ namespace Universe.CpuUsage
             }
             finally
             {
-                // var arg1 = MacOsThreadInfoInterop.mach_thread_self(); // crash
-                var arg1 = threadId; // waiting for test result
-                int resDeallocate =
-                    MacOsThreadInfoInterop.mach_port_deallocate(arg1, threadId);
+                int? self = null;
+                int kResult2 = -424242;
+                int kResult1 =
+                    MacOsThreadInfoInterop.mach_port_deallocate(threadId, threadId);
 
-#if DEBUG
-                if (resDeallocate != 0)
+                // https://opensource.apple.com/source/xnu/xnu-792/osfmk/mach/kern_return.h
+                if (kResult1 != 0)
                 {
-                    Console.WriteLine($"Warning! mach_port_deallocate({arg1},{threadId}) returned {resDeallocate}");
+                    self = MacOsThreadInfoInterop.mach_thread_self();
+                    kResult2 = MacOsThreadInfoInterop.mach_port_deallocate(self.Value, threadId);
+                }
+#if DEBUG
+                if (kResult1 != 0 || kResult2 != 0)
+                {
+                    Console.WriteLine($@"Warning! 
+    mach_port_deallocate({threadId}, {threadId}) returned {kResult1}
+    mach_port_deallocate(mach_thread_self() == {self}, {threadId}) returned {kResult2}");
                 }
 #endif                
             }
