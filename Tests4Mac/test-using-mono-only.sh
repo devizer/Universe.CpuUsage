@@ -37,7 +37,7 @@ for subdir in $(ls -1); do
     cp -r ${subdir}/. "${copyto}/${subdir}"
   fi
 done
-popd
+# popd
 pwd
 
 
