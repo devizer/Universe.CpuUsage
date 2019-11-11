@@ -24,18 +24,16 @@ matrix:
 # https://docs.travis-ci.com/user/caching/
 before_script:
 - |
-  mono --version || true;  nuget 2>&1 | head -4
-
-  time (curl -ksSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -c 3.0 -i ~/net)
+  DOTNET_Url=https://dot.net/v1/dotnet-install.sh; time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/net)
   export PATH="$HOME/net:$PATH"
   export DOTNET_ROOT="$HOME/net"
   dotnet --info || true
 
 - | 
-    MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
-    curl -o ~/mono.pkg $MONO_Url
-    sudo installer -verbose -pkg ~/mono.pkg -target /
-    export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
+  MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
+  curl -o ~/mono.pkg $MONO_Url
+  sudo installer -verbose -pkg ~/mono.pkg -target /
+  export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
 
 - 'mono --version; msbuild /version; echo ""; nuget 2>&1 | head -4'
   
