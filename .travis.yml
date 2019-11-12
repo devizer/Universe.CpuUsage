@@ -51,7 +51,8 @@ script:
 - export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; export DOTNET_CLI_TELEMETRY_OPTOUT=1;
 - export CI=false
 #- dotnet restore --disable-parallel || true
-- [ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 | cat; bash benchmark.linux.sh || true)
+- [ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 | cat)
+- [ $OS_X_VER -ge 13 ] && (bash benchmark.linux.sh || true)
 - nuget restore || true
 
 - 'pushd Tests4Mac; bash -e test-using-mono-only.sh; popd'
