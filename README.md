@@ -8,15 +8,15 @@ Works everywhere: Linux, OSX and Windows.
 
 Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
 
-## Coverage
+## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
 
 Autotests using .NET Core cover:
 - Windows Server 2016 on appveyor
-- Linux on x64 and Windows Server 2016 on appveyor
-- Linux on Arm 64-bit using .net core on travis-ci.org
+- Linux x64 and Windows Server 2016 on appveyor
+- Linux Arm 64-bit using .net core on travis-ci.org
 - Linux Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
-- macOS X x64 10.10 & 10.14 using travis-ci.org
+- macOS X x64 10.10 (mono only) & 10.14 (both .net core and mono) using travis-ci.org
 
 It should work on BSD-like system with linux compatibility layer using mono, but was never tested. 
  
@@ -43,10 +43,10 @@ Benchmark below and comparison to well known DateTime.Now and Stopwatch are take
 #### Linux 32 bit @ ARM, kernel 3.4 (Orange PI, H3, 1500 MHz)
 |      Method |     Mean |     Error |    StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |---------:|----------:|----------:|-----:|-------:|------:|------:|----------:|
-| DateTime.Now | 2.788  ms | 0.0595  ms | 0.0944  ms |    2 |      - |     - |     - |         - |
-|   Stopwatch | 1.737  ms | 0.0539  ms | 0.0504  ms |    1 | 0.1945 |     - |     - |      32 B |
-| Process CPU Usage | 5.552  ms | 0.1662  ms | 0.4900  ms |    3 |      - |     - |     - |         - |
-|    Thread CPU Usage | 5.664  ms | 0.1136  ms | 0.1960  ms |    3 |      - |     - |     - |         - |
+| DateTime.Now | 2.788  μs | 0.0595  μs | 0.0944  μs |    2 |      - |     - |     - |         - |
+|   Stopwatch | 1.737  μs | 0.0539  μs | 0.0504  μs |    1 | 0.1945 |     - |     - |      32 B |
+| Process CPU Usage | 5.552  μs | 0.1662  μs | 0.4900  μs |    3 |      - |     - |     - |         - |
+|    Thread CPU Usage | 5.664  μs | 0.1136  μs | 0.1960  μs |    3 |      - |     - |     - |         - |
 
 #### macOS 10.14
 |      Method |        Mean |     Error |    StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
@@ -68,4 +68,4 @@ Benchmark below and comparison to well known DateTime.Now and Stopwatch are take
 - Stopwatch: `var sw = new Stopwatch(); var ticks = sw.ElapsedTicks;`
 - Process CPU Usage: `CpuUsageReader.GetByProcess();`
 - Thread CPU Usage: `CpuUsageReader.GetByThread();`
-- ns - nanosecond,  ms - millisecond
+- ns - nanosecond,  μs - microsecond
