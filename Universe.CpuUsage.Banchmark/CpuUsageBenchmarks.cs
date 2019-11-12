@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
@@ -9,6 +10,12 @@ namespace Universe.CpuUsage.Banchmark
     [MemoryDiagnoser]
     public class CpuUsageBenchmarks
     {
+        [Benchmark]
+        public void DateTimeNow()
+        {
+            var now = DateTime.Now;
+        }
+
         [Benchmark]
         public void Stopwatch()
         {

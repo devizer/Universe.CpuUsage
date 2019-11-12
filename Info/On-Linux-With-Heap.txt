@@ -13,3 +13,10 @@ Heapless:
 | Stopwatch |  76.44 ns | 0.680 ns | 0.568 ns |    1 | 0.0095 |     - |     - |      40 B |
 | ByProcess | 779.12 ns | 5.964 ns | 5.579 ns |    2 |      - |     - |     - |         - |
 |  ByThread | 784.60 ns | 7.921 ns | 7.022 ns |    2 |      - |     - |     - |         - |
+
+ARM: 
+|    Method |     Mean |     Error |    StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|---------- |---------:|----------:|----------:|-----:|-------:|------:|------:|----------:|
+| Stopwatch | 2.173 us | 0.0422 us | 0.0395 us |    1 | 0.1945 |     - |     - |      32 B |
+| ByProcess | 7.541 us | 0.1493 us | 0.2411 us |    3 |      - |     - |     - |         - |
+|  ByThread | 7.229 us | 0.2238 us | 0.6599 us |    2 |      - |     - |     - |         - |
