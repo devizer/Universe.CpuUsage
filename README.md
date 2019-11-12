@@ -29,7 +29,8 @@ The implementation utilizes platform invocation of the corresponding system libr
 | Windows  | GetThreadTimes()         | GetProcessTimes()      | kernel32.dll    |
 | Mac OS X | thread_info()            | getrusage(RUSAGE_SELF) | libSystem.dylib |
 
-## Benchmark and comparison to well known DateTime.Now and Stopwatch.Elapsed
+## Benchmark 
+Benchmark below and comparison to well known DateTime.Now and Stopwatch are taken using .NET Core 3.0 runtime.
 
 #### Linux x64, kernel 4.15
 |      Method |      Mean |    Error |   StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
