@@ -40,7 +40,7 @@ done
 # popd
 
 Say "LIST OF THE [$(pwd)]"
-find .
+# find .
 
 
 # cd Universe.CpuUsage*/lib 
@@ -54,7 +54,7 @@ popd
 cd ../Tests4Linux
 Say "RESTORE for [$(pwd)]"
 nuget restore
-pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
+# pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
 msbuild /t:Rebuild /p:Configuration=Release
 
       errors=0;
