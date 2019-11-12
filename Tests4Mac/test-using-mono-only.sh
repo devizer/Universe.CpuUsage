@@ -13,10 +13,10 @@ if [[ "$(uname -m)" == "aarch64" ]]; then
   export PATH="$HOME/.dotnet:$PATH"
   export DOTNET_ROOT="$HOME/.dotnet"
   pushd ..
-    echo "dotnet RESTORE for /$(pwd)/"
-    time dotnet restore || true
-    echo "dotnet TEST -f netcoreapp3.0 for /$(pwd)/"
-    dotnet test -f netcoreapp3.0 -c Release || exit 1
+    echo "dotnet RESTORE for [$(pwd)]"
+    time dotnet restore --disable-parallel || true
+    echo "dotnet TEST -f netcoreapp2.2 for [$(pwd)]"
+    dotnet test -f netcoreapp2.2 -c Release | cat || exit 1
   popd
 fi
 
