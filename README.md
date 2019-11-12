@@ -19,6 +19,12 @@ Autotests using .NET Core cover:
 - macOS X x64 10.10 (mono only) & 10.14 (both .net core and mono) using travis-ci.org
 
 It should work on BSD-like system with linux compatibility layer using mono, but was never tested. 
+
+|   | appveyor                                                                                                                                                                        | travis-ci                                                                                                                             |
+|---|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+|   | Linux x64, Windows x64                                                                                                                                                          | .NET Core: macOS 10.14, Linux Arm 64. Mono: Linux Arm 64, Arm-v7, i386, macOS 10.10                                                   |
+|   | [![Build status](https://ci.appveyor.com/api/projects/status/udq3dip23mqxlkjf/branch/master?svg=true)](https://ci.appveyor.com/project/devizer/universe-cpuusage/branch/master) | [![Build Status](https://travis-ci.org/devizer/Universe.CpuUsage.svg?branch=master)](https://travis-ci.org/devizer/Universe.CpuUsage) |
+|   |                                                                                                                                                                                 |                                                                                                                                       |
  
 ## Implementation
 The implementation utilizes platform invocation of the corresponding system libraries depending on the OS:
