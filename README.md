@@ -64,7 +64,7 @@ The implementation utilizes platform invocation of the corresponding system libr
 |    Thread CPU Usage | 205.11 ns | 3.970 ns | 4.413 ns |    3 |      - |     - |     - |         - |
 
 Legend:
-Stopwatch: `var sw = new Stopwatch(); var ticks = var ticks = sw.ElapsedTicks;`
-Process CPU Usage: `CpuUsageReader.GetByProcess();`
-Thread CPU Usage: `CpuUsageReader.GetByThread();`
-ns - nanosecond,  ms - millisecond
+- Stopwatch: `var sw = new Stopwatch(); var ticks = var ticks = sw.ElapsedTicks;`
+- Process CPU Usage: `CpuUsageReader.GetByProcess();`
+- Thread CPU Usage: `CpuUsageReader.GetByThread();`
+- ns - nanosecond,  ms - millisecond
