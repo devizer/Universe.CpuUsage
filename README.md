@@ -1,5 +1,5 @@
 # Universe.CpuUsage
-CpuUsage for .NET Core and .NET Framework for Linux, Windows and macOS
+CPU Usage for .NET Core, .NET Framework and Mono on Linux, Windows and macOS
 
 ## Crossplatform CPU Usage metrics
 It receives the amount of time that the current **thread/process** has executed in _**kernel**_ and _**user**_ mode.
