@@ -49,7 +49,7 @@ before_script:
 
 - | 
   MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       curl -o ~/mono.pkg $MONO_Url
       sudo installer -verbose -pkg ~/mono.pkg -target /
       export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
