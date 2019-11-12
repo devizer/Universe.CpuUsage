@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Universe.CpuUsage", "Univer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.CpuUsage.Tests", "Universe.CpuUsage.Tests\Universe.CpuUsage.Tests.csproj", "{9EBDDFB8-CB54-491F-918C-A0F50D7CD0CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Universe.CpuUsage.Banchmark", "Universe.CpuUsage.Banchmark\Universe.CpuUsage.Banchmark.csproj", "{F7992DC0-0F19-4BD8-86D3-CA45A070EF6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9EBDDFB8-CB54-491F-918C-A0F50D7CD0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EBDDFB8-CB54-491F-918C-A0F50D7CD0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EBDDFB8-CB54-491F-918C-A0F50D7CD0CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7992DC0-0F19-4BD8-86D3-CA45A070EF6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7992DC0-0F19-4BD8-86D3-CA45A070EF6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7992DC0-0F19-4BD8-86D3-CA45A070EF6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7992DC0-0F19-4BD8-86D3-CA45A070EF6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
