@@ -44,7 +44,7 @@ The implementation utilizes platform invocation of the corresponding system libr
 |------------ |---------:|----------:|----------:|-----:|-------:|------:|------:|----------:|
 | DateTime.Now | 2.788  μs | 0.0595  μs | 0.0944  μs |    2 |      - |     - |     - |         - |
 |   Stopwatch | 1.737  μs | 0.0539  μs | 0.0504  μs |    1 | 0.1945 |     - |     - |      32 B |
-| Process CPU Usage | 5.552  μs | 0.1662 us | 0.4900  μs |    3 |      - |     - |     - |         - |
+| Process CPU Usage | 5.552  μs | 0.1662  μs | 0.4900  μs |    3 |      - |     - |     - |         - |
 |    Thread CPU Usage | 5.664  μs | 0.1136  μs | 0.1960  μs |    3 |      - |     - |     - |         - |
 
 #### OSX 10.14
@@ -63,4 +63,4 @@ The implementation utilizes platform invocation of the corresponding system libr
 |   Process CPU Usage | 200.49 ns | 3.743 ns | 3.501 ns |    2 |      - |     - |     - |         - |
 |    Thread CPU Usage | 205.11 ns | 3.970 ns | 4.413 ns |    3 |      - |     - |     - |         - |
 
-ns - nanosecond, us - millisecond
+ns - nanosecond,  μs - millisecond
