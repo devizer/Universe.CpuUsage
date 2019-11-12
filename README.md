@@ -22,7 +22,7 @@ It should work on BSD-like system with linux compatibility layer using mono, but
 
 | appveyor                   | travis-ci                                                                                 |
 |----------------------------|-------------------------------------------------------------------------------------------|
-| Linux x64, <br>Windows x64 | .NET Core: macOS 10.14, Linux Arm 64. <br>Mono: Linux Arm 64, Arm-v7, i386, macOS 10.10   |
+| .NET Core: Linux x64, Windows x64<br>Mono: Linux x64 | .NET Core: macOS 10.14, Linux Arm 64. <br>Mono: Linux Arm 64, Arm-v7, i386, macOS 10.10 |
 | <br><p align="center">[![Build status](https://ci.appveyor.com/api/projects/status/udq3dip23mqxlkjf?svg=true)](https://ci.appveyor.com/project/devizer/universe-cpuusage)</p> | <br><p align="center">[![Build Status](https://travis-ci.org/devizer/Universe.CpuUsage.svg?branch=master)](https://travis-ci.org/devizer/Universe.CpuUsage)</p> |
  
 ## Implementation
