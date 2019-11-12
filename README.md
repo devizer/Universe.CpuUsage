@@ -23,7 +23,7 @@ It should work on BSD-like system with linux compatibility layer using mono, but
 ## Implementation
 The implementation utilizes platform invocation of the corresponding system libraries depending on the OS:
 
-| OS       | per thread function      | per process function   | library         |
+| OS       | per thread implementation  | per process implementation   | library         |
 |----------|--------------------------|------------------------|-----------------|
 | Linux    | getrusage(RUSAGE_THREAD) | getrusage(RUSAGE_SELF) | libc.so         |
 | Windows  | GetThreadTimes()         | GetProcessTimes()      | kernel32.dll    |
