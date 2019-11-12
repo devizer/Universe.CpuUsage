@@ -9,21 +9,13 @@ git:
 matrix:
   include:
 
-  - name: Linux PPC64el (mono)
-    os: linux
-    dist: xenial
-    env:
-    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:ppc64el-buster"
-    services:
-        - docker
-
-  - name: Linux i386 (mono)
-    os: linux
-    dist: xenial
-    env:
-    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:i386-buster"
-    services:
-        - docker
+#  - name: Linux PPC64el (mono) - nuget throws OOM exception
+#    os: linux
+#    dist: xenial
+#    env:
+#    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:ppc64el-buster"
+#    services:
+#        - docker
 
   - name: Linux ARM-64 (mono)
     os: linux
@@ -44,6 +36,15 @@ matrix:
   - name: OS X 10.14 (net core & mono)
     os: osx
     osx_image: xcode10.2
+
+  - name: Linux i386 (mono)
+    os: linux
+    dist: xenial
+    env:
+    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:i386-buster"
+    services:
+        - docker
+
   - name: OS X 10.10
     os: osx
     osx_image: xcode6.4
