@@ -69,11 +69,11 @@ script:
 - |
   if [[ -n "$MULTIARCH_IMAGE" ]]; then
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    docker run -d --name tests -t multiarch/debian-debootstrap:armhf-buster bash -c 'sleep 424242'
+    docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
     pushd Tests4Multiarch 
     docker cp * tests:/
-    docker exec tests 'ls -la /'
     docker exec tests 'bash /install-mono.sh'
+    popd
   else
     # MAC OS
     pushd Tests4Mac; bash -e test-using-mono-only.sh; popd
