@@ -1,4 +1,4 @@
-# work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mac; bash build-the-matrix.sh
+# work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mac; source build-the-matrix.sh; echo ""; echo matrix_run
 
     function header() {
       if [[ $(uname -s) != Darwin ]]; then
@@ -40,10 +40,6 @@ for subdir in $(ls -1); do
 done
 # popd
 
-# Say "LIST OF THE [$(pwd)]"
-# find .
-
-
 # cd Universe.CpuUsage*/lib 
 cd $copyto
 Say "CpuUsage libraries: {$(pwd)}"
@@ -62,6 +58,7 @@ msbuild /t:Rebuild /p:Configuration=Release
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
       echo "errors=0" >> $matrix/run.sh
+      matrix_run="cd $matrix; bash run.sh"
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
         echo "pushd job-${target}" >> $matrix/run.sh
@@ -84,9 +81,9 @@ msbuild /t:Rebuild /p:Configuration=Release
 
         Say "Mono Tests: Run Tests for [$target]"
         echo "
-        pushd Universe.CpuUsage.MonoTests/bin/$cfg
-        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=\$((errors+1)))
-        popd
+    pushd Universe.CpuUsage.MonoTests/bin/$cfg
+    mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=\$((errors+1)))
+    popd
 " >> $matrix/run.sh
 
         mkdir -p $matrix/job-${target}
@@ -95,6 +92,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         printf "popd\n\n" >> $matrix/run.sh
       done
 
+echo 'exit $errors' >> $matrix/run.sh
 exit;
 
 if [[ $errors == "0" ]]; then
