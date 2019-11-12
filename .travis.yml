@@ -72,6 +72,7 @@ script:
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
     pushd Tests4Multiarch 
     docker cp * tests:/
+    docker exec tests 'ls -la /'
     docker exec tests 'bash /install-mono.sh'
     popd
   else
