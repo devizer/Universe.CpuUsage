@@ -75,7 +75,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         echo "REF: {$(cat $proj | grep $target)}"
         
         cfg=Debug
-        msbuild /t:Rebuild /p:Configuration=$cfg /v:q
+        msbuild /noLogo /t:Rebuild /p:Configuration=$cfg /v:q
         echo "mono ./Universe.CpuUsage.MonoTests/bin/$cfg/Universe.CpuUsage.MonoTests.exe" >> $matrix/run.sh
         
         pushd packages/NUnit.ConsoleRunner*/tools
@@ -88,6 +88,9 @@ msbuild /t:Rebuild /p:Configuration=Release
         mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=\$((errors+1)))
         popd
 " >> $matrix/run.sh
+
+        mkdir -p $matrix/job-${target}
+        cp -r ./. $matrix/job-${target}
 
         printf "popd\n\n" >> $matrix/run.sh
       done
