@@ -72,6 +72,7 @@ script:
     docker run -d --name tests -t multiarch/debian-debootstrap:armhf-buster bash -c 'sleep 424242'
     pushd Tests4Multiarch 
     docker cp * tests:/
+    docker exec tests 'ls -la /'
     docker exec tests 'bash /install-mono.sh'
   else
     # MAC OS
