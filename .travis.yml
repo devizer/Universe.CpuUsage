@@ -9,7 +9,7 @@ git:
 matrix:
   include:
 
-  - name: PPC64el (mono)
+  - name: Linux PPC64el (mono)
     os: linux
     dist: xenial
     env:
