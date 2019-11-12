@@ -8,10 +8,24 @@ git:
 
 matrix:
   include:
-#  - name: OS X 10.13
-#    os: osx
-#    osx_image: xcode9.3
-  - name: ARM64
+
+  - name: PPC64el (mono)
+    os: linux
+    dist: xenial
+    env:
+    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:ppc64el-buster"
+    services:
+        - docker
+
+  - name: i386 (mono)
+    os: linux
+    dist: xenial
+    env:
+    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:i386-buster"
+    services:
+        - docker
+
+  - name: ARM-64 (mono)
     os: linux
     dist: xenial
     env:
@@ -19,7 +33,7 @@ matrix:
     services:
         - docker
 
-  - name: ARM-v7
+  - name: ARM-v7 (mono)
     os: linux
     dist: xenial
     env:
@@ -27,15 +41,19 @@ matrix:
     services:
         - docker
 
-  - name: OS X 10.14
+  - name: OS X 10.14 (net core & mono)
     os: osx
     osx_image: xcode10.2
   - name: OS X 10.10
     os: osx
     osx_image: xcode6.4
+
 #  - name: OS X 10.12
 #    os: osx
 #    osx_image: xcode8.3
+#  - name: OS X 10.13
+#    os: osx
+#    osx_image: xcode9.3
 
 # https://docs.travis-ci.com/user/caching/
 before_script:
@@ -80,7 +98,7 @@ script:
     pushd Tests4Multiarch 
     docker cp * tests:/
     docker exec tests bash /install-mono.sh
-    docker exec tests bash -c 'work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; cd Tests4Mac; bash -e test-using-mono-only.sh'
+    docker exec tests bash -ec 'work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; cd Tests4Mac; bash -e test-using-mono-only.sh'
 
     popd
   else
