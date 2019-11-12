@@ -5,7 +5,7 @@ echo 'Acquire::Check-Valid-Until "0";' |  tee /etc/apt/apt.conf.d/10no--check-va
 echo 'APT::Get::Assume-Yes "true";' |  tee /etc/apt/apt.conf.d/11assume-yes               
 echo 'APT::Get::AllowUnauthenticated "true";' |  tee /etc/apt/apt.conf.d/12allow-unauth   
 
-time (apt -qq update >/dev/null ;  apt install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg)
+time (apt -qq update >/dev/null ;  apt install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates)
 
 if [[ "$(command -v mono)" == "" ]]; then 
   # export MONO_ENV_OPTIONS=-O=-aot
