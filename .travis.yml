@@ -17,7 +17,7 @@ matrix:
     services:
         - docker
 
-  - name: i386 (mono)
+  - name: Linux i386 (mono)
     os: linux
     dist: xenial
     env:
@@ -25,7 +25,7 @@ matrix:
     services:
         - docker
 
-  - name: ARM-64 (mono)
+  - name: Linux ARM-64 (mono)
     os: linux
     dist: xenial
     env:
@@ -33,7 +33,7 @@ matrix:
     services:
         - docker
 
-  - name: ARM-v7 (mono)
+  - name: Linux ARM-v7 (mono)
     os: linux
     dist: xenial
     env:
@@ -98,7 +98,7 @@ script:
     pushd Tests4Multiarch 
     docker cp * tests:/
     docker exec tests bash /install-mono.sh
-    docker exec tests bash -ec 'work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; cd Tests4Mac; bash -e test-using-mono-only.sh'
+    docker exec tests bash -ec 'work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; cd Tests4Mac; bash -e test-using-mono-only.sh' || exit 1
 
     popd
   else
@@ -106,4 +106,3 @@ script:
     pushd Tests4Mac; bash -e test-using-mono-only.sh; popd
   fi
     
-
