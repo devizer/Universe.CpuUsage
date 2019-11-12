@@ -42,10 +42,10 @@ The implementation utilizes platform invocation of the corresponding system libr
 #### Linux 32 bit @ ARM, kernel 3.4 (Orange PI, H3, 1500 MHz)
 |      Method |     Mean |     Error |    StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |---------:|----------:|----------:|-----:|-------:|------:|------:|----------:|
-| DateTime.Now | 2.788 us | 0.0595 us | 0.0944 us |    2 |      - |     - |     - |         - |
-|   Stopwatch | 1.737 us | 0.0539 us | 0.0504 us |    1 | 0.1945 |     - |     - |      32 B |
-| Process CPU Usage | 5.552 us | 0.1662 us | 0.4900 us |    3 |      - |     - |     - |         - |
-|    Thread CPU Usage | 5.664 us | 0.1136 us | 0.1960 us |    3 |      - |     - |     - |         - |
+| DateTime.Now | 2.788  μs | 0.0595  μs | 0.0944  μs |    2 |      - |     - |     - |         - |
+|   Stopwatch | 1.737  μs | 0.0539  μs | 0.0504  μs |    1 | 0.1945 |     - |     - |      32 B |
+| Process CPU Usage | 5.552  μs | 0.1662 us | 0.4900  μs |    3 |      - |     - |     - |         - |
+|    Thread CPU Usage | 5.664  μs | 0.1136  μs | 0.1960  μs |    3 |      - |     - |     - |         - |
 
 #### OSX 10.14
 |      Method |        Mean |     Error |    StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
