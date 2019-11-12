@@ -12,6 +12,7 @@ namespace Universe.CpuUsage.Tests
         public void Show_The_Platform()
         {
             Console.WriteLine($"The Platform: {CrossInfo.ThePlatform}");
+            Console.WriteLine($"Process: {IntPtr.Size * 4} bits");
         }
     }
 }

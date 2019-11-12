@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <OutputType>Library</OutputType>
+        <TargetFrameworks>net461;netcoreapp2.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.0;net47;</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,6 +13,5 @@
         <PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     </ItemGroup>
-
 
 </Project>

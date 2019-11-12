@@ -11,6 +11,15 @@ matrix:
 #  - name: OS X 10.13
 #    os: osx
 #    osx_image: xcode9.3
+  - name: ARM64
+    os: linux
+    dist: xenial
+    env:
+    - MULTIARCH_IMAGES="multiarch/debian-debootstrap:arm64-buster"
+    - TEST_SCRIPT="debian_prepare && install_w3top"
+    services:
+        - docker
+
   - name: OS X 10.14
     os: osx
     osx_image: xcode10.2
@@ -24,13 +33,12 @@ matrix:
 # https://docs.travis-ci.com/user/caching/
 before_script:
 - |
-    OS_X_VER=$(sw_vers | grep BuildVer | awk '{print $2}' | cut -c1-2); OS_X_VER=$((OS_X_VER-4))
-
-    
+    OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2); OS_X_VER=$((OS_X_VER-4))
 
 - |
   DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
-  if [ $OS_X_VER -ge 13 ]; then
+  if [[ "$TRAVIS_OS_NAME" == "linux" || $OS_X_VER -ge 13 ]]; then
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/net)
       time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/net)
       export PATH="$HOME/net:$PATH"
       export DOTNET_ROOT="$HOME/net"
@@ -41,9 +49,11 @@ before_script:
 
 - | 
   MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
-  curl -o ~/mono.pkg $MONO_Url
-  sudo installer -verbose -pkg ~/mono.pkg -target /
-  export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
+  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      curl -o ~/mono.pkg $MONO_Url
+      sudo installer -verbose -pkg ~/mono.pkg -target /
+      export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
+  fi
 
 - 'mono --version; msbuild /version; echo ""; nuget 2>&1 | head -4'
   

@@ -100,8 +100,8 @@ test_script:
 - ps: |
     if ($isWindows) {
         Say ".NET Framework Tests"
-        dotnet build -f net46 -c Debug
-        pushd "Universe.CpuUsage.Tests\bin\Debug\net46"
+        dotnet build -f net47 -c Debug
+        pushd "Universe.CpuUsage.Tests\bin\Debug\net47"
         nunit3-console Universe.CpuUsage.Tests.dll --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
         popd
     }

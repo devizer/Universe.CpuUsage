@@ -1,8 +1,8 @@
 ﻿<Project>
 
     <PropertyGroup>
-        <Version>1.1</Version>
-        <PackageVersion>1.1</PackageVersion>
+        <Version>1.42</Version>
+        <PackageVersion>1.42</PackageVersion>
     </PropertyGroup>
 
 </Project>

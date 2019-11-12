@@ -5,7 +5,7 @@ using BenchmarkDotNet.Jobs;
 
 namespace Universe.CpuUsage.Banchmark
 {
-    [SimpleJob(RuntimeMoniker.NetCoreApp30)]
+    /*[SimpleJob(RuntimeMoniker.NetCoreApp30)]*/
     [RankColumn]
     [MemoryDiagnoser]
     public class CpuUsageBenchmarks
