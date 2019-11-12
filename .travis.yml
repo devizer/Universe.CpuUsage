@@ -34,8 +34,9 @@ before_script:
       time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/net)
       export PATH="$HOME/net:$PATH"
       export DOTNET_ROOT="$HOME/net"
-      dotnet --info || true
       dotnet tool install -g BenchmarkDotNet.Tool
+      export PATH="$HOME/.dotnet/tools:$PATH"
+      dotnet --info || true
   fi
 
 - | 
@@ -50,13 +51,13 @@ script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
 - export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; export DOTNET_CLI_TELEMETRY_OPTOUT=1;
 - export CI=false
-#- dotnet restore --disable-parallel || true
+- dotnet restore --disable-parallel || true
+- nuget restore || true
 - '[ $OS_X_VER -ge 13 ] && (bash benchmark.linux.sh || true;    echo "going on...") || true'
 - |
   if [ $OS_X_VER -ge 13 ]; then 
     dotnet test -f netcoreapp3.0 -c Release | cat
   fi
-- nuget restore || true
 
 - 'pushd Tests4Mac; bash -e test-using-mono-only.sh; popd'
     
