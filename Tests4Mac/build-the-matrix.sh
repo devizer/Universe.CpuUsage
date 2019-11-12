@@ -61,6 +61,7 @@ msbuild /t:Rebuild /p:Configuration=Release
       errors=0;
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
+      echo "errors=0" >> $matrix/run.sh
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
         echo "pushd job-${target}" >> $matrix/run.sh
@@ -84,7 +85,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         Say "Mono Tests: Run Tests for [$target]"
         echo "
         pushd Universe.CpuUsage.MonoTests/bin/$cfg
-        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=$((errors+1)))
+        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=\$((errors+1)))
         popd
 " >> $matrix/run.sh
 
