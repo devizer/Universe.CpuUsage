@@ -9,6 +9,11 @@
     }
     counter=0; function Say() { echo ""; counter=$((counter+1)); header "STEP $counter" "$1"; }; Say "" >/dev/null
 
+if [[ "$(uname -m)" == "aarch64" ]]; then
+  pushd ..
+    dotnet test -f netcoreapp3.0 -c Release || exit 1
+  popd
+fi
 
 echo '<?xml version="1.0" encoding="utf-8"?>
 <configuration>

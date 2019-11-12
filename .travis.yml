@@ -17,7 +17,7 @@ matrix:
 #    services:
 #        - docker
 
-  - name: Linux ARM-64 (mono)
+  - name: Linux ARM-64 (.net core & mono)
     os: linux
     dist: xenial
     env:
@@ -45,7 +45,7 @@ matrix:
     services:
         - docker
 
-  - name: OS X 10.10
+  - name: OS X 10.10 (mono)
     os: osx
     osx_image: xcode6.4
 
