@@ -17,7 +17,7 @@ if [[ "$(uname -m)" == "aarch64" ]]; then
     time dotnet restore --disable-parallel || true
     pushd Universe.CpuUsage.Tests
       echo "dotnet TEST -f netcoreapp2.2 for [$(pwd)]"
-      dotnet test -f netcoreapp2.2 -c Release | cat || exit 1
+      (dotnet test -f netcoreapp2.2 -c Release || exit 1) | cat
     popd
   popd
 fi
