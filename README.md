@@ -34,7 +34,7 @@ The implementation utilizes platform invocation of the corresponding system libr
 #### Linux x64, kernel 4.15
 |      Method |      Mean |    Error |   StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |----------:|---------:|---------:|-----:|-------:|------:|------:|----------:|
-| DateTimeNow | 150.24 ns | 2.346 ns | 2.194 ns |    2 |      - |     - |     - |         - |
+| DateTime.Now() | 150.24 ns | 2.346 ns | 2.194 ns |    2 |      - |     - |     - |         - |
 |   Stopwatch |  77.27 ns | 0.473 ns | 0.419 ns |    1 | 0.0095 |     - |     - |      40 B |
 | Process CPU Usage | 795.18 ns | 8.000 ns | 6.681 ns |    3 |      - |     - |     - |         - |
 | Thread CPU Usage| 834.59 ns | 9.324 ns | 8.722 ns |    4 |      - |     - |     - |         - |
@@ -42,15 +42,15 @@ The implementation utilizes platform invocation of the corresponding system libr
 #### Linux 32 bit @ ARM, kernel 3.4 (Orange PI, H3, 1500 MHz)
 |      Method |     Mean |     Error |    StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |---------:|----------:|----------:|-----:|-------:|------:|------:|----------:|
-| DateTime.Now | 2.788  μs | 0.0595  μs | 0.0944  μs |    2 |      - |     - |     - |         - |
-|   Stopwatch | 1.737  μs | 0.0539  μs | 0.0504  μs |    1 | 0.1945 |     - |     - |      32 B |
-| Process CPU Usage | 5.552  μs | 0.1662  μs | 0.4900  μs |    3 |      - |     - |     - |         - |
-|    Thread CPU Usage | 5.664  μs | 0.1136  μs | 0.1960  μs |    3 |      - |     - |     - |         - |
+| DateTime.Now | 2.788  ms | 0.0595  ms | 0.0944  ms |    2 |      - |     - |     - |         - |
+|   Stopwatch | 1.737  ms | 0.0539  ms | 0.0504  ms |    1 | 0.1945 |     - |     - |      32 B |
+| Process CPU Usage | 5.552  ms | 0.1662  ms | 0.4900  ms |    3 |      - |     - |     - |         - |
+|    Thread CPU Usage | 5.664  ms | 0.1136  ms | 0.1960  ms |    3 |      - |     - |     - |         - |
 
-#### OSX 10.14
+#### macOS 10.14
 |      Method |        Mean |     Error |    StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |------------:|----------:|----------:|-----:|-------:|------:|------:|----------:|
-| DateTimeNow |    73.40 ns |  1.506 ns |  2.475 ns |    1 |      - |     - |     - |         - |
+| DateTime.Now() |    73.40 ns |  1.506 ns |  2.475 ns |    1 |      - |     - |     - |         - |
 |   Stopwatch |    79.36 ns |  1.640 ns |  1.454 ns |    2 | 0.0025 |     - |     - |      40 B |
 |   Process CPU Usage | 1,979.10 ns | 29.771 ns | 26.391 ns |    4 |      - |     - |     - |         - |
 |    Thread CPU Usage | 1,921.54 ns | 35.869 ns | 33.552 ns |    3 |      - |     - |     - |         - |
@@ -58,9 +58,13 @@ The implementation utilizes platform invocation of the corresponding system libr
 #### Windows Server 2016
 |      Method |      Mean |    Error |   StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
 |------------ |----------:|---------:|---------:|-----:|-------:|------:|------:|----------:|
-| DateTimeNow | 217.08 ns | 1.667 ns | 1.559 ns |    4 |      - |     - |     - |         - |
+| DateTime.Now() | 217.08 ns | 1.667 ns | 1.559 ns |    4 |      - |     - |     - |         - |
 |   Stopwatch |  31.12 ns | 0.203 ns | 0.169 ns |    1 | 0.0095 |     - |     - |      40 B |
 |   Process CPU Usage | 200.49 ns | 3.743 ns | 3.501 ns |    2 |      - |     - |     - |         - |
 |    Thread CPU Usage | 205.11 ns | 3.970 ns | 4.413 ns |    3 |      - |     - |     - |         - |
 
-ns - nanosecond,  μs - millisecond
+Legend:
+Stopwatch: `var sw = new Stopwatch(); var ticks = var ticks = sw.ElapsedTicks;`
+Process CPU Usage: `CpuUsageReader.GetByProcess();`
+Thread CPU Usage: `CpuUsageReader.GetByThread();`
+ns - nanosecond,  ms - millisecond
