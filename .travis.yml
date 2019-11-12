@@ -52,7 +52,10 @@ script:
 - export CI=false
 #- dotnet restore --disable-parallel || true
 - '[ $OS_X_VER -ge 13 ] && (bash benchmark.linux.sh || true;    echo "going on...") || true'
-- '[ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 | cat; echo "going on...") || true'
+- |
+  if [ $OS_X_VER -ge 13 ]; then 
+    dotnet test -f netcoreapp3.0 -c Release | cat
+  fi
 - nuget restore || true
 
 - 'pushd Tests4Mac; bash -e test-using-mono-only.sh; popd'
