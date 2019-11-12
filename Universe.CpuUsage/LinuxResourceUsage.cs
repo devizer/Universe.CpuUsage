@@ -46,7 +46,7 @@ namespace Universe.CpuUsage
                 int* rawResourceUsage = stackalloc int[18];
                 // RawLinuxResourceUsage_32 ret = new RawLinuxResourceUsage_32();
                 // ret.Raw = new int[18];
-                int result = LinuxResourceUsageInterop.getrusage32_heapless(scope, new IntPtr(rawResourceUsage));
+                int result = LinuxResourceUsageInterop.getrusage_heapless(scope, new IntPtr(rawResourceUsage));
                 if (result != 0) return null;
                 return new CpuUsage()
                 {
@@ -59,7 +59,7 @@ namespace Universe.CpuUsage
                 long* rawResourceUsage = stackalloc long[18];
                 // RawLinuxResourceUsage_64 ret = new RawLinuxResourceUsage_64();
                 // ret.Raw = new long[18];
-                int result = LinuxResourceUsageInterop.getrusage64_heapless(scope, new IntPtr(rawResourceUsage));
+                int result = LinuxResourceUsageInterop.getrusage_heapless(scope, new IntPtr(rawResourceUsage));
                 if (result != 0) return null;
                 // microseconds are 4 bytes length on mac os and 8 bytes on linux
                 return new CpuUsage()
@@ -111,7 +111,11 @@ namespace Universe.CpuUsage
         [DllImport("libc", SetLastError = true, EntryPoint = "getrusage")]
         public static extern int getrusage64(int who, ref RawLinuxResourceUsage_64 resourceUsage);
         [DllImport("libc", SetLastError = true, EntryPoint = "getrusage")]
+
         public static extern int getrusage64_heapless(int who, IntPtr resourceUsage);
+        
+        [DllImport("libc", SetLastError = true, EntryPoint = "getrusage")]
+        public static extern int getrusage_heapless(int who, IntPtr resourceUsage);
     }
 
     // https://github.com/mono/mono/issues?utf8=%E2%9C%93&q=getrusage
