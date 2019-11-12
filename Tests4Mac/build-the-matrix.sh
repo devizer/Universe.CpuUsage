@@ -19,7 +19,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 ' > nuget.config
 
 
-mkdir -p matrix ../Tests4Linux/bin
+mkdir -p bin matrix ../Tests4Linux/bin
 matrix=$(pwd)/matrix
 pushd bin
 Say "Loading Universe.CpuUsage to [$(pwd)]"
