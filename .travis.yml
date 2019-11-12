@@ -64,10 +64,10 @@ before_script:
 - |
   DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
   if [[ "$TRAVIS_OS_NAME" == "linux" || $OS_X_VER -ge 13 ]]; then
-      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/net)
-      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/net)
-      export PATH="$HOME/net:$PATH"
-      export DOTNET_ROOT="$HOME/net"
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/.dotnet)
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/.dotnet)
+      export PATH="$HOME/.dotnet:$PATH"
+      export DOTNET_ROOT="$HOME/.dotnet"
       dotnet tool install -g BenchmarkDotNet.Tool
       export PATH="$HOME/.dotnet/tools:$PATH"
       dotnet --info || true

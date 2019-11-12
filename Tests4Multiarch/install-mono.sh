@@ -28,12 +28,12 @@ mono --version
   if [[ "$(uname -m)" == "aarch64" ]]; then
       url=https://raw.githubusercontent.com/devizer/glist/master/install-dotnet-dependencies.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
       DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
-      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/net)
-      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/net)
-      export PATH="$HOME/net:$PATH"
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/.dotnet)
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/.dotnet)
+      export PATH="$HOME/.dotnet:$PATH"
       echo '
-            export PATH="$HOME/net:$PATH"' >> ~/.bashrc
-      export DOTNET_ROOT="$HOME/net"
+            export PATH="$HOME/.dotnet:$PATH"' >> ~/.bashrc
+      export DOTNET_ROOT="$HOME/.dotnet"
       dotnet tool install -g BenchmarkDotNet.Tool
       export PATH="$HOME/.dotnet/tools:$PATH"
       dotnet --info || true

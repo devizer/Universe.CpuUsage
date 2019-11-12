@@ -10,6 +10,8 @@
     counter=0; function Say() { echo ""; counter=$((counter+1)); header "STEP $counter" "$1"; }; Say "" >/dev/null
 
 if [[ "$(uname -m)" == "aarch64" ]]; then
+  export PATH="$HOME/.dotnet:$PATH"
+  export DOTNET_ROOT="$HOME/.dotnet"
   pushd ..
     dotnet test -f netcoreapp3.0 -c Release || exit 1
   popd
