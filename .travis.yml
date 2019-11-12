@@ -72,8 +72,9 @@ script:
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
     pushd Tests4Multiarch 
     docker cp * tests:/
-    docker exec tests ls -la /
     docker exec tests bash /install-mono.sh
+    docker exec tests bash -ñ 'work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; cd Tests4Mac; bash -e test-using-mono-only.sh'
+
     popd
   else
     # MAC OS
