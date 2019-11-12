@@ -63,6 +63,7 @@ msbuild /t:Rebuild /p:Configuration=Release
       cp -f ${proj} ${proj}-bak
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
+        echo "pushd job-${target}" >> $matrix/run.sh
 
         Say "Mono Tests: msbuild rebuild for [$target]"
         sed_cmd="s/\.\.\\bin\\net20\\Universe/\.\.\\bin\\${target}\\Universe/g"
@@ -74,7 +75,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         
         cfg=Debug
         msbuild /t:Rebuild /p:Configuration=$cfg /v:q
-        echo 'mono ./Universe.CpuUsage.MonoTests/bin/$cfg/Universe.CpuUsage.MonoTests.exe' >> $matrix/run.sh
+        echo "mono ./Universe.CpuUsage.MonoTests/bin/$cfg/Universe.CpuUsage.MonoTests.exe" >> $matrix/run.sh
         
         pushd packages/NUnit.ConsoleRunner*/tools
         runner=$(pwd)/nunit3-console.exe
@@ -83,9 +84,11 @@ msbuild /t:Rebuild /p:Configuration=Release
         Say "Mono Tests: Run Tests for [$target]"
         echo "
         pushd Universe.CpuUsage.MonoTests/bin/$cfg
-        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (Say "TESTING [$target] ERROR"; errors=$((errors+1)))
+        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=$((errors+1)))
         popd
-      " >> $matrix/run.sh
+" >> $matrix/run.sh
+
+        printf "popd\n\n" >> $matrix/run.sh
       done
 
 exit;
