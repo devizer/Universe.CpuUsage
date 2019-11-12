@@ -15,7 +15,7 @@ matrix:
     os: linux
     dist: xenial
     env:
-    - MULTIARCH_IMAGES="multiarch/debian-debootstrap:arm64-buster"
+    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:arm64-buster"
     - TEST_SCRIPT="debian_prepare && install_w3top"
     services:
         - docker
@@ -65,7 +65,17 @@ script:
 - nuget restore || true
 
 - '[ $OS_X_VER -ge 13 ] && (time bash benchmark.linux.sh || true;) || true'
-- 'if [ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 -c Release | cat) || true'
-- 'pushd Tests4Mac; bash -e test-using-mono-only.sh; popd'
+- '[ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 -c Release | cat) || true'
+- |
+  if [[ -n "$MULTIARCH_IMAGE" ]]; then
+    docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    docker run -d --name tests -t multiarch/debian-debootstrap:armhf-buster bash -c 'sleep 424242'
+    pushd Tests4Multiarch 
+    docker cp * tests:/
+    docker exec tests /install-mono.sh
+  else
+    # MAC OS
+    pushd Tests4Mac; bash -e test-using-mono-only.sh; popd
+  fi
     
 
