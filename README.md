@@ -16,7 +16,7 @@ Autotests using .NET Core cover:
 - Linux x64 and Windows Server 2016 on appveyor
 - Linux Arm 64-bit using .net core on travis-ci.org
 - Linux Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
-- macOS X x64 10.10 (mono only) & 10.14 (both .net core and mono) using travis-ci.org
+- macOS X 10.14 (both .net core and mono) & 10.10 (mono only) using travis-ci.org
 
 It should work on BSD-like system with linux compatibility layer using mono, but was never tested. 
 
