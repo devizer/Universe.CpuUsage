@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-cmd="(apt -qq update >/dev/null ; apt install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates)"
-sudo true >/dev/null 2>&1 && eval "sudo $cmd" || eval "$cmd"
+cmd1="apt -qq update >/dev/null"
+cmd2="apt install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates"
+for cmd in "$cmd1" "$cmd2"; do
+    echo "eval [$cmd]"
+    sudo true >/dev/null 2>&1 && eval "sudo $cmd" || eval "$cmd"
+done
 
 echo Configure apt
 echo 'Acquire::Check-Valid-Until "0";' | sudo tee /etc/apt/apt.conf.d/10no--check-valid-until
