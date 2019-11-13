@@ -107,12 +107,13 @@ script:
 
   elif [[ -n "$MULTIARCH_IMAGE" ]]; then
     set -e
-    docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
 
     sudo apt update
     echo "Installing mono LOCALLY"
     source Tests4Multiarch/install-mono.sh
+
+    docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
 
     echo "Installing mono in the QEMU"
     docker cp Tests4Multiarch/install-mono.sh tests:/
