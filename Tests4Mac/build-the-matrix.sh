@@ -54,6 +54,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
       cat say.include.sh > $matrix/run.sh
+      ls -la say.include.sh 
       echo 'errors=0; Say "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(hostname)]"' >> $matrix/run.sh
       matrix_run="cd $matrix && bash run.sh"
       for target_dir in $(ls -d bin/*/); do
