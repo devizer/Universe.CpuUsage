@@ -84,7 +84,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
         # Say "Mono Tests: Run Tests for [$target]"
         echo '
     pushd packages/NUnit.ConsoleRunner*/tools >/dev/null; runner=$(pwd)/nunit3-console.exe; popd >/dev/null
-    echo "RUNNER: $runner for the $target target"
+    echo "Runner for the '$target' target is [$runner]"
     pushd Universe.CpuUsage.MonoTests/bin/'$cfg' >/dev/null
        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=$((errors+1)))
     popd >/dev/null
