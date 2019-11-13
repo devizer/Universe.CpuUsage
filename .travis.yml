@@ -9,13 +9,13 @@ git:
 matrix:
   include:
 
-#  - name: Linux PowerPC 64 (mono)
-#    os: linux
-#    dist: xenial
-#    env:
-#    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:ppc64el-stretch"
-#    services:
-#        - docker
+  - name: Linux PowerPC 64 (mono)
+    os: linux
+    dist: xenial
+    env:
+    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:ppc64el-stretch"
+    services:
+        - docker
 
   - name: Linux ARM-64 (.net core & mono)
     os: linux
