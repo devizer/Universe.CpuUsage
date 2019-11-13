@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using NUnit.Framework;
 using Tests;
@@ -60,9 +61,13 @@ namespace Universe.CpuUsage.Tests
         void EatSomeMem()
         {
             Stopwatch sw = Stopwatch.StartNew();
-            List<object> list = new List<object>();
-            for (int i = 0; i < 10 && sw.ElapsedMilliseconds < 1000; i++)
-                list.Add(new byte[10 * 1024 * 1024]);
+            List<IntPtr> list = new List<IntPtr>();
+            
+            for (int i = 0; i < 100 && sw.ElapsedMilliseconds < 1000; i++)
+                list.Add(Marshal.AllocHGlobal(1*1000*1000));
+
+            foreach (IntPtr ptr in list)
+                Marshal.FreeHGlobal(ptr);
         }
 
         void EatSomeCpu()

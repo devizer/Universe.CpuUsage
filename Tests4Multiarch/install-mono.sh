@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-echo Configure apt
-echo 'Acquire::Check-Valid-Until "0";' |  tee /etc/apt/apt.conf.d/10no--check-valid-until 
-echo 'APT::Get::Assume-Yes "true";' |  tee /etc/apt/apt.conf.d/11assume-yes               
-echo 'APT::Get::AllowUnauthenticated "true";' |  tee /etc/apt/apt.conf.d/12allow-unauth   
+cmd="apt -qq update >/dev/null ; apt install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates"
+sudo true >/dev/null 2>&1 && eval "sudo $cmd" || eval "$cmd"
 
-time (apt -qq update >/dev/null ;  apt install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates)
+echo Configure apt
+echo 'Acquire::Check-Valid-Until "0";' | sudo tee /etc/apt/apt.conf.d/10no--check-valid-until
+echo 'APT::Get::Assume-Yes "true";' | sudo tee /etc/apt/apt.conf.d/11assume-yes
+echo 'APT::Get::AllowUnauthenticated "true";' | sudo tee /etc/apt/apt.conf.d/12allow-unauth
+
 
 if [[ "$(command -v mono)" == "" ]]; then 
   # export MONO_ENV_OPTIONS=-O=-aot
@@ -28,13 +30,10 @@ mono --version
   if [[ "$(uname -m)" == "aarch64" ]]; then
       url=https://raw.githubusercontent.com/devizer/glist/master/install-dotnet-dependencies.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
       DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
+      mkdir -p ~/.dotnet/tools; export PATH="$HOME/.dotnet:$HOME/.dotnet/tools:$PATH"
       time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/.dotnet)
       time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/.dotnet)
-      export PATH="$HOME/.dotnet:$PATH"
-      echo '
-            export PATH="$HOME/.dotnet:$PATH"' >> ~/.bashrc
       export DOTNET_ROOT="$HOME/.dotnet"
-      dotnet tool install -g BenchmarkDotNet.Tool
-      export PATH="$HOME/.dotnet/tools:$PATH"
+      dotnet tool install -g BenchmarkDotNet.Tool || true
       dotnet --info || true
   fi
