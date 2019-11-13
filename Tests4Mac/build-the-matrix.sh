@@ -1,14 +1,6 @@
 # work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mac; source build-the-matrix.sh; echo $matrix_run
 
-    function header() {
-      if [[ $(uname -s) != Darwin ]]; then
-        startAt=${startAt:-$(date +%s)}; elapsed=$(date +%s); elapsed=$((elapsed-startAt)); elapsed=$(TZ=UTC date -d "@${elapsed}" "+%_H:%M:%S");
-      fi
-      LightGreen='\033[1;32m'; Yellow='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'; LightGray='\033[1;2m';
-      printf "${LightGray}${elapsed:-}${NC} ${LightGreen}$1${NC} ${Yellow}$2${NC}\n"; 
-    }
-    counter=0; function Say() { echo ""; counter=$((counter+1)); header "STEP $counter" "$1"; }; Say "" >/dev/null; counter=0; 
-
+source "$(dirname $0)/say.include.sh"
 
 echo '<?xml version="1.0" encoding="utf-8"?>
 <configuration>
@@ -61,12 +53,13 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
       errors=0;
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
-      echo 'errors=0; echo "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(hostname)]"' >> $matrix/run.sh
+      cat say.include.sh > $matrix/run.sh
+      echo 'errors=0; Say "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(hostname)]"' >> $matrix/run.sh
       matrix_run="cd $matrix && bash run.sh"
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
         echo "pushd job-${target} >/dev/null" >> $matrix/run.sh
-        echo 'echo ""; echo "JOB ['${target}'] in [$(pwd)]"' >> $matrix/run.sh
+        echo 'echo ""; Say "JOB ['${target}'] in [$(pwd)]"' >> $matrix/run.sh
 
 
         Say "Mono Tests: msbuild rebuild for [$target]"
@@ -96,6 +89,6 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
         printf 'echo ""; popd >/dev/null\n\n' >> $matrix/run.sh
       done
 
-echo 'echo "Total Errors: $errors"; exit $errors' >> $matrix/run.sh
+echo 'Say "Total Errors: $errors"; exit $errors' >> $matrix/run.sh
 chmod +x $matrix/run.sh
 
