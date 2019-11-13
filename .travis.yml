@@ -33,7 +33,7 @@ matrix:
     services:
         - docker
 
-  - name: OS X 10.14 (net core & mono)
+  - name: OS X 10.14 (.net core & mono)
     os: osx
     osx_image: xcode10.2
 
