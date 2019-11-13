@@ -93,7 +93,7 @@ msbuild /t:Rebuild /p:Configuration=Release
         mkdir -p $matrix/job-${target}
         cp -r ./. $matrix/job-${target}
 
-        printf 'popd >/dev/null\n\n; echo "";' >> $matrix/run.sh
+        printf 'echo ""; popd >/dev/null\n\n' >> $matrix/run.sh
       done
 
 echo 'echo "Total Errors: $errors"; exit $errors' >> $matrix/run.sh
