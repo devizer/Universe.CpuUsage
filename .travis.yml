@@ -108,7 +108,6 @@ script:
   elif [[ -n "$MULTIARCH_IMAGE" ]]; then
     set -e
 
-    sudo apt update
     echo "Installing mono LOCALLY"
     source Tests4Multiarch/install-mono.sh
 
