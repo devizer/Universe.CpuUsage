@@ -6,7 +6,7 @@ image:
 skip_commits:
   files:
     - .circleci/*
-    - .travis.yml
+    - '.travis.yml'
     - '*.md'
 
 clone_depth: 99999999
