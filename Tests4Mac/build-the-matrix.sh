@@ -61,11 +61,13 @@ msbuild /t:Rebuild /p:Configuration=Release
       errors=0;
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
-      echo 'errors=0; echo "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(uname -m)]"' >> $matrix/run.sh
+      echo 'errors=0; echo "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(hostname)]"' >> $matrix/run.sh
       matrix_run="cd $matrix && bash run.sh"
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
-        echo "pushd job-${target}" >> $matrix/run.sh
+        echo "pushd job-${target} >/dev/null" >> $matrix/run.sh
+        echo 'echo "JOB ${target} in [$(pwd)]"' >> $matrix/run.sh
+
 
         Say "Mono Tests: msbuild rebuild for [$target]"
         sed_cmd="s/\.\.\\bin\\net20\\Universe/\.\.\\bin\\${target}\\Universe/g"
@@ -79,21 +81,19 @@ msbuild /t:Rebuild /p:Configuration=Release
         msbuild /noLogo /t:Rebuild /p:Configuration=$cfg /v:q
         echo "mono ./Universe.CpuUsage.MonoTests/bin/$cfg/Universe.CpuUsage.MonoTests.exe" >> $matrix/run.sh
         
-        pushd packages/NUnit.ConsoleRunner*/tools
-        runner=$(pwd)/nunit3-console.exe
-        popd
-
-        Say "Mono Tests: Run Tests for [$target]"
-        echo "
-        pushd Universe.CpuUsage.MonoTests/bin/$cfg
-        mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=\$((errors+1)))
-        popd
-" >> $matrix/run.sh
+        # Say "Mono Tests: Run Tests for [$target]"
+        echo '
+    pushd packages/NUnit.ConsoleRunner*/tools; runner=$(pwd)/nunit3-console.exe; popd
+    echo "RUNNER: $runner for the $target target"
+    pushd Universe.CpuUsage.MonoTests/bin/'$cfg'
+       mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || (echo "ERROR: TESTING [$target]"; errors=$((errors+1)))
+    popd
+' >> $matrix/run.sh
 
         mkdir -p $matrix/job-${target}
         cp -r ./. $matrix/job-${target}
 
-        printf "popd\n\n" >> $matrix/run.sh
+        printf "popd >/dev/null\n\n" >> $matrix/run.sh
       done
 
 echo 'exit $errors' >> $matrix/run.sh
