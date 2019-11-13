@@ -14,14 +14,14 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Test_Thread()
         {
-            for(int i=1; i<3; i++)
+            for(int i=1; i<=9; i++)
                 Load(CpuUsageScope.Thread, 256);
         }
 
         [Test]
         public void Test_Process()
         {
-            for(int i=1; i<3; i++)
+            for(int i=1; i<=9; i++)
                 Load(CpuUsageScope.Process, 256);
         }
 
