@@ -2,6 +2,7 @@
 
 pushd "$(dirname "$0")" >/dev/null; SCRIPT="$(pwd)"; popd >/dev/null
 SayScript="$(pwd)/say.include.sh"
+pushd ..; StartFrom=$(pwd); popd
 source "$SayScript"
 
 echo '<?xml version="1.0" encoding="utf-8"?>
@@ -94,3 +95,16 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
 echo 'Say "Total Success: $success, Errors: $errors"; exit $errors' >> $matrix/run.sh
 chmod +x $matrix/run.sh
 
+
+has_dot_net="no"; command -v dotnet >/dev/null 2>&1 && { has_dot_net=yes; } || true
+if [[ $has_dot_net == yes && "$(uname -m)" == "aarch64" ]]; then
+  pushd $StartFrom; 
+    cd ..
+    Say "dotnet RESTORE for [$(pwd)]"
+    time dotnet restore --disable-parallel || true
+    pushd Universe.CpuUsage.Tests
+      Say "dotnet TEST -f netcoreapp2.2 for [$(pwd)]"
+      (dotnet test -f netcoreapp2.2 -c Release || exit 1) | cat
+    popd
+  popd
+fi
