@@ -109,17 +109,22 @@ script:
     set -e
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
-    pushd Tests4Multiarch 
-    docker cp * tests:/
+
+    Say "Installing mono in the QEMU"
+    docker cp Tests4Multiarch/install-mono.sh tests:/
     docker exec tests bash /install-mono.sh
-    cd ../Tests4Mac
+
+    Say "Installing mono LOCALLY"
+    source Tests4Multiarch/install-mono.sh
+
+    Say "RUN TESTS in the qemu"
+    cd Tests4Mac
     source build-the-matrix.sh; echo $matrix_run
     pushd $matrix
     docker exec tests mkdir -p $matrix
     docker cp * tests:$(pwd)/
     docker exec tests bash -ec "$matrix_run"
 
-    popd
   else
     # MAC OS
     pushd Tests4Mac; bash -e test-using-mono-only.sh; popd
