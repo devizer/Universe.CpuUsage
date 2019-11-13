@@ -56,7 +56,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
       cat "$SayScript" > $matrix/run.sh
-      echo 'errors=0; Say "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(hostname)]"' >> $matrix/run.sh
+      echo 'success=0; errors=0; Say "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(hostname)]"' >> $matrix/run.sh
       matrix_run="cd $matrix && bash run.sh"
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
@@ -81,7 +81,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
     pushd packages/NUnit.ConsoleRunner*/tools >/dev/null; runner=$(pwd)/nunit3-console.exe; popd >/dev/null
     echo "Runner for the '$target' target is [$runner]"
     pushd Universe.CpuUsage.MonoTests/bin/'$cfg' >/dev/null
-       mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe  || { echo "ERROR: TESTING ['$target']"; errors=$((errors+1)); }
+       mono $runner --workers=1 Universe.CpuUsage.MonoTests.exe && { Say "Success ['$target']"; success=$((success+1)); } || { Say "ERROR: TESTING ['$target']"; errors=$((errors+1)); }
     popd >/dev/null
 ' >> $matrix/run.sh
 
@@ -91,6 +91,6 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
         printf 'echo ""; popd >/dev/null\n\n' >> $matrix/run.sh
       done
 
-echo 'Say "Total Errors: $errors"; exit $errors' >> $matrix/run.sh
+echo 'Say "Total Success: $success, Errors: $errors"; exit $errors' >> $matrix/run.sh
 chmod +x $matrix/run.sh
 
