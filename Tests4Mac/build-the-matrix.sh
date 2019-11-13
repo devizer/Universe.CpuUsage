@@ -56,7 +56,7 @@ cd ../Tests4Linux
 Say "RESTORE for [$(pwd)]"
 nuget restore
 # pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
-msbuild /t:Rebuild /p:Configuration=Release
+msbuild /t:Rebuild /p:Configuration=Release /v:q
 
       errors=0;
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
