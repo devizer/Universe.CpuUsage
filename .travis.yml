@@ -110,12 +110,13 @@ script:
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
 
+    sudo apt update
+    echo "Installing mono LOCALLY"
+    source Tests4Multiarch/install-mono.sh
+
     echo "Installing mono in the QEMU"
     docker cp Tests4Multiarch/install-mono.sh tests:/
     docker exec tests bash /install-mono.sh
-
-    echo "Installing mono LOCALLY"
-    source Tests4Multiarch/install-mono.sh
 
     echo "RUN TESTS in the qemu"
     cd Tests4Mac
