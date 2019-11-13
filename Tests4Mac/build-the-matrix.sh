@@ -96,5 +96,5 @@ msbuild /t:Rebuild /p:Configuration=Release
         printf "popd >/dev/null\n\n" >> $matrix/run.sh
       done
 
-echo 'exit $errors' >> $matrix/run.sh
+echo 'echo "Total Errors: $errors"; exit $errors' >> $matrix/run.sh
 
