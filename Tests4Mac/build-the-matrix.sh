@@ -1,6 +1,6 @@
 # work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mac; source build-the-matrix.sh; echo $matrix_run
 
-pushd "$0" >/dev/null; SCRIPT=$(pwd); popd >/dev/null
+pushd "$(dirname "$0")" >/dev/null; SCRIPT="$(pwd)"; popd >/dev/null
 source "$SCRIPT/say.include.sh"
 
 echo '<?xml version="1.0" encoding="utf-8"?>
