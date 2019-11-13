@@ -62,9 +62,13 @@ namespace Universe.CpuUsage.Tests
         {
             Stopwatch sw = Stopwatch.StartNew();
             List<IntPtr> list = new List<IntPtr>();
-            
+            List<object> saved = new List<object>();
+
             for (int i = 0; i < 100 && sw.ElapsedMilliseconds < 1000; i++)
-                list.Add(Marshal.AllocHGlobal(1*1000*1000));
+            {
+                list.Add(Marshal.AllocHGlobal(1 * 1000 * 1000));
+                saved.Add(new byte[1*1000*1000]);
+            }
 
             foreach (IntPtr ptr in list)
                 Marshal.FreeHGlobal(ptr);
