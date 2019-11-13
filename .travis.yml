@@ -9,13 +9,13 @@ git:
 matrix:
   include:
 
-  - name: Linux PowerPC 64 (mono)
-    os: linux
-    dist: xenial
-    env:
-    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:ppc64el-stretch"
-    services:
-        - docker
+#  - name: Linux PowerPC 64 (mono)
+#    os: linux
+#    dist: xenial
+#    env:
+#    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:ppc64el-stretch"
+#    services:
+#        - docker
 
   - name: Linux ARM-64 (.net core & mono)
     os: linux
@@ -58,6 +58,7 @@ matrix:
 
 # https://docs.travis-ci.com/user/caching/
 before_script:
+- 'printenv | sort'
 - |
     OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2); OS_X_VER=$((OS_X_VER-4))
 
