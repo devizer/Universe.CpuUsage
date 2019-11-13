@@ -66,7 +66,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
         echo "pushd job-${target} >/dev/null" >> $matrix/run.sh
-        echo 'echo ""; echo "JOB [${target}] in [$(pwd)]"' >> $matrix/run.sh
+        echo 'echo ""; echo "JOB ['${target}'] in [$(pwd)]"' >> $matrix/run.sh
 
 
         Say "Mono Tests: msbuild rebuild for [$target]"
