@@ -41,7 +41,7 @@ matrix:
     os: linux
     dist: xenial
     env:
-    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:i386-buster"
+    - MULTIARCH_IMAGE="multiarch/debian-debootstrap:i386-stretch"
     services:
         - docker
 
@@ -123,7 +123,7 @@ script:
     source build-the-matrix.sh; echo $matrix_run
     pushd $matrix
     docker exec tests mkdir -p $matrix
-    docker cp * tests:$(pwd)/
+    docker cp ./. tests:$(pwd)
     docker exec tests bash -ec "$matrix_run"
 
   else
