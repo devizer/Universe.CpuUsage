@@ -7,7 +7,7 @@
       LightGreen='\033[1;32m'; Yellow='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'; LightGray='\033[1;2m';
       printf "${LightGray}${elapsed:-}${NC} ${LightGreen}$1${NC} ${Yellow}$2${NC}\n"; 
     }
-    counter=0; function Say() { echo ""; counter=$((counter+1)); header "STEP $counter" "$1"; }; Say "" >/dev/null
+    counter=0; function Say() { echo ""; counter=$((counter+1)); header "STEP $counter" "$1"; }; Say "" >/dev/null; counter=0; 
 
 
 echo '<?xml version="1.0" encoding="utf-8"?>
@@ -66,7 +66,7 @@ msbuild /t:Rebuild /p:Configuration=Release
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
         echo "pushd job-${target} >/dev/null" >> $matrix/run.sh
-        echo 'echo "JOB ${target} in [$(pwd)]"' >> $matrix/run.sh
+        echo 'echo ""; echo "JOB [${target}] in [$(pwd)]"' >> $matrix/run.sh
 
 
         Say "Mono Tests: msbuild rebuild for [$target]"
@@ -93,8 +93,9 @@ msbuild /t:Rebuild /p:Configuration=Release
         mkdir -p $matrix/job-${target}
         cp -r ./. $matrix/job-${target}
 
-        printf "popd >/dev/null\n\n" >> $matrix/run.sh
+        printf 'popd >/dev/null\n\n; echo "";' >> $matrix/run.sh
       done
 
 echo 'echo "Total Errors: $errors"; exit $errors' >> $matrix/run.sh
+chmod +x $matrix/run.sh
 
