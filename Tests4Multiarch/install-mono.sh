@@ -4,7 +4,7 @@ cmd1="apt-get -qq update >/dev/null"
 cmd2="apt-get install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates >/dev/null"
 for cmd in "$cmd1" "$cmd2"; do
     echo "eval [$cmd]"
-    sudo true >/dev/null 2>&1 && eval "sudo $cmd" || eval "$cmd"
+    sudo true >/dev/null 2>&1 && time eval "sudo $cmd" || time eval "$cmd"
 done
 
 echo Configure apt
@@ -39,6 +39,6 @@ mono --version
       time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/.dotnet)
       time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/.dotnet)
       export DOTNET_ROOT="$HOME/.dotnet"
-      dotnet tool install -g BenchmarkDotNet.Tool || true
-      dotnet --info || true
+      time dotnet tool install -g BenchmarkDotNet.Tool || true
+      time dotnet --info || true
   fi
