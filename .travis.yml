@@ -110,14 +110,14 @@ script:
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
 
-    Say "Installing mono in the QEMU"
+    echo "Installing mono in the QEMU"
     docker cp Tests4Multiarch/install-mono.sh tests:/
     docker exec tests bash /install-mono.sh
 
-    Say "Installing mono LOCALLY"
+    echo "Installing mono LOCALLY"
     source Tests4Multiarch/install-mono.sh
 
-    Say "RUN TESTS in the qemu"
+    echo "RUN TESTS in the qemu"
     cd Tests4Mac
     source build-the-matrix.sh; echo $matrix_run
     pushd $matrix
