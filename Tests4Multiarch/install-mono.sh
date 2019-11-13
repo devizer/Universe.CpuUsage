@@ -12,6 +12,9 @@ echo 'Acquire::Check-Valid-Until "0";' | sudo tee /etc/apt/apt.conf.d/10no--chec
 echo 'APT::Get::Assume-Yes "true";' | sudo tee /etc/apt/apt.conf.d/11assume-yes
 echo 'APT::Get::AllowUnauthenticated "true";' | sudo tee /etc/apt/apt.conf.d/12allow-unauth
 
+echo net.ipv6.conf.all.disable_ipv6=1 | sudo tee /etc/sysctl.d/disableipv6.conf || true
+
+
 
 if [[ "$(command -v mono)" == "" ]]; then 
   # export MONO_ENV_OPTIONS=-O=-aot
