@@ -93,7 +93,8 @@ script:
 - '[ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 -c Release | cat) || true'
 - '[ $OS_X_VER -ge 13 ] && (time bash benchmark.linux.sh || true;) || true'
 - |
-  if [[ -n "$MULTIARCH_IMAGE" ]]; then
+  if false && [[ -n "$MULTIARCH_IMAGE" ]]; then
+    # LEGACY
     set -e
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
@@ -101,6 +102,22 @@ script:
     docker cp * tests:/
     docker exec tests bash /install-mono.sh
     docker exec tests bash -ec 'work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; cd Tests4Mac; bash -e test-using-mono-only.sh'
+
+    popd
+
+  elif [[ -n "$MULTIARCH_IMAGE" ]]; then
+    set -e
+    docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
+    pushd Tests4Multiarch 
+    docker cp * tests:/
+    docker exec tests bash /install-mono.sh
+    cd ../Tests4Mac
+    source build-the-matrix.sh; echo $matrix_run
+    pushd $matrix
+    docker exec tests mkdir -p $matrix
+    docker cp * tests:$(pwd)/
+    docker exec tests bash -ec "$matrix_run"
 
     popd
   else

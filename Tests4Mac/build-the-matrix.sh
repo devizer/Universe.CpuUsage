@@ -61,7 +61,7 @@ msbuild /t:Rebuild /p:Configuration=Release
       errors=0;
       proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
       cp -f ${proj} ${proj}-bak
-      echo "errors=0" >> $matrix/run.sh
+      echo 'errors=0; echo "RUNNING MATRIX. current is [$(pwd)]. Machine is [$(uname -m)]"' >> $matrix/run.sh
       matrix_run="cd $matrix && bash run.sh"
       for target_dir in $(ls -d bin/*/); do
         target=$(basename $target_dir)
