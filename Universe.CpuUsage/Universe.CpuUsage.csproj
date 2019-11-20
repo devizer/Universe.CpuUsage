@@ -19,7 +19,7 @@
 Targets everywhere: Net Framework 2.0+ and Net Standard 1.3+, Net Core 1.0+</Description>
         <PackageProjectUrl>https://github.com/devizer/Universe.CpuUsage</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageIconUrl>https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/images/CpuUsage.Icon.png</PackageIconUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/images/CpuUsage.Icon-V2.png</PackageIconUrl>
         <PackageTags>metrics kernel kernel-time user-time getrusage thread_info GetProcessTimes GetThreadTimes cpu-usage linux windows osx</PackageTags>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
