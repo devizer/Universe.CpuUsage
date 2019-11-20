@@ -12,13 +12,17 @@ Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
 
 Autotests using .NET Core cover:
+- Linux x86_64 and Arm 64-bit on appveyor
 - Windows Server 2016 on appveyor
-- Linux x64 and Windows Server 2016 on appveyor
-- Linux Arm 64-bit using .net core on travis-ci.org
-- Linux Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
-- macOS X 10.14 (both .net core and mono) & 10.10 (mono only) using travis-ci.org
+- macOS 10.14 on travis-ci.org
 
-It should work on BSD-like system with linux compatibility layer using mono, but was never tested. 
+Autotests usung Mono:
+- Linux x86_64, Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
+- Mac OSX 10.10 using travis-ci.org
+
+Never tested on Windows Arm 32/64 bit.
+
+It probably works on BSD-like system with linux compatibility layer using mono and .net core, but this way was never tested. 
 
 | appveyor                   | travis-ci                                                                                 |
 |----------------------------|-------------------------------------------------------------------------------------------|
@@ -26,7 +30,7 @@ It should work on BSD-like system with linux compatibility layer using mono, but
 | <br><p align="center">[![Build status](https://ci.appveyor.com/api/projects/status/udq3dip23mqxlkjf?svg=true)](https://ci.appveyor.com/project/devizer/universe-cpuusage)</p> | <br><p align="center">[![Build Status](https://travis-ci.org/devizer/Universe.CpuUsage.svg?branch=master)](https://travis-ci.org/devizer/Universe.CpuUsage)</p> |
  
 ## Implementation
-The implementation utilizes platform invocation of the corresponding system libraries depending on the OS:
+The implementation utilizes platform invocation (P/Invoke) of the corresponding system libraries depending on the OS:
 
 | OS       | per thread implementation  | per process implementation   | library         |
 |----------|--------------------------|------------------------|-----------------|
@@ -35,7 +39,7 @@ The implementation utilizes platform invocation of the corresponding system libr
 | Mac OS X | thread_info()            | getrusage(RUSAGE_SELF) | libSystem.dylib |
 
 ## Benchmark 
-Benchmark below and comparison to well known DateTime.Now and Stopwatch are taken using .NET Core 3.0 runtime.
+Just for illustration here is a comparison to well known DateTime.Now and Stopwatch using benchmark.net. All of them are taken using .NET Core 3.0 runtime.
 
 #### Linux x64, kernel 4.15
 |      Method |      Mean |    Error |   StdDev | Rank |  Gen 0 | Gen 1 | Gen 2 | Allocated |
