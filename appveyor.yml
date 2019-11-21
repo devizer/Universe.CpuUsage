@@ -83,6 +83,8 @@ build_script:
       pushd Universe.CpuUsage
       #Say "Test using netcoreapp3.0"
       #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
+      Say "nuget restore for '$(pwd)'"
+      & nuget restore
       Say "Rebuild and pack Release"
       & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
       Say "Rebuild and pack Debug"

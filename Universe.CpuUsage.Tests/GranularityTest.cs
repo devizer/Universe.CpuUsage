@@ -26,7 +26,7 @@ namespace Universe.CpuUsage.Tests
 
                 Statistica<long> stat = new Statistica<long>(Population, x => (double) x, x => x, x => x.ToString("n3"));
                 var histogram = stat.BuildReport(12, 3);
-                Console.WriteLine("Cpu Usage" + histogram.ToConsole("CPU Usage", 42));
+                Console.WriteLine(histogram.ToConsole("CPU Usage", 42));
             }
 
         }
