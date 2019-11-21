@@ -214,8 +214,13 @@ namespace Universe.CpuUsage.Tests
                     var lenD = count * 1d * barWidth / maxCount;
                     var len = (int) lenD;
                     var perCents = count * 100d / sumCount;
-                    var perCentsAsString = count == 0 ? "--" : (" " + perCents.ToString("f0") + "%");
-                    bars.Add((len > 0 ? new string('@', len) : "") + perCentsAsString);
+                    // var perCentsAsString = count == 0 ? "--" : (" " + perCents.ToString("f1") + "%");
+                    var perCentsAsString = count == 0 ? "" : perCents.ToString("f1") + "%";
+
+                    bars.Add(string.Format(" {0,6} | {1}",
+                                 perCentsAsString,
+                                 len > 0 ? new string('@', len) : ""
+                    ));
                 };
 
                 if (LowerOutliers > 0)
