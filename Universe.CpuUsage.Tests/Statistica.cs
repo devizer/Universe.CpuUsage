@@ -200,6 +200,8 @@ namespace Universe.CpuUsage.Tests
                 var maxCount = Math.Max(LowerOutliers, HighOutliers);
                 maxCount = Math.Max(maxCount, Histogram.Max(x => x.Count));
 
+                var sumCount = LowerOutliers + HighOutliers + Histogram.Sum(x => x.Count);
+
                 var allFormattedValues = Histogram.Select(x => IntervalAsString(x.From)).Concat(Histogram.Select(x => IntervalAsString(x.To)));
                 var maxFormattedValueLength = allFormattedValues.Max(x => x.Length);
 
@@ -211,7 +213,9 @@ namespace Universe.CpuUsage.Tests
                 {
                     var lenD = count * 1d * barWidth / maxCount;
                     var len = (int) lenD;
-                    bars.Add(len > 0 ? new string('@', len) : "");
+                    var perCents = count * 100d / sumCount;
+                    var perCentsAsString = count == 0 ? "--" : (" " + perCents.ToString("f0") + "%");
+                    bars.Add((len > 0 ? new string('@', len) : "") + perCentsAsString);
                 };
 
                 if (LowerOutliers > 0)
