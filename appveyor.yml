@@ -82,7 +82,7 @@ build_script:
 - ps: |
 
       Say "nuget restore for '$(pwd)'"
-      & nuget restore
+      & nuget restore -verbosity quiet
       #Say "Test using netcoreapp3.0"
       #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
       Say "Rebuild and pack Release"

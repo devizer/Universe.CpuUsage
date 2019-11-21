@@ -222,7 +222,7 @@ namespace Universe.CpuUsage.Tests
 
                 foreach (var rangePart in Histogram)
                 {
-                    Func<double, string> valueToString = v => string.Format("{0,-" + maxFormattedValueLength + "}", IntervalAsString(rangePart.From));
+                    Func<double, string> valueToString = v => string.Format("{0,-" + maxFormattedValueLength + "}", IntervalAsString(v));
                     captions.Add($"{valueToString(rangePart.From)} ... {valueToString(rangePart.To)}");
                     addBar(rangePart.Count);
                 }
