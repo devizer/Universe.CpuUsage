@@ -16,17 +16,15 @@ Autotests using .NET Core cover:
 - Windows Server 2016 on appveyor
 - macOS 10.14 on travis-ci.org
 
-Autotests usung Mono:
+Autotests using Mono:
 - Linux x86_64, Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
 - Mac OSX 10.10 using travis-ci.org
 
-Never tested on Windows Arm 32/64 bit.
-
-It probably works on BSD-like system with linux compatibility layer using mono and .net core, but this way was never tested. 
+Never tested on Windows Arm. Also, it should work on BSD-like system with linux compatibility layer using both mono and .net core, but this way was never tested. 
 
 | appveyor                   | travis-ci                                                                                 |
 |----------------------------|-------------------------------------------------------------------------------------------|
-| .NET Core: Linux x64, Windows x64. <br>Mono: Linux x64. | .NET Core: macOS 10.14, Linux Arm 64. <br>Mono: Linux Arm 64, Arm-v7, i386, macOS 10.10. |
+| .NET Core: **Linux** x64, **Windows** x64. <br>Mono: **Linux** x64. | .NET Core: **macOS** 10.14, **Linux** Arm 64. <br>Mono: **Linux** Arm 64, Arm-v7, i386, **macOS** 10.10. |
 | <br><p align="center">[![Build status](https://ci.appveyor.com/api/projects/status/udq3dip23mqxlkjf?svg=true)](https://ci.appveyor.com/project/devizer/universe-cpuusage)</p> | <br><p align="center">[![Build Status](https://travis-ci.org/devizer/Universe.CpuUsage.svg?branch=master)](https://travis-ci.org/devizer/Universe.CpuUsage)</p> |
  
 ## Implementation
