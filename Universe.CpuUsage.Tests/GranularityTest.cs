@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using NUnit.Framework;
+using Tests;
 
 namespace Universe.CpuUsage.Tests
 {
     [TestFixture]
-    public class GranularityTest
+    public class GranularityTest: NUnitTestsBase
     {
         [Test]
         public void ShowGranularity()
         {
             long preJit = LoadCpu(111);
+            Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
+            Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
             Console.WriteLine("Granularity (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
             for (int i = 1; i <= 9; i++)
             {
