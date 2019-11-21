@@ -200,6 +200,10 @@ namespace Universe.CpuUsage.Tests
                 var maxCount = Math.Max(LowerOutliers, HighOutliers);
                 maxCount = Math.Max(maxCount, Histogram.Max(x => x.Count));
 
+                var allFormattedValues = Histogram.Select(x => IntervalAsString(x.From)).Concat(Histogram.Select(x => IntervalAsString(x.To)));
+                var maxFormattedValueLength = allFormattedValues.Max(x => x.Length);
+
+
                 List<string> captions = new List<string>();
                 List<string> bars = new List<string>();
 
@@ -218,7 +222,8 @@ namespace Universe.CpuUsage.Tests
 
                 foreach (var rangePart in Histogram)
                 {
-                    captions.Add($"{IntervalAsString(rangePart.From)} ... {IntervalAsString(rangePart.To)}");
+                    Func<double, string> valueToString = v => string.Format("{0,-" + maxFormattedValueLength + "}", IntervalAsString(rangePart.From));
+                    captions.Add($"{valueToString(rangePart.From)} ... {valueToString(rangePart.To)}");
                     addBar(rangePart.Count);
                 }
 
@@ -228,6 +233,7 @@ namespace Universe.CpuUsage.Tests
                     addBar(HighOutliers);
                 }
 
+                // var maxFormattedValue = 
                 var maxCaptionWidth = captions.Max(x => x.Length);
                 maxCaptionWidth = Math.Max(2, maxCaptionWidth);
 

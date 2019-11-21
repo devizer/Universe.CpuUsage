@@ -80,12 +80,13 @@ build_script:
       # cat Universe.CpuUsage/Universe.CpuUsage.csproj
       
 - ps: |
-      pushd Universe.CpuUsage
-      #Say "Test using netcoreapp3.0"
-      #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
+
       Say "nuget restore for '$(pwd)'"
       & nuget restore
+      #Say "Test using netcoreapp3.0"
+      #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
       Say "Rebuild and pack Release"
+      pushd Universe.CpuUsage
       & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
       Say "Rebuild and pack Debug"
       & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
