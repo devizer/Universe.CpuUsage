@@ -26,7 +26,7 @@ namespace Universe.CpuUsage.Tests
 
                 Statistica<long> stat = new Statistica<long>(Population, x => (double) x, x => x, x => x.ToString("n3"));
                 var histogram = stat.BuildReport(12, 3);
-                Console.WriteLine(histogram.ToConsole("CPU Usage increments (milliseconds)", 42));
+                Console.WriteLine(histogram.ToConsole("CPU Usage increments (microseconds)", 42));
             }
 
         }
@@ -42,9 +42,7 @@ namespace Universe.CpuUsage.Tests
             {
                 var ptr = Marshal.AllocHGlobal(1024);
                 Marshal.FreeHGlobal(ptr);
-
                 CpuUsage next = CpuUsageReader.GetByThread().Value;
-                // Console.WriteLine(next);
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
                     Population.Add(CpuUsage.Substruct(next,prev).TotalMicroSeconds);
