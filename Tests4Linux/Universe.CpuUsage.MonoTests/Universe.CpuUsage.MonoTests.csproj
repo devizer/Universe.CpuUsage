@@ -53,6 +53,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo\CrossInfo.cs">
+      <Link>FullCrossInfo\CrossInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo_Tests.cs">
       <Link>LinkedTests\CrossInfo_Tests.cs</Link>
     </Compile>
