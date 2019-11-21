@@ -16,13 +16,11 @@ Autotests using .NET Core cover:
 - Windows Server 2016 on appveyor
 - macOS 10.14 on travis-ci.org
 
-Autotests usung Mono:
+Autotests using Mono:
 - Linux x86_64, Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
 - Mac OSX 10.10 using travis-ci.org
 
-Never tested on Windows Arm 32/64 bit.
-
-It probably works on BSD-like system with linux compatibility layer using mono and .net core, but this way was never tested. 
+Never tested on Windows Arm. Also, it should work on BSD-like system with linux compatibility layer using both mono and .net core, but this way was never tested. 
 
 | appveyor                   | travis-ci                                                                                 |
 |----------------------------|-------------------------------------------------------------------------------------------|
