@@ -1,4 +1,6 @@
-﻿namespace Universe
+﻿#pragma warning disable CS0162
+
+namespace Universe
 {
     using System;
     using System.Collections.Generic;

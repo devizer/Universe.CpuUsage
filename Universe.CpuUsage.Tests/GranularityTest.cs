@@ -15,10 +15,12 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
             Console.WriteLine("Granularity (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
-            for (int i = 1; i <= 9; i++)
+            int count = CrossFullInfo.IsMono ? 1 : 9;
+            for (int i = 1; i <= count; i++)
             {
                 long granularity = LoadCpu(1000);
-                Console.WriteLine($" #{i}: {granularity} a second. ");
+                double microSeconds = 1000000d / granularity;
+                Console.WriteLine($" #{i}: {granularity} a second, eg {microSeconds:n1} microseconds");
             }
 
         }
