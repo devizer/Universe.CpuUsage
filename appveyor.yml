@@ -93,12 +93,6 @@ after_build:
 
 test_script:
 - ps: |
-    Say ".NET Core Tests"
-    pushd Universe.CpuUsage.Tests 
-    & dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
-    popd
-
-- ps: |
     if ($isWindows) {
         Say ".NET Framework Tests"
         dotnet build -f net47 -c Debug
@@ -106,6 +100,12 @@ test_script:
         nunit3-console Universe.CpuUsage.Tests.dll --workers=1 "--result=Universe.CpuUsage.Tests.Result.xml;format=AppVeyor"
         popd
     }
+
+- ps: |
+    Say ".NET Core Tests"
+    pushd Universe.CpuUsage.Tests 
+    & dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    popd
 
 - sh: |
       Say "Mono Tests: Copy the build folder"
