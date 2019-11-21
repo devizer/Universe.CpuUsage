@@ -11,7 +11,7 @@ Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
 
-Autotests using .NET Core cover:
+Autotests using .NET Core and .NET Framework cover:
 - Linux x86_64 and Arm 64-bit on appveyor
 - Windows Server 2016 on appveyor
 - macOS 10.14 on travis-ci.org

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 using Tests;
 
@@ -32,6 +33,9 @@ namespace Universe.CpuUsage.Tests
             CpuUsage prev = CpuUsageReader.GetByThread().Value;
             while (sw.ElapsedMilliseconds <= milliseconds)
             {
+                var ptr = Marshal.AllocHGlobal(1024);
+                Marshal.FreeHGlobal(ptr);
+
                 CpuUsage next = CpuUsageReader.GetByThread().Value;
                 // Console.WriteLine(next);
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
