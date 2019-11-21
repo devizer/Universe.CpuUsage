@@ -10,6 +10,8 @@ namespace Universe.CpuUsage
         public TimeValue UserUsage { get; set; }
         public TimeValue KernelUsage { get; set; }
 
+        public long TotalMicroSeconds => UserUsage.TotalMicroSeconds + KernelUsage.TotalMicroSeconds;
+
         public override string ToString()
         {
             return $"User: {UserUsage}, Kernel: {KernelUsage}";
