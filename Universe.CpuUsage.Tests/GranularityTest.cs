@@ -22,7 +22,7 @@ namespace Universe.CpuUsage.Tests
             {
                 long granularity = LoadCpu(1000);
                 double microSeconds = 1000000d / granularity;
-                Console.WriteLine($" #{i}: {granularity} a second, eg {microSeconds:n1} microseconds");
+                Console.WriteLine($" #{i}: {granularity} increments a second, eg {microSeconds:n1} microseconds");
 
                 Statistica<long> stat = new Statistica<long>(Population, x => (double) x, x => x, x => x.ToString("n3"));
                 var histogram = stat.BuildReport(12, 3);
