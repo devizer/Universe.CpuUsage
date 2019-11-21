@@ -71,6 +71,9 @@
     <Compile Include="..\..\Universe.CpuUsage.Tests\SmokeCpuUsage.cs">
       <Link>LinkedTests\SmokeCpuUsage.cs</Link>
     </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\Statistica.cs">
+      <Link>Statistica.cs</Link>
+    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\Test_IsSupported.cs">
       <Link>LinkedTests\Test_IsSupported.cs</Link>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using NUnit.Framework;
@@ -22,12 +23,18 @@ namespace Universe.CpuUsage.Tests
                 long granularity = LoadCpu(1000);
                 double microSeconds = 1000000d / granularity;
                 Console.WriteLine($" #{i}: {granularity} a second, eg {microSeconds:n1} microseconds");
+
+                Statistica<long> stat = new Statistica<long>(Population, x => (double) x, x => x, x => x.ToString("n3"));
+                var histogram = stat.BuildReport(12, 3);
+                Console.WriteLine("Cpu Usage" + histogram.ToConsole("CPU Usage", 42));
             }
 
         }
 
+        private List<long> Population;
         private long LoadCpu(int milliseconds)
         {
+            Population = new List<long>(7000);
             long ret = 0;
             Stopwatch sw = Stopwatch.StartNew();
             CpuUsage prev = CpuUsageReader.GetByThread().Value;
@@ -39,7 +46,10 @@ namespace Universe.CpuUsage.Tests
                 CpuUsage next = CpuUsageReader.GetByThread().Value;
                 // Console.WriteLine(next);
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
+                {
+                    Population.Add(CpuUsage.Substruct(next,prev).TotalMicroSeconds);
                     ret++;
+                }
 
                 prev = next;
             }
