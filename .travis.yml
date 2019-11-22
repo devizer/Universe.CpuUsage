@@ -72,7 +72,7 @@ script:
 - nuget restore -verbosity quiet || true
 
 - '[ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 -c Release | cat) || true'
-- '[ $OS_X_VER -ge 13 ] && (time bash benchmark.linux.sh || true;) || true'
+- '[ $OS_X_VER -ge 13 ] && (time bash benchmark.linux.sh) || true'
 - |
   if [[ -n "$MULTIARCH_IMAGE" ]]; then
     set -e

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
+# script=https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/Tests4Mono/install-dotnet.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash 
 set -e
 OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2 || true); OS_X_VER=$((OS_X_VER-4))
 
-DOTNET_Url=https://dot.net/v1/dotnet-install.sh
 
 # OSX?
 if [[ "$(uname -s)" == "Darwin" ]]; then
@@ -47,8 +47,15 @@ else
 fi
 
 if [[ "$(uname -m)" == "aarch64" || "$(uname -m)" == "x86_64" ]] || [ $OS_X_VER -ge 13 ]; then
-    time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/.dotnet)
-    time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/.dotnet)
+    DOTNET_Url=https://dot.net/v1/dotnet-install.sh
+    cmd_curl_dotnet_install="curl -ksSL -o /tmp/dotnet-install.sh $DOTNET_Url"
+    cmd_dotnet_22="bash /tmp/dotnet-install.sh -c 2.2 -i ~/.dotnet"
+    cmd_dotnet_30="bash /tmp/dotnet-install.sh -c 3.0 -i ~/.dotnet"
+    for cmd in "$cmd_curl_dotnet_install" "$cmd_dotnet_22" "$cmd_dotnet_30"; do
+        echo "|# $cmd"
+        time (eval "$cmd" || eval "$cmd" || eval "$cmd")
+    done    
+     
     echo '#!/usr/bin/env bash
     mkdir -p $HOME/.dotnet/tools $HOME/.dotnet
     export PATH="$HOME/.dotnet:$PATH:$HOME/.dotnet/tools"
