@@ -117,8 +117,14 @@ test_script:
 - ps: |
     Say ".NET Core Tests"
     pushd Universe.CpuUsage.Tests 
-    $cmd=if ($isWindows) {"cmd /c"} else {"sudo"}
-    & $cmd.split([char]32) dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    # $cmd=if ($isWindows) {"cmd /c"} else {"sudo"}
+    # & $cmd.split([char]32) dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    if ($isWindows) {
+             dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    } else {
+        sudo dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    }
+
     popd
 
 - sh: |
@@ -146,14 +152,14 @@ test_script:
         cfg=Release
         msbuild /t:Rebuild /p:Configuration=$cfg /v:q
         
-        pushd packages/NUnit.ConsoleRunner*/tools
+        pushd packages/NUnit.ConsoleRunner*/tools >/dev/null
         runner=$(pwd)/nunit3-console.exe
-        popd
+        popd >/dev/null
 
         Say "Mono Tests: Run Tests for [$target]"
-        pushd Universe.CpuUsage.MonoTests/bin/$cfg
+        pushd Universe.CpuUsage.MonoTests/bin/$cfg >/dev/null
         sudo $runner --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor || (Say "TESTING NET 2.0 ERROR"; exit 666)
-        popd
+        popd >/dev/null
       
       done
 
