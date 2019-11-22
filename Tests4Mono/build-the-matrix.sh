@@ -1,5 +1,7 @@
 # work=$HOME/build/devizer; mkdir -p $work; cd $work; rm -rf Universe.CpuUsage; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage/Tests4Mono; source build-the-matrix.sh; echo $matrix_run
 
+set -e
+
 pushd "$(dirname "$0")" >/dev/null; SCRIPT="$(pwd)"; popd >/dev/null
 SayScript="$(pwd)/say.include.sh"
 pushd ..; StartFrom=$(pwd); popd
@@ -16,15 +18,18 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 
 mkdir -p bin matrix bin
 matrix=$(pwd)/matrix
-pushd bin
+bin_path=$(pwd)/bin
+Say "Matrix Path: $matrix"
+Say "Library path: $bin_path"
+cd $bin_path
 Say "Loading Universe.CpuUsage to [$(pwd)]"
-nuget install Universe.CpuUsage || nuget install Universe.CpuUsage || true
+nuget install Universe.CpuUsage -verbosity quiet || nuget install Universe.CpuUsage -verbosity quiet || true
 pushd Universe.CpuUsage*/lib
 copyto=$(pwd)
 popd
 RAOT_VER=3.0.2
 Say "Loading Theraot.Core ${RAOT_VER} to $(pwd)"
-nuget install Theraot.Core -version $RAOT_VER || nuget install Theraot.Core -version $RAOT_VER || true
+nuget install Theraot.Core -version $RAOT_VER -verbosity quiet || nuget install Theraot.Core -version $RAOT_VER -verbosity quiet || true
 cd Theraot.Core*/lib
 for subdir in $(ls -1); do
   Say "TRY ${copyto}/${subdir}"
@@ -44,12 +49,11 @@ cd $copyto
 Say "CpuUsage libraries: {$(pwd)}"
 rm -rf net47 net472 net48 netcoreapp3.0 netstandard2.1
 # mkdir -p  ../../../../Tests4Linux/bin
-cp -r ./. ../../../../Tests4Linux/bin/
-popd
+cp -r ./. $bin_path/
 
-cd ../Tests4Linux
-Say "RESTORE for [$(pwd)]"
-nuget restore
+cd $SCRIPT
+Say "RESTORE for [$(pwd)] Universe.CpuUsage.MonoTests.sln"
+nuget restore Universe.CpuUsage.MonoTests.sln -verbosity quiet || nuget restore Universe.CpuUsage.MonoTests.sln -verbosity quiet
 # pushd ~/build/devizer/Universe.CpuUsage; find . ; popd
 msbuild /t:Rebuild /p:Configuration=Release /v:q
 
