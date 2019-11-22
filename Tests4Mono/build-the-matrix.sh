@@ -17,8 +17,8 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 ' > nuget.config
 
 
-mkdir -p bin matrix bin
-matrix=$(pwd)/matrix
+matrix=~/build/devizer/MATRIX-Universe.CpuUsage
+mkdir -p bin $matrix
 bin_path=$(pwd)/bin
 Say "Matrix Path: $matrix"
 Say "Library path: $bin_path"
