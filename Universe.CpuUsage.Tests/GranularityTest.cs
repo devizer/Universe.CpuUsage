@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using NUnit.Framework;
@@ -31,7 +32,7 @@ namespace Universe.CpuUsage.Tests
 
         public static GranularityCase[] GetGranularityCases()
         {
-            return new[]
+            var fullCases = new[]
             {
                 new GranularityCase(ProcessPriorityClass.AboveNormal, true),
                 new GranularityCase(ProcessPriorityClass.AboveNormal, false),
@@ -40,6 +41,11 @@ namespace Universe.CpuUsage.Tests
                 new GranularityCase(ProcessPriorityClass.BelowNormal, true),
                 new GranularityCase(ProcessPriorityClass.BelowNormal, false),
             };
+
+            if (CrossFullInfo.IsMono)
+                fullCases = fullCases.Take(1).ToArray();
+
+            return fullCases;
         }
 
 
