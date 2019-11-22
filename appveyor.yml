@@ -118,7 +118,7 @@ test_script:
     Say ".NET Core Tests"
     pushd Universe.CpuUsage.Tests 
     $cmd=if ($isWindows) {"cmd /c"} else {"sudo"}
-    & $cmd dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    & $cmd.split([char]32) dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
     popd
 
 - sh: |
