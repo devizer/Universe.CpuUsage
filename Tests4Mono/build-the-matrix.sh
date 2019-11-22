@@ -20,7 +20,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 matrix=~/build/devizer/MATRIX-Universe.CpuUsage
 mkdir -p bin $matrix
 bin_path=$(pwd)/bin
-restore_path=/tmp/RESTORE-Universe.CpuUsage
+restore_path=$(pwd)/obj/RESTORE
 mkdir -p $restore_path; rm -rf $restore_path/* || true
 Say "Matrix Path: $matrix"
 Say "Library path: $bin_path"
