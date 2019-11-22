@@ -2,7 +2,8 @@
 
 set -e
 
-pushd "$(dirname "$0")" >/dev/null; SCRIPT="$(pwd)"; popd >/dev/null
+# pushd "$(dirname "$0")" >/dev/null; SCRIPT="$(pwd)"; popd >/dev/null
+SCRIPT="$(pwd)"
 SayScript="$(pwd)/say.include.sh"
 pushd ..; StartFrom=$(pwd); popd
 source "$SayScript"
