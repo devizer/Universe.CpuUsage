@@ -74,34 +74,20 @@ script:
 - '[ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 -c Release | cat) || true'
 - '[ $OS_X_VER -ge 13 ] && (time bash benchmark.linux.sh || true;) || true'
 - |
-  if false && [[ -n "$MULTIARCH_IMAGE" ]]; then
-    # LEGACY
+  if [[ -n "$MULTIARCH_IMAGE" ]]; then
     set -e
-    docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
-    pushd Tests4Multiarch 
-    docker cp * tests:/
-    docker exec tests bash /install-mono.sh
-    docker exec tests bash -ec 'work=$HOME/build/devizer; rm -rf $work; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; cd Tests4Mac; bash -e test-using-mono-only.sh'
-
-    popd
-
-  elif [[ -n "$MULTIARCH_IMAGE" ]]; then
-    set -e
-
-    echo "Installing mono LOCALLY"
-    source Tests4Multiarch/install-mono.sh
 
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
+
+    echo "RUN TESTS in the qemu. BUILDING MATRIX"
+    cd Tests4Mono; source build-the-matrix.sh; echo $matrix_run
 
     echo "Installing mono in the QEMU"
-    docker cp Tests4Multiarch/install-mono.sh tests:/
-    docker exec tests bash /install-mono.sh
+    docker cp Tests4Mono/install-dotnet.sh tests:/
+    docker exec tests bash /install-dotnet.sh
 
-    echo "RUN TESTS in the qemu"
-    cd Tests4Mac
-    source build-the-matrix.sh; echo $matrix_run
+    
     pushd $matrix
     docker exec tests mkdir -p $matrix
     docker cp ./. tests:$(pwd)
@@ -109,6 +95,7 @@ script:
 
   else
     # MAC OS (check renice without sudo)
-    pushd Tests4Mac; bash -e test-using-mono-only.sh; popd
+    cd Tests4Mono; source build-the-matrix.sh; echo $matrix_run
+    bash -ec "$matrix_run"
   fi
     
