@@ -58,7 +58,7 @@ matrix:
 
 # https://docs.travis-ci.com/user/caching/
 before_script:
-- pushd Tests4Mono; source install-dotnet.sh; popd
+- pushd Tests4Mono; . install-dotnet.sh; popd
 - dotnet --info || true
 - mono --version || true
 - 'mono --version; msbuild /version; echo ""; nuget 2>&1 | head -4 || true'

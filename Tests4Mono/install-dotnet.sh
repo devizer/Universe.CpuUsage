@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+# set -e
 OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2 || true); OS_X_VER=$((OS_X_VER-4))
 
 DOTNET_Url=https://dot.net/v1/dotnet-install.sh
@@ -49,11 +49,12 @@ fi
 if [[ "$(uname -m)" == "aarch64" || "$(uname -m)" == "x86_64" ]] || [ $OS_X_VER -ge 13 ]; then
     time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/.dotnet)
     time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/.dotnet)
-    echo '
+    echo '#!/usr/bin/env bash
     mkdir -p $HOME/.dotnet/tools $HOME/.dotnet
     export PATH="$HOME/.dotnet:$PATH:$HOME/.dotnet/tools"
     export DOTNET_ROOT="$HOME/.dotnet"
     ' >> ~/.dotnet-env
+    chmod +x ~/.dotnet-env
     . ~/.dotnet-env
     echo '
     . ~/.dotnet-env
