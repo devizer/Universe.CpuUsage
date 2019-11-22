@@ -1,4 +1,4 @@
-# Universe.CpuUsage &nbsp;&nbsp;&nbsp; ![Nuget](https://img.shields.io/nuget/v/Universe.CpuUsage?label=nuget.org)
+# Universe.CpuUsage &nbsp;&nbsp;&nbsp; [![Nuget](https://img.shields.io/nuget/v/Universe.CpuUsage?label=nuget.org)](https://www.nuget.org/packages/Universe.CpuUsage/)
 CPU Usage for .NET Core, .NET Framework and Mono on Linux, Windows and macOS
 
 ## Crossplatform CPU Usage metrics
