@@ -106,6 +106,7 @@ namespace Universe.CpuUsage.Tests
                 Console.WriteLine(
                     $"WARNING! Process priority can not be changed. Permission is required");
             }
+/*
             try
             {
                 Process.GetCurrentProcess().PriorityClass = priority;
@@ -115,6 +116,7 @@ namespace Universe.CpuUsage.Tests
                 Console.WriteLine(
                     $"WARNING! Process priority can not be changed. Win32Exception.NativeErrorCode: {ex.NativeErrorCode}. {ex.Message}");
             }
+*/
 
             if (priority == ProcessPriorityClass.AboveNormal)
                 Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
@@ -128,14 +130,14 @@ namespace Universe.CpuUsage.Tests
 
         private static readonly Dictionary<ProcessPriorityClass, int> map = new Dictionary<ProcessPriorityClass, int>
         {
-            {ProcessPriorityClass.AboveNormal, -1},
+            {ProcessPriorityClass.AboveNormal, -6},
             {ProcessPriorityClass.Normal, 0},
-            {ProcessPriorityClass.BelowNormal, 1},
-            {ProcessPriorityClass.High, -2},
+            {ProcessPriorityClass.BelowNormal, 10},
+            {ProcessPriorityClass.High, -11},
             // Bad idea
-            {ProcessPriorityClass.Idle, 15},
+            {ProcessPriorityClass.Idle, 19},
             // Actually the is a separated API for realtime priority management
-            {ProcessPriorityClass.RealTime, -15},
+            {ProcessPriorityClass.RealTime, -19},
         };
 
 
@@ -151,8 +153,9 @@ namespace Universe.CpuUsage.Tests
             {
                 if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                     return false;
-                
+
                 // Either Linux, OSX, FreeBSD, etc - all is ok
+                // the package is bsdutils
                 map.TryGetValue(priority, out var niceness);
                 ProcessStartInfo si = new ProcessStartInfo("sudo", $"renice -n {niceness} -p {Process.GetCurrentProcess().Id}");
                 // we need to mute output of both streams to console
