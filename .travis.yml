@@ -17,6 +17,10 @@ matrix:
 #    services:
 #        - docker
 
+  - name: OS X 10.14 (.net core & mono)
+    os: osx
+    osx_image: xcode10.2
+
   - name: Linux ARM-64 (.net core & mono)
     os: linux
     dist: xenial
@@ -32,10 +36,6 @@ matrix:
     - MULTIARCH_IMAGE="multiarch/debian-debootstrap:armhf-buster"
     services:
         - docker
-
-  - name: OS X 10.14 (.net core & mono)
-    os: osx
-    osx_image: xcode10.2
 
   - name: Linux i386 (mono)
     os: linux
