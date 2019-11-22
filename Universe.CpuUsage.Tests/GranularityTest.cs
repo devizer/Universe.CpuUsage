@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using NUnit.Framework;
 using Tests;
 
@@ -11,16 +12,24 @@ namespace Universe.CpuUsage.Tests
     public class GranularityTest: NUnitTestsBase
     {
         [Test]
-        public void ShowGranularity()
+        [TestCase(ProcessPriorityClass.BelowNormal, "WITH kernel load")]
+        [TestCase(ProcessPriorityClass.Normal, "WITH kernel load")]
+        [TestCase(ProcessPriorityClass.AboveNormal, "WITH kernel load")]
+        [TestCase(ProcessPriorityClass.BelowNormal, "without kernel load")]
+        [TestCase(ProcessPriorityClass.Normal, "without kernel load")]
+        [TestCase(ProcessPriorityClass.AboveNormal, "without kernel load")]
+        public void ShowGranularity(ProcessPriorityClass priority, string includeKernelLoad)
         {
-            long preJit = LoadCpu(111);
+            bool needKernelLoad = includeKernelLoad.IndexOf("WITHOUT", StringComparison.InvariantCultureIgnoreCase) < 0;
+            ApplyPriority(priority);
+            long preJit = LoadCpu(111, true);
             Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
-            Console.WriteLine("Granularity (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
+            Console.WriteLine($"Granularity[{Process.GetCurrentProcess().PriorityClass},{includeKernelLoad}] (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
             int count = CrossFullInfo.IsMono ? 1 : 9;
             for (int i = 1; i <= count; i++)
             {
-                long granularity = LoadCpu(1000);
+                long granularity = LoadCpu(1000, needKernelLoad);
                 double microSeconds = 1000000d / granularity;
                 Console.WriteLine($" #{i}: {granularity} increments a second, eg {microSeconds:n1} microseconds in average");
 
@@ -32,7 +41,7 @@ namespace Universe.CpuUsage.Tests
         }
 
         private List<long> Population;
-        private long LoadCpu(int milliseconds)
+        private long LoadCpu(int milliseconds, bool needKernelLoad)
         {
             Population = new List<long>(7000);
             long ret = 0;
@@ -40,8 +49,12 @@ namespace Universe.CpuUsage.Tests
             CpuUsage prev = CpuUsageReader.GetByThread().Value;
             while (sw.ElapsedMilliseconds <= milliseconds)
             {
-                var ptr = Marshal.AllocHGlobal(1024);
-                Marshal.FreeHGlobal(ptr);
+                if (needKernelLoad)
+                {
+                    var ptr = Marshal.AllocHGlobal(1024);
+                    Marshal.FreeHGlobal(ptr);
+                }
+
                 CpuUsage next = CpuUsageReader.GetByThread().Value;
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
@@ -53,6 +66,19 @@ namespace Universe.CpuUsage.Tests
             }
 
             return ret;
+        }
+
+        private void ApplyPriority(ProcessPriorityClass priority)
+        {
+            Process.GetCurrentProcess().PriorityClass = priority;
+            if (priority == ProcessPriorityClass.AboveNormal)
+                Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+            else if (priority == ProcessPriorityClass.Normal)
+                Thread.CurrentThread.Priority = ThreadPriority.Normal;
+            else if (priority == ProcessPriorityClass.BelowNormal)
+                Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
+            else
+                throw new NotImplementedException($"Priority {priority} is not implemented for a thread");
         }
     }
 }
