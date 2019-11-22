@@ -122,7 +122,7 @@ test_script:
     if ($isWindows) {
              dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
     } else {
-        sudo dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+             dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
     }
 
     popd
