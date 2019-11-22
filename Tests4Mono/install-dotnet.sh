@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set -e
+set -e
 OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2 || true); OS_X_VER=$((OS_X_VER-4))
 
 DOTNET_Url=https://dot.net/v1/dotnet-install.sh
@@ -63,3 +63,4 @@ if [[ "$(uname -m)" == "aarch64" || "$(uname -m)" == "x86_64" ]] || [ $OS_X_VER 
     dotnet tool install -g BenchmarkDotNet.Tool || true
 fi
 
+set +e

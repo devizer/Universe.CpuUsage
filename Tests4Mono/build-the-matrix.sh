@@ -36,9 +36,9 @@ Say "Nuget Restore Theraot.Core ${RAOT_VER} to $(pwd)"
 nuget install Theraot.Core -version $RAOT_VER -verbosity quiet || nuget install Theraot.Core -version $RAOT_VER -verbosity quiet || true
 cd Theraot.Core*/lib
 for subdir in $(ls -1); do
-  Say "TRY ${copyto}/${subdir}"
+  # Say "TRY ${copyto}/${subdir}"
   if [[ -d "${copyto}/${subdir}" ]]; then
-    Say "COPY [Theraot.Core $RAOT_VER] @ ${subdir} to ${copyto}/${subdir}"
+    echo "COPY [Theraot.Core $RAOT_VER] @ ${subdir} to ${copyto}/${subdir}"
     cp -r ${subdir}/. "${copyto}/${subdir}"
   fi
 done
