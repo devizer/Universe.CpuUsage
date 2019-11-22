@@ -36,6 +36,16 @@ init:
         [System.String]::Concat("[", (new-object System.DateTime(0)).AddMilliseconds($Global:startAt.ElapsedMilliseconds).ToString("mm:ss"), "]");
     }; Get-Elapsed | out-null;
 
+    # Display OS and CPU
+    if ($isWindows) {
+        $currentVersion=Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+        $win_10_release_id = $currentVersion.ReleaseId; if (! $win_10_release_id) { $win_10_release_id = $currentVersion.CurrentBuildNumber }
+        $win_name = $(Get-WMIObject win32_operatingsystem -EA SilentlyContinue).Caption
+        Say "$($win_name): Release [$win_10_release_id], powershell [$($PSVersionTable.PSVersion)]"
+        $cpu=Get-WmiObject Win32_Processor; Say "CPU: $($cpu.Name), $([System.Environment]::ProcessorCount) Cores";
+    }
+
+
 - sh: |
     function header() {
       if [[ $(uname -s) != Darwin ]]; then
