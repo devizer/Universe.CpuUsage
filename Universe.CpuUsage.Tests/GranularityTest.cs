@@ -51,7 +51,8 @@ namespace Universe.CpuUsage.Tests
             long preJit = LoadCpu(111, true);
             Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
-            Console.WriteLine($"Granularity[{granularityCase}] (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
+            var actualCase = new GranularityCase(Process.GetCurrentProcess().PriorityClass, granularityCase.IncludeKernelLoad);
+            Console.WriteLine($"Granularity[{actualCase}] (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
             int count = CrossFullInfo.IsMono ? 1 : 9;
             for (int i = 1; i <= count; i++)
             {
@@ -98,7 +99,13 @@ namespace Universe.CpuUsage.Tests
         private void ApplyPriority(ProcessPriorityClass priority)
         {
             // AppVeyor: Windows - OK, linux: need sudo
-            // Travis: OSX 10.10 & 10.14 - need sudo
+            // Travis: OSX 10.10 & 10.14 - need sudo, Ubuntu - ?!
+            bool isOk = SetMyProcessPriority(priority);
+            if (!isOk)
+            {
+                Console.WriteLine(
+                    $"WARNING! Process priority can not be changed. Permission is required");
+            }
             try
             {
                 Process.GetCurrentProcess().PriorityClass = priority;
@@ -118,6 +125,58 @@ namespace Universe.CpuUsage.Tests
             else
                 throw new NotImplementedException($"Priority {priority} is not implemented for a thread");
         }
+
+        private static readonly Dictionary<ProcessPriorityClass, int> map = new Dictionary<ProcessPriorityClass, int>
+        {
+            {ProcessPriorityClass.AboveNormal, -1},
+            {ProcessPriorityClass.Normal, 0},
+            {ProcessPriorityClass.BelowNormal, 1},
+            {ProcessPriorityClass.High, -2},
+            // Bad idea
+            {ProcessPriorityClass.Idle, 15},
+            // Actually the is a separated API for realtime priority management
+            {ProcessPriorityClass.RealTime, -15},
+        };
+
+
+        static bool SetMyProcessPriority(ProcessPriorityClass priority)
+        {
+
+            try
+            {
+                Process.GetCurrentProcess().PriorityClass = priority;
+                return true;
+            }
+            catch (Win32Exception)
+            {
+                if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                    return false;
+                
+                // Either Linux, OSX, FreeBSD, etc - all is ok
+                map.TryGetValue(priority, out var niceness);
+                ProcessStartInfo si = new ProcessStartInfo("sudo", $"renice -n {niceness} -p {Process.GetCurrentProcess().Id}");
+                // we need to mute output of both streams to console
+                si.RedirectStandardError = true;
+                si.RedirectStandardOutput = true;
+                Process p = Process.Start(si);
+                // sudo may require input of password
+                // 5 seconds if for ARM under a high load
+                bool isExited = p.WaitForExit(5000);
+                if (!isExited)
+                {
+                    try
+                    {
+                        p.Kill();
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                return p.ExitCode == 0;
+            }
+        }
+
     }
 }
 
