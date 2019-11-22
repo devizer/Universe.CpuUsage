@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -70,7 +71,15 @@ namespace Universe.CpuUsage.Tests
 
         private void ApplyPriority(ProcessPriorityClass priority)
         {
-            Process.GetCurrentProcess().PriorityClass = priority;
+            try
+            {
+                Process.GetCurrentProcess().PriorityClass = priority;
+            }
+            catch (Win32Exception ex)
+            {
+                Console.WriteLine($"Win32Exception.NativeErrorCode: {ex.NativeErrorCode}. {ex.Message}" );
+            }
+
             if (priority == ProcessPriorityClass.AboveNormal)
                 Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
             else if (priority == ProcessPriorityClass.Normal)
