@@ -20,16 +20,19 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 matrix=~/build/devizer/MATRIX-Universe.CpuUsage
 mkdir -p bin $matrix
 bin_path=$(pwd)/bin
+restore_path=/tmp/RESTORE-Universe.CpuUsage
+mkdir -p $restore_path; rm -rf $restore_path/* || true
 Say "Matrix Path: $matrix"
 Say "Library path: $bin_path"
-cd $bin_path
-Say "Loading Universe.CpuUsage to [$(pwd)]"
+
+cd $restore_path
+Say "Nuget Restore Universe.CpuUsage to [$(pwd)]"
 nuget install Universe.CpuUsage -verbosity quiet || nuget install Universe.CpuUsage -verbosity quiet || true
 pushd Universe.CpuUsage*/lib
 copyto=$(pwd)
 popd
 RAOT_VER=3.0.2
-Say "Loading Theraot.Core ${RAOT_VER} to $(pwd)"
+Say "Nuget Restore Theraot.Core ${RAOT_VER} to $(pwd)"
 nuget install Theraot.Core -version $RAOT_VER -verbosity quiet || nuget install Theraot.Core -version $RAOT_VER -verbosity quiet || true
 cd Theraot.Core*/lib
 for subdir in $(ls -1); do
