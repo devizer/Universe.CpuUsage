@@ -95,7 +95,7 @@ script:
 
   else
     # MAC OS (check renice without sudo)
-    cd Tests4Mono; source build-the-matrix.sh; echo $matrix_run
+    cd Tests4Mono; set +e; source build-the-matrix.sh; echo $matrix_run
     bash -ec "$matrix_run"
   fi
     
