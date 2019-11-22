@@ -116,3 +116,5 @@ if [[ $has_dot_net == yes && "$(uname -m)" == "aarch64" ]]; then
     popd
   popd
 fi
+
+set +e
