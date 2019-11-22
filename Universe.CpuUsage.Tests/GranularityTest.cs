@@ -10,27 +10,52 @@ using Tests;
 namespace Universe.CpuUsage.Tests
 {
     [TestFixture]
-    public class GranularityTest: NUnitTestsBase
+    public class GranularityTest : NUnitTestsBase
     {
-        [Test]
-        [TestCase(ProcessPriorityClass.BelowNormal, "WITH kernel load")]
-        [TestCase(ProcessPriorityClass.Normal, "WITH kernel load")]
-        [TestCase(ProcessPriorityClass.AboveNormal, "WITH kernel load")]
-        [TestCase(ProcessPriorityClass.BelowNormal, "without kernel load")]
-        [TestCase(ProcessPriorityClass.Normal, "without kernel load")]
-        [TestCase(ProcessPriorityClass.AboveNormal, "without kernel load")]
-        public void ShowGranularity(ProcessPriorityClass priority, string includeKernelLoad)
+        public class GranularityCase
         {
-            bool needKernelLoad = includeKernelLoad.IndexOf("WITHOUT", StringComparison.InvariantCultureIgnoreCase) < 0;
-            ApplyPriority(priority);
+            public ProcessPriorityClass Priority;
+            public bool IncludeKernelLoad;
+
+            public GranularityCase(ProcessPriorityClass priority, bool includeKernelLoad)
+            {
+                Priority = priority;
+                IncludeKernelLoad = includeKernelLoad;
+            }
+
+            public override string ToString()
+            {
+                return $"{Priority} priority, {(IncludeKernelLoad ? "WITH KERNEL Load" : "without kernel load")}";
+            }
+        }
+
+        public static GranularityCase[] GetGranularityCases()
+        {
+            return new[]
+            {
+                new GranularityCase(ProcessPriorityClass.AboveNormal, true),
+                new GranularityCase(ProcessPriorityClass.AboveNormal, false),
+                new GranularityCase(ProcessPriorityClass.Normal, true),
+                new GranularityCase(ProcessPriorityClass.Normal, false),
+                new GranularityCase(ProcessPriorityClass.BelowNormal, true),
+                new GranularityCase(ProcessPriorityClass.BelowNormal, false),
+            };
+        }
+
+
+        [Test]
+        [TestCaseSource(typeof(GranularityTest), nameof(GetGranularityCases))]
+        public void ShowGranularity(GranularityCase granularityCase)
+        {
+            ApplyPriority(granularityCase.Priority);
             long preJit = LoadCpu(111, true);
             Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
-            Console.WriteLine($"Granularity[{Process.GetCurrentProcess().PriorityClass},{includeKernelLoad}] (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
+            Console.WriteLine($"Granularity[{granularityCase}] (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
             int count = CrossFullInfo.IsMono ? 1 : 9;
             for (int i = 1; i <= count; i++)
             {
-                long granularity = LoadCpu(1000, needKernelLoad);
+                long granularity = LoadCpu(1000, granularityCase.IncludeKernelLoad);
                 double microSeconds = 1000000d / granularity;
                 Console.WriteLine($" #{i}: {granularity} increments a second, eg {microSeconds:n1} microseconds in average");
 
@@ -42,6 +67,7 @@ namespace Universe.CpuUsage.Tests
         }
 
         private List<long> Population;
+
         private long LoadCpu(int milliseconds, bool needKernelLoad)
         {
             Population = new List<long>(7000);
@@ -59,7 +85,7 @@ namespace Universe.CpuUsage.Tests
                 CpuUsage next = CpuUsageReader.GetByThread().Value;
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
-                    Population.Add(CpuUsage.Substruct(next,prev).TotalMicroSeconds);
+                    Population.Add(CpuUsage.Substruct(next, prev).TotalMicroSeconds);
                     ret++;
                 }
 
@@ -71,13 +97,16 @@ namespace Universe.CpuUsage.Tests
 
         private void ApplyPriority(ProcessPriorityClass priority)
         {
+            // AppVeyor: Windows - OK, linux: need sudo
+            // Travis: OSX 10.10 & 10.14 - need sudo
             try
             {
                 Process.GetCurrentProcess().PriorityClass = priority;
             }
             catch (Win32Exception ex)
             {
-                Console.WriteLine($"Win32Exception.NativeErrorCode: {ex.NativeErrorCode}. {ex.Message}" );
+                Console.WriteLine(
+                    $"WARNING! Process priority can not be changed. Win32Exception.NativeErrorCode: {ex.NativeErrorCode}. {ex.Message}");
             }
 
             if (priority == ProcessPriorityClass.AboveNormal)
@@ -91,3 +120,4 @@ namespace Universe.CpuUsage.Tests
         }
     }
 }
+

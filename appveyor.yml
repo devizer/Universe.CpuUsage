@@ -117,7 +117,8 @@ test_script:
 - ps: |
     Say ".NET Core Tests"
     pushd Universe.CpuUsage.Tests 
-    & dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+    $cmd=if ($isWindows) {"cmd /c"} else {"sudo"}
+    & $cmd dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
     popd
 
 - sh: |
@@ -151,7 +152,7 @@ test_script:
 
         Say "Mono Tests: Run Tests for [$target]"
         pushd Universe.CpuUsage.MonoTests/bin/$cfg
-        $runner --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor || (Say "TESTING NET 2.0 ERROR"; exit 666)
+        sudo $runner --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor || (Say "TESTING NET 2.0 ERROR"; exit 666)
         popd
       
       done
