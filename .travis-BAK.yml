@@ -58,11 +58,31 @@ matrix:
 
 # https://docs.travis-ci.com/user/caching/
 before_script:
-- pushd Tests4Mono; source install-dotnet.sh; popd
-- dotnet --info
-- mono --version
-- 'mono --version; msbuild /version; echo ""; nuget 2>&1 | head -4'
 - 'printenv | sort'
+- |
+    OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2 || true); OS_X_VER=$((OS_X_VER-4))
+
+- |
+  DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
+  if [[ "$TRAVIS_OS_NAME" == "linux" || $OS_X_VER -ge 13 ]]; then
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 2.2 -i ~/.dotnet)
+      time (curl -ksSL $DOTNET_Url | bash /dev/stdin -c 3.0 -i ~/.dotnet)
+      export PATH="$HOME/.dotnet:$PATH"
+      export DOTNET_ROOT="$HOME/.dotnet"
+      dotnet tool install -g BenchmarkDotNet.Tool
+      export PATH="$HOME/.dotnet/tools:$PATH"
+      dotnet --info || true
+  fi
+
+- | 
+  MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
+  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      curl -o ~/mono.pkg $MONO_Url
+      sudo installer -verbose -pkg ~/mono.pkg -target /
+      export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
+  fi
+
+- 'mono --version; msbuild /version; echo ""; nuget 2>&1 | head -4'
   
 script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
