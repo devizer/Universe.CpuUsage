@@ -24,7 +24,7 @@ copyto=$(pwd)
 popd
 RAOT_VER=3.0.2
 Say "Loading Theraot.Core ${RAOT_VER} to $(pwd)"
-nuget install Theraot.Core -version $RAOT_VER || true
+nuget install Theraot.Core -version $RAOT_VER || nuget install Theraot.Core -version $RAOT_VER || true
 cd Theraot.Core*/lib
 for subdir in $(ls -1); do
   Say "TRY ${copyto}/${subdir}"

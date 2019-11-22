@@ -152,10 +152,13 @@ namespace Universe.CpuUsage.Tests
             catch (Win32Exception)
             {
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    // on windows we cant increase priority
                     return false;
+                }
 
                 // Either Linux, OSX, FreeBSD, etc - all is ok
-                // the package is bsdutils
+                // the package name is bsdutils
                 map.TryGetValue(priority, out var niceness);
                 ProcessStartInfo si = new ProcessStartInfo("sudo", $"renice -n {niceness} -p {Process.GetCurrentProcess().Id}");
                 // we need to mute output of both streams to console
