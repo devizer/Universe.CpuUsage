@@ -128,7 +128,7 @@ script:
     sudo docker exec tests bash -ec "$matrix_run"
 
   else
-    # MAC OS
-    pushd Tests4Mac; sudo bash -e test-using-mono-only.sh; popd
+    # MAC OS (check renice without sudo)
+    pushd Tests4Mac; bash -e test-using-mono-only.sh; popd
   fi
     

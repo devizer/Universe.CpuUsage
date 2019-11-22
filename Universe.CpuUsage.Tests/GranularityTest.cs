@@ -161,22 +161,35 @@ namespace Universe.CpuUsage.Tests
                 // we need to mute output of both streams to console
                 si.RedirectStandardError = true;
                 si.RedirectStandardOutput = true;
-                Process p = Process.Start(si);
-                // sudo may require input of password
-                // 5 seconds if for ARM under a high load
-                bool isExited = p.WaitForExit(5000);
-                if (!isExited)
+                Process p;
+                try
                 {
-                    try
-                    {
-                        p.Kill();
-                    }
-                    catch
-                    {
-                    }
+                    p = Process.Start(si);
+                }
+                catch
+                {
+                    Debug.WriteLine("It seems sudo is not installed and current user is not authorized");
+                    return false;
                 }
 
-                return p.ExitCode == 0;
+                using (p)
+                {
+                    // sudo may require input of password
+                    // 5 seconds if for ARM under a high load
+                    bool isExited = p.WaitForExit(5000);
+                    if (!isExited)
+                    {
+                        try
+                        {
+                            p.Kill();
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    return p.ExitCode == 0;
+                }
             }
         }
 
