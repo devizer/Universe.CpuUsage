@@ -2,8 +2,11 @@
 set -e
 OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2 || true); OS_X_VER=$((OS_X_VER-4))
 
+DOTNET_Url=https://dot.net/v1/dotnet-install.sh
+
 # OSX?
 if [[ "$(uname -s)" == "Darwin" ]]; then
+    MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
     curl -o ~/mono.pkg $MONO_Url
     sudo installer -verbose -pkg ~/mono.pkg -target /
     export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
