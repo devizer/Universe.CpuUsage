@@ -151,7 +151,7 @@ namespace Universe.CpuUsage.Tests
             }
             catch (Win32Exception)
             {
-                if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     return false;
 
                 // Either Linux, OSX, FreeBSD, etc - all is ok
@@ -178,6 +178,29 @@ namespace Universe.CpuUsage.Tests
 
                 return p.ExitCode == 0;
             }
+        }
+
+        static int? GetNicenessOfCurrentProcess()
+        {
+            var pid = Process.GetCurrentProcess().Id.ToString();
+            ProcessStartInfo si = new ProcessStartInfo("ps", $"ax ax -o pid,ni");
+            // we need to mute output of both streams to console
+            si.RedirectStandardError = true;
+            si.RedirectStandardOutput = true;
+            Process p = Process.Start(si);
+            var rawOutput = p.StandardOutput.ReadToEnd();
+            var rawRows = rawOutput.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var rawRow in rawRows)
+            {
+                var rawArr = rawRow.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                if (rawArr.Length >= 2 && rawArr[0] == pid)
+                {
+                    if (int.TryParse(rawArr[1], out var ret))
+                        return ret;
+                }
+            }
+
+            return null;
         }
 
     }
