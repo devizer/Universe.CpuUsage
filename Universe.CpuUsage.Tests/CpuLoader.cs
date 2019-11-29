@@ -22,7 +22,7 @@ namespace Universe.CpuUsage.Tests
         {
             long ret = 0;
             Stopwatch sw = Stopwatch.StartNew();
-            CpuUsage prev = CpuUsageReader.GetByThread().Value;
+            CpuUsage prev = CpuUsage.GetByThread().Value;
             while (sw.ElapsedMilliseconds <= milliseconds)
             {
                 if (needKernelLoad)
@@ -31,7 +31,7 @@ namespace Universe.CpuUsage.Tests
                     Marshal.FreeHGlobal(ptr);
                 }
 
-                CpuUsage next = CpuUsageReader.GetByThread().Value;
+                CpuUsage next = CpuUsage.GetByThread().Value;
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
                     Population.Add(CpuUsage.Substruct(next, prev).TotalMicroSeconds);

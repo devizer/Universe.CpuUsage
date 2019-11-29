@@ -3,8 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace Universe.CpuUsage
 {
-    public class CpuUsageReader
+    internal class CpuUsageReader
     {
+        public static bool IsSupported => _IsSupported.Value;
+        
         public static CpuUsage? GetByProcess()
         {
             return Get(CpuUsageScope.Process);
@@ -50,6 +52,21 @@ namespace Universe.CpuUsage
             
             throw new InvalidOperationException($"CPU usage in the scope of {scope} is a kind of an unknown on the {platform}");
         }
+
+        private static readonly Lazy<bool> _IsSupported = new Lazy<bool>(() =>
+        {
+            try
+            {
+                GetByProcess();
+                GetByThread();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        });
+
 
     }
 }

@@ -11,14 +11,14 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Does_Not_Fail_ByThread()
         {
-            CpuUsage? usage = CpuUsageReader.GetByThread();
+            CpuUsage? usage = CpuUsage.GetByThread();
             Console.WriteLine($"Thread's CPU Usage: {usage}");
         }
 
         [Test]
         public void Is_Not_Null_ByThread()
         {
-            var usage = CpuUsageReader.GetByThread();
+            var usage = CpuUsage.GetByThread();
             Console.WriteLine($"Thread's CPU Usage: {usage}");
             Assert.IsTrue(usage.HasValue);
         }
@@ -26,14 +26,14 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Does_Not_Fail_ByProcess()
         {
-            CpuUsage? usage = CpuUsageReader.GetByProcess();
+            CpuUsage? usage = CpuUsage.GetByProcess();
             Console.WriteLine($"Process's CPU Usage: {usage}");
         }
 
         [Test]
         public void Is_Not_Null_ByProcess()
         {
-            var usage = CpuUsageReader.GetByProcess();
+            var usage = CpuUsage.GetByProcess();
             Console.WriteLine($"Process's CPU Usage: {usage}");
             Assert.IsTrue(usage.HasValue);
         }

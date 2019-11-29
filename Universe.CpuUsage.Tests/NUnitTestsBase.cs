@@ -41,7 +41,7 @@ namespace Tests
             try
             {
                 // return LinuxResourceUsage.GetByThread();
-                return CpuUsageReader.Get(CpuUsageScope.Thread);
+                return CpuUsage.Get(CpuUsageScope.Thread);
             }
             catch
             {

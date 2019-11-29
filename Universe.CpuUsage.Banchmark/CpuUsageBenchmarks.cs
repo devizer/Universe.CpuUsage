@@ -26,13 +26,13 @@ namespace Universe.CpuUsage.Banchmark
         [Benchmark]
         public void ByProcess()
         {
-            CpuUsageReader.GetByProcess();
+            CpuUsage.GetByProcess();
         }
         
         [Benchmark]
         public void ByThread()
         {
-            CpuUsageReader.GetByProcess();
+            CpuUsage.GetByProcess();
         }
         
     }

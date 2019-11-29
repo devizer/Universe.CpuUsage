@@ -62,6 +62,7 @@ namespace Universe.CpuUsage
             else if (args.CurrentValue == null)
             {
                 var contextOnStart = ContextItem.Value;
+                ContextItem.Value = null;
                 if (contextOnStart == null) throw new InvalidOperationException(
                     "CpuUsageAsyncWatcher.OnEnd: Missing contextOnStart. Please report");
 
@@ -96,13 +97,13 @@ namespace Universe.CpuUsage
             _ContextSwitchListener.Value = "online";
         }
 
-        public static bool IsSupported => true;
+        public static bool IsSupported => true && CpuUsageReader.IsSupported;
 #else
         public CpuUsageAsyncWatcher()
         {
         }
 
-        public static bool IsSupported => false;
+        public static bool IsSupported => false && CpuUsageReader.IsSupported;
 #endif
 
     }

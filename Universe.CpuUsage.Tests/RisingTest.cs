@@ -26,7 +26,7 @@ namespace Universe.CpuUsage.Tests
 
         void Load(CpuUsageScope scope, int milliseconds)
         {
-            CpuUsage? prev = CpuUsageReader.Get(scope);
+            CpuUsage? prev = CpuUsage.Get(scope);
             Assert.IsTrue(prev.HasValue, "Prev should has value");
             Stopwatch sw = Stopwatch.StartNew();
             while (sw.ElapsedMilliseconds <= milliseconds)
@@ -39,7 +39,7 @@ namespace Universe.CpuUsage.Tests
             GC.WaitForPendingFinalizers();
             GC.Collect();
             
-            CpuUsage? next = CpuUsageReader.Get(scope);
+            CpuUsage? next = CpuUsage.Get(scope);
             double microSeconds = sw.ElapsedTicks * 1000000d / Stopwatch.Frequency; 
             Assert.IsTrue(next.HasValue, "Next should has value");
             
