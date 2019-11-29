@@ -63,13 +63,13 @@ namespace Universe.CpuUsage
             {
                 var contextOnStart = ContextItem.Value;
                 if (contextOnStart == null) throw new InvalidOperationException(
-                    "CpuUsageAsyncWatcher.OnEnd: Missing contextOnStart");
+                    "CpuUsageAsyncWatcher.OnEnd: Missing contextOnStart. Please report");
 
                 if (tid != contextOnStart.ThreadId) 
                     throw new InvalidOperationException(
                         $"CpuUsageAsyncWatcher.OnEnd: ContextItem.Value.ThreadId is not as expected." 
                         + $"Thread.CurrentThread.ManagedThreadId is {tid}. " 
-                        + $"contextOnStart.ThreadId is {contextOnStart.ThreadId}.");
+                        + $"contextOnStart.ThreadId is {contextOnStart.ThreadId}. Please report");
 
                 var ticks = contextOnStart.StartAt.ElapsedTicks;
                 var duration = ticks / (double) Stopwatch.Frequency;

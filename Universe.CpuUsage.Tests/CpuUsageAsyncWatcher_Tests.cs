@@ -13,7 +13,7 @@ namespace Universe.CpuUsage.Tests
         {
             if (!IsSupported()) return;
 
-            PreJit();
+            await PreJit();
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
             await Task.Run(() => LoadCpu(111));
             await Task.Run(() => LoadCpu(222));
