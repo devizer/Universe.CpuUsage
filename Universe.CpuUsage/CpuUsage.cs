@@ -30,7 +30,6 @@ namespace Universe.CpuUsage
         }
     }
     
-
     // replacing it to long will limit usage by 3,170,979
     [StructLayout(LayoutKind.Sequential)] 
     public struct TimeValue
