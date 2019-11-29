@@ -49,6 +49,8 @@ namespace Universe.CpuUsage
 
         private void ContextChangedHandler(AsyncLocalValueChangedArgs<object> args)
         {
+            if (!args.ThreadContextChanged) return;
+            
             int tid = Thread.CurrentThread.ManagedThreadId;
             if (args.PreviousValue == null)
             {
