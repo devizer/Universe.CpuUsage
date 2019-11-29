@@ -21,8 +21,8 @@ namespace Universe.CpuUsage.Tests
             long actualMicroseconds = watch.GetTotalCpuUsage().TotalMicroSeconds;
             long expected = 1000L * (111 + 222 + 333);
             Console.WriteLine(watch.ToHumanString(taskDescription:"SimpleTests()"));
-            // the 0.99 multiplier is need to compensate granularity and precision
-            Assert.Greater( actualMicroseconds, expected * 0.99d , "Cpu Usage in multi threaded scenario should be fully caught");
+            // the 0.95 multiplier is need to compensate granularity and precision
+            Assert.Greater( actualMicroseconds, expected * 0.95d , "Cpu Usage in multi threaded scenario should be fully caught");
         }
 
         [Test]
@@ -42,8 +42,8 @@ namespace Universe.CpuUsage.Tests
             long actualMicroseconds = totalCpuUsage.GetSummaryCpuUsage().TotalMicroSeconds;
             long expected = 1000L * (555 + 444 + 333 + 222);
             Console.WriteLine(totalCpuUsage.ToHumanString(taskDescription:"ParallelTests()"));
-            // the 0.99 multiplier is need to compensate granularity and precision
-            Assert.Greater( actualMicroseconds, expected * 0.99d, "Cpu Usage in multi threaded scenario should be caught");
+            // the 0.95 multiplier is need to compensate granularity and precision
+            Assert.Greater( actualMicroseconds, expected * 0.95d, "Cpu Usage in multi threaded scenario should be caught");
         }
 
         private void LoadCpu(int milliseconds = 42) => CpuLoader.Run(milliseconds, true);
