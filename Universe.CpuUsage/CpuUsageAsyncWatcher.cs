@@ -49,7 +49,7 @@ namespace Universe.CpuUsage
 
         private void ContextChangedHandler(AsyncLocalValueChangedArgs<object> args)
         {
-            if (!args.ThreadContextChanged) return;
+            // if (!args.ThreadContextChanged) return;
             
             int tid = Thread.CurrentThread.ManagedThreadId;
             if (args.PreviousValue == null)
@@ -89,7 +89,8 @@ namespace Universe.CpuUsage
 
 #if DEBUG
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Value Changed {(args.ThreadContextChanged ? $"WITH context #{tid}" : $"WITHOUT context #{tid}")}: {args.PreviousValue} => {args.CurrentValue}");
+            string AsString(object value) => value == null ? "offline" : Convert.ToString(value); 
+            Console.WriteLine($"Value Changed {(args.ThreadContextChanged ? $"WITH context #{tid}" : $"WITHOUT context #{tid}")}: {AsString(args.PreviousValue)} => {AsString(args.CurrentValue)}");
 #endif            
         }
 

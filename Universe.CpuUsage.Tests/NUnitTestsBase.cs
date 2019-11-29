@@ -75,6 +75,13 @@ namespace Tests
         public void BaseOneTimeSetUp()
         {
             TestConsole.Setup();
+            
+            ThreadPool.GetMinThreads(out var minWorker, out var minCompletion);
+            ThreadPool.GetMaxThreads(out var maxWorker, out var maxCompletion);
+            minWorker = 64;
+            minCompletion = 64;
+            ThreadPool.SetMinThreads(minWorker, minCompletion);
+
         }
 
         [OneTimeTearDown]
