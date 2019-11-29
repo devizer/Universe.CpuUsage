@@ -10,7 +10,7 @@ namespace Universe.CpuUsage
 {
     public class CpuUsageAsyncWatcher
     {
-        public List<ContextSwitchLogItem> Log
+        public List<ContextSwitchLogItem> Totals
         {
             get
             {
@@ -24,7 +24,7 @@ namespace Universe.CpuUsage
 
         public CpuUsage GetTotalCpuUsage()
         {
-            return CpuUsage.Sum(Log.Select(x => x.CpuUsage));
+            return Totals.GetSummaryCpuUsage();
         }  
         
         private List<ContextSwitchLogItem> _Log = new List<ContextSwitchLogItem>(); 
@@ -34,7 +34,7 @@ namespace Universe.CpuUsage
             public CpuUsage CpuUsage { get; internal set; }
         }
 
-#if NETCOREAPP || NETSTANDARD2_0 || NETSTANDARD2_1 || NET_4_8 || NET_4_7_2 || NET_4_7_1 || NET_4_7 || NET_4_6_2 || NET_4_6_1 || NET_4_6
+#if NETCOREAPP || NETSTANDARD2_0 || NETSTANDARD2_1 || NET48 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46
 
         private class ContextSwitchInfo
         {
@@ -110,15 +110,20 @@ namespace Universe.CpuUsage
 
     public static class CpuUsageAsyncWatcherExtensions
     {
-        public static string ToHumanString(this CpuUsageAsyncWatcher watcher, int indent = 2)
+        public static CpuUsage GetSummaryCpuUsage(this IEnumerable<CpuUsageAsyncWatcher.ContextSwitchLogItem> log)
+        {
+            return CpuUsage.Sum(log.Select(x => x.CpuUsage));
+        }  
+        
+        public static string ToHumanString(this ICollection<CpuUsageAsyncWatcher.ContextSwitchLogItem> log, int indent = 2, string taskDescription = "")
         {
             string pre = indent > 0 ? new string(' ', indent) : "";
             StringBuilder ret = new StringBuilder();
-            ret.AppendLine($"Total Cpu Usage is {watcher.GetTotalCpuUsage()}. Thread switches are:");
+            ret.AppendLine($"Total Cpu Usage {(taskDescription?.Length > 0 ? $"of {taskDescription} " : "")}is {log.GetSummaryCpuUsage()}. Thread switches are:");
             int n = 0;
-            int posLength = watcher.Log.Count.ToString().Length;
+            int posLength = log.Count.ToString().Length;
             string posFormat = "{0,-" + posLength + "}";
-            foreach (var l in watcher.Log)
+            foreach (var l in log)
             {
                 var delta = l.CpuUsage;
                 double elapsed = l.Duration;
@@ -132,6 +137,10 @@ namespace Universe.CpuUsage
 
             return ret.ToString();
         }
+
+        public static string ToHumanString(this CpuUsageAsyncWatcher watcher, int indent = 2, string taskDescription = "")
+        {
+            return ToHumanString(watcher.Totals, indent, taskDescription);
+        }
     }  
-    
 }

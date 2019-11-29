@@ -6,6 +6,8 @@
     <TargetFrameworks>netcoreapp3.0;netcoreapp2.2;net47</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
+
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
