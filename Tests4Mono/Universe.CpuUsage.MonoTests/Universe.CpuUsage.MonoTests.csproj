@@ -49,10 +49,16 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Universe.CpuUsage">
-      <HintPath>..\bin\net20\Universe.CpuUsage.dll</HintPath>
+      <HintPath>..\bin\net46\Universe.CpuUsage.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\CpuLoader.cs">
+      <Link>LinkedTests\CpuLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\CpuUsageAsyncWatcher_Tests.cs">
+      <Link>LinkedTests\CpuUsageAsyncWatcher_Tests.cs</Link>
+    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo\CrossInfo.cs">
       <Link>FullCrossInfo\CrossInfo.cs</Link>
     </Compile>

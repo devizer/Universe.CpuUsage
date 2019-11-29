@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Tests;
@@ -18,11 +19,18 @@ namespace Universe.CpuUsage.Tests
             await Task.Run(() => LoadCpu(milliseconds: 111));
             await Task.Run(() => LoadCpu(milliseconds: 222));
             await Task.Run(() => LoadCpu(milliseconds: 333));
-            long actualMicroseconds = watch.GetTotalCpuUsage().TotalMicroSeconds;
-            long expected = 1000L * (111 + 222 + 333);
+            var totals = watch.Totals;
+            
+            // Assert
+            long actualMicroseconds = totals.GetSummaryCpuUsage().TotalMicroSeconds;
+            long expectedMicroseconds = 1000L * (111 + 222 + 333);
             Console.WriteLine(watch.ToHumanString(taskDescription:"SimpleTests()"));
-            // the 0.95 multiplier is need to compensate granularity and precision
-            Assert.Greater( actualMicroseconds, expected * 0.95d , "Cpu Usage in multi threaded scenario should be fully caught");
+            Assert.AreEqual(6, totals.Count, "Number of context switches should be 6");
+            if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
+            {
+                // the 0.95 multiplier is need to compensate granularity and precision
+                Assert.Greater( actualMicroseconds, expectedMicroseconds * 0.95d , "Cpu Usage in multi threaded scenario should be fully caught");
+            }
         }
 
         [Test]
@@ -38,12 +46,18 @@ namespace Universe.CpuUsage.Tests
             var task1 = Task.Run(() => LoadCpu(milliseconds: 222));
             Task.WaitAll(task1, task2, task3, task4);
             await NotifyFinishedTasks();
-            var totalCpuUsage = watcher.Totals;
-            long actualMicroseconds = totalCpuUsage.GetSummaryCpuUsage().TotalMicroSeconds;
+            var totals = watcher.Totals;
+            
+            // Assert
+            long actualMicroseconds = totals.GetSummaryCpuUsage().TotalMicroSeconds;
             long expected = 1000L * (555 + 444 + 333 + 222);
-            Console.WriteLine(totalCpuUsage.ToHumanString(taskDescription:"ParallelTests()"));
-            // the 0.95 multiplier is need to compensate granularity and precision
-            Assert.Greater( actualMicroseconds, expected * 0.95d, "Cpu Usage in multi threaded scenario should be caught");
+            Console.WriteLine(totals.ToHumanString(taskDescription:"ParallelTests()"));
+            Assert.AreEqual(5, totals.Count, "Number of context switches should be 5");
+            if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
+            {
+                // the 0.95 multiplier is need to compensate granularity and precision
+                Assert.Greater(actualMicroseconds, expected * 0.95d, "Cpu Usage in multi threaded scenario should be caught");
+            }
         }
 
         private void LoadCpu(int milliseconds = 42) => CpuLoader.Run(milliseconds, true);
@@ -57,7 +71,14 @@ namespace Universe.CpuUsage.Tests
 
         async Task NotifyFinishedTasks()
         {
-            await Task.Run(() => "Nothing to do");
+            // v1
+            // await Task.Run(() => "Nothing to do");
+            
+            // v2 
+            // await Task.Delay(0);
+            
+            // v3
+            await Task.Run(() => Thread.Sleep(0));
         }
 
         bool IsSupported()

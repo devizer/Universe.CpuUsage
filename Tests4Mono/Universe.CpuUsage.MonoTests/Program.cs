@@ -13,8 +13,8 @@ namespace Universe.CpuUsage.MonoTests
         {
             Console.WriteLine($"The Platform: {CrossInfo.ThePlatform}");
             Console.WriteLine($"Process: {IntPtr.Size * 8} bits");
-            Console.WriteLine($"CPU Usage by Process: {CpuUsageReader.GetByProcess()}");
-            Console.WriteLine($"CPU Usage by Thread: {CpuUsageReader.GetByThread()}");
+            Console.WriteLine($"CPU Usage by Process: {CpuUsage.GetByProcess()}");
+            Console.WriteLine($"CPU Usage by Thread: {CpuUsage.GetByThread()}");
         }
     }
 }
