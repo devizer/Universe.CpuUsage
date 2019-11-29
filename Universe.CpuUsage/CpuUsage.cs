@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Universe.CpuUsage
@@ -14,13 +15,43 @@ namespace Universe.CpuUsage
 
         public override string ToString()
         {
-            return $"User: {UserUsage}, Kernel: {KernelUsage}";
+            return $"{{User: {UserUsage}, Kernel: {KernelUsage}}}";
         }
 
         public static CpuUsage Substruct(CpuUsage onEnd, CpuUsage onStart)
         {
             var user = onEnd.UserUsage.TotalMicroSeconds - onStart.UserUsage.TotalMicroSeconds;
             var system = onEnd.KernelUsage.TotalMicroSeconds - onStart.KernelUsage.TotalMicroSeconds;
+            const long _1M = 1000000L;
+            return new CpuUsage()
+            {
+                UserUsage = new TimeValue() {Seconds = user / _1M, MicroSeconds = user % _1M},
+                KernelUsage = new TimeValue() {Seconds = system / _1M, MicroSeconds = system % _1M},
+            };
+        }
+
+        public static CpuUsage Sum(IEnumerable<CpuUsage> list)
+        {
+            long user = 0;
+            long system = 0;
+            foreach (var item in list)
+            {
+                user += item.UserUsage.TotalMicroSeconds;
+                system += item.KernelUsage.TotalMicroSeconds;
+            }
+            
+            const long _1M = 1000000L;
+            return new CpuUsage()
+            {
+                UserUsage = new TimeValue() {Seconds = user / _1M, MicroSeconds = user % _1M},
+                KernelUsage = new TimeValue() {Seconds = system / _1M, MicroSeconds = system % _1M},
+            };
+        }
+        
+        public static CpuUsage Add(CpuUsage one, CpuUsage two)
+        {
+            long user = one.UserUsage.TotalMicroSeconds + two.UserUsage.TotalMicroSeconds;
+            long system = one.KernelUsage.TotalMicroSeconds + two.KernelUsage.TotalMicroSeconds;
             const long _1M = 1000000L;
             return new CpuUsage()
             {

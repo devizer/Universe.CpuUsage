@@ -54,7 +54,7 @@ namespace Universe.CpuUsage.Tests
         public void ShowGranularity(GranularityCase granularityCase)
         {
             ApplyPriority(granularityCase.Priority);
-            long preJit = LoadCpu(111, true);
+            var preJit = CpuLoader.Run(11, true).IncrementsCount;
             Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
             var actualCase = new GranularityCase(Process.GetCurrentProcess().PriorityClass, granularityCase.IncludeKernelLoad);
@@ -62,17 +62,19 @@ namespace Universe.CpuUsage.Tests
             int count = CrossFullInfo.IsMono ? 1 : 9;
             for (int i = 1; i <= count; i++)
             {
-                long granularity = LoadCpu(1000, granularityCase.IncludeKernelLoad);
+                var cpuLoadResult = CpuLoader.Run(1000, granularityCase.IncludeKernelLoad);
+                long granularity = cpuLoadResult.IncrementsCount;
                 double microSeconds = 1000000d / granularity;
                 Console.WriteLine($" #{i}: {granularity} increments a second, eg {microSeconds:n1} microseconds in average");
 
-                Statistica<long> stat = new Statistica<long>(Population, x => (double) x, x => x, x => x.ToString("n3"));
+                Statistica<long> stat = new Statistica<long>(cpuLoadResult.Population, x => (double) x, x => x, x => x.ToString("n3"));
                 var histogram = stat.BuildReport(12, 3);
                 Console.WriteLine(histogram.ToConsole("CPU Usage increments (microseconds)", 42));
             }
 
         }
 
+/*
         private List<long> Population;
 
         private long LoadCpu(int milliseconds, bool needKernelLoad)
@@ -101,6 +103,7 @@ namespace Universe.CpuUsage.Tests
 
             return ret;
         }
+*/
 
         private void ApplyPriority(ProcessPriorityClass priority)
         {
