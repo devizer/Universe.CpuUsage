@@ -67,7 +67,9 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public async Task ConcurrentTest()
         {
-            var cts = new CancellationTokenSource();
+            if (!IsSupported()) return;
+            
+            // var cts = new CancellationTokenSource();
             Task[] tasks = new Task[3];
             int errors = 0;
             for (int i = 0; i < tasks.Length; i++)
@@ -84,11 +86,11 @@ namespace Universe.CpuUsage.Tests
                         watcher.Stop();
                         Console.WriteLine(watcher.ToHumanString(taskDescription:$"'Expected CPU Load is {(iCopy+1)} seconds'"));
                         // Assert: CpuUsage should be about (iCopy + 1) seconds
-                        var actual = watcher.GetTotalCpuUsage().TotalMicroSeconds / 1000000d;
-                        var expected = iCopy + 1d;
-                        if (Math.Abs(actual - expected) > 0.2d) Interlocked.Increment(ref errors);
+                        var actualSeconds = watcher.GetTotalCpuUsage().TotalMicroSeconds / 1000000d;
+                        var expectedSeconds = iCopy + 1d;
+                        if (Math.Abs(actualSeconds - expectedSeconds) > 0.2d) Interlocked.Increment(ref errors);
 
-                    }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
+                    }, TaskCreationOptions.LongRunning).Unwrap();
             }
 
             Task.WaitAll(tasks);
