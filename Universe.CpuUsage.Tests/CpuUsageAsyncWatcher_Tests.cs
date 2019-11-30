@@ -22,8 +22,9 @@ namespace Universe.CpuUsage.Tests
 
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
             await Task.Run(() => LoadCpu(milliseconds: 200));
-            await Task.Run(() => LoadCpu(milliseconds: 400));
+            await Task.Run(() => LoadCpu(milliseconds: 500));
             await Task.Run(() => LoadCpu(milliseconds: 800));
+            watch.Stop();
             var totals = watch.Totals;
             
             // Assert
@@ -45,13 +46,15 @@ namespace Universe.CpuUsage.Tests
         {
             if (!IsSupported()) return;
             
+            // load duration is for debugging
             CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
-            var task4 = Task.Run(() => LoadCpu(milliseconds: 800));
-            var task3 = Task.Run(() => LoadCpu(milliseconds: 600));
-            var task2 = Task.Run(() => LoadCpu(milliseconds: 400));
-            var task1 = Task.Run(() => LoadCpu(milliseconds: 200));
+            var task4 = Task.Run(() => LoadCpu(milliseconds: 2400));
+            var task3 = Task.Run(() => LoadCpu(milliseconds: 2100));
+            var task2 = Task.Run(() => LoadCpu(milliseconds: 1800));
+            var task1 = Task.Run(() => LoadCpu(milliseconds: 1500));
             Task.WaitAll(task1, task2, task3, task4);
             await NotifyFinishedTasks();
+            watcher.Stop();
             var totals = watcher.Totals;
             
             // Assert
