@@ -9,10 +9,9 @@ namespace Universe.CpuUsage.Tests
     [TestFixture]
     public class CpuUsageAsyncWatcher_Tests : NUnitTestsBase
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
-            Console.WriteLine("Pre-Jitting CpuUsageAsyncWatcher class");
             PreJit().Wait();
         }
         
@@ -22,9 +21,9 @@ namespace Universe.CpuUsage.Tests
             if (!IsSupported()) return;
 
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
-            await Task.Run(() => LoadCpu(milliseconds: 111));
-            await Task.Run(() => LoadCpu(milliseconds: 222));
-            await Task.Run(() => LoadCpu(milliseconds: 333));
+            await Task.Run(() => LoadCpu(milliseconds: 200));
+            await Task.Run(() => LoadCpu(milliseconds: 400));
+            await Task.Run(() => LoadCpu(milliseconds: 800));
             var totals = watch.Totals;
             
             // Assert
@@ -47,10 +46,10 @@ namespace Universe.CpuUsage.Tests
             if (!IsSupported()) return;
             
             CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
-            var task4 = Task.Run(() => LoadCpu(milliseconds: 555));
-            var task3 = Task.Run(() => LoadCpu(milliseconds: 444));
-            var task2 = Task.Run(() => LoadCpu(milliseconds: 333));
-            var task1 = Task.Run(() => LoadCpu(milliseconds: 222));
+            var task4 = Task.Run(() => LoadCpu(milliseconds: 800));
+            var task3 = Task.Run(() => LoadCpu(milliseconds: 600));
+            var task2 = Task.Run(() => LoadCpu(milliseconds: 400));
+            var task1 = Task.Run(() => LoadCpu(milliseconds: 200));
             Task.WaitAll(task1, task2, task3, task4);
             await NotifyFinishedTasks();
             var totals = watcher.Totals;
@@ -74,12 +73,13 @@ namespace Universe.CpuUsage.Tests
 
         private async Task PreJit()
         {
+            Console.WriteLine("Pre-Jitting CpuUsageAsyncWatcher class");
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
             await Task.Run(() => LoadCpu(1));
             await NotifyFinishedTasks();
             var _ = watch.ToHumanString();
             watch.Stop();
-            
+            Console.WriteLine("Pre-Jitted CpuUsageAsyncWatcher class");
         }
 
         async Task NotifyFinishedTasks()
