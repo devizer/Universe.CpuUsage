@@ -34,6 +34,11 @@ namespace Universe.CpuUsage
             public double Duration { get; internal set; }
             public CpuUsage CpuUsage { get; internal set; }
         }
+        
+        public void Stop()
+        {
+            IsRunning = false;
+        }
 
 #if NETCOREAPP || NETSTANDARD2_0 || NETSTANDARD2_1 || NET48 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46
 
@@ -42,11 +47,6 @@ namespace Universe.CpuUsage
             public int ThreadId;
             public Stopwatch StartAt;
             public CpuUsage UsageOnStart;
-        }
-
-        public void Stop()
-        {
-            IsRunning = false;
         }
 
         private static ThreadLocal<ContextSwitchInfo> ContextItem = new ThreadLocal<ContextSwitchInfo>();
