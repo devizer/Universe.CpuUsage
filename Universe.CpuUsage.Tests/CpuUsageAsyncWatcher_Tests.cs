@@ -64,6 +64,37 @@ namespace Universe.CpuUsage.Tests
             Assert.GreaterOrEqual(actualMicroseconds, expected, "Actual CPU Usage should be about as expected.");
         }
 
+        [Test]
+        public async Task ConcurrentTest()
+        {
+            var cts = new CancellationTokenSource();
+            Task[] tasks = new Task[3];
+            int errors = 0;
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                var iCopy = i;
+                tasks[i] = Task.Factory.StartNew(
+                    async () =>
+                    {
+                        CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
+                        for (int j = 0; j < iCopy * 2 + 2; j++)
+                        {
+                            await Task.Run(() => LoadCpu(500));
+                        }
+                        watcher.Stop();
+                        Console.WriteLine(watcher.ToHumanString(taskDescription:$"'Expected CPU Load is {(iCopy+1)} seconds'"));
+                        // Assert: CpuUsage should be about (iCopy + 1) seconds
+                        var actual = watcher.GetTotalCpuUsage().TotalMicroSeconds / 1000000d;
+                        var expected = iCopy + 1d;
+                        if (Math.Abs(actual - expected) > 0.2d) Interlocked.Increment(ref errors);
+
+                    }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default).Unwrap();
+            }
+
+            Task.WaitAll(tasks);
+            Assert.IsTrue(errors == 0, "Concurrent CpuUsageAsyncWatcher should not infer on each other. See details above");
+        }
+
         // Load CPU Usage at least number of milliseconds 
         private void LoadCpu(int milliseconds = 42) => CpuLoader.Run(minDuration: milliseconds, minCpuUsage: milliseconds, needKernelLoad: true);
 
