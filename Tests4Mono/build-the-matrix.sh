@@ -75,7 +75,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
 
         Say "Mono Tests: msbuild rebuild for [$target]"
         sed_cmd="s/\.\.\\bin\\net46\\Universe/\.\.\\bin\\${target}\\Universe/g"
-        sed_cmd="s/net20/${target}/g"
+        sed_cmd="s/net46/${target}/g"
         
         cp -f ${proj}-bak ${proj}
         sed "$sed_cmd" ${proj}-bak > ${proj}
