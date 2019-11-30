@@ -16,7 +16,6 @@ namespace Universe.CpuUsage
             return Get(CpuUsageScope.Process);
         }
 
-        // for intellisense
         public static bool IsSupported => CpuUsageReader.IsSupported; 
 
         // for intellisense
@@ -44,7 +43,6 @@ namespace Universe.CpuUsage
             UserUsage = new TimeValue() {Seconds = userMicroseconds / _1M, MicroSeconds = userMicroseconds % _1M};
             KernelUsage = new TimeValue() {Seconds = kernelMicroseconds / _1M, MicroSeconds = kernelMicroseconds % _1M};
         }
-
 
 
         public long TotalMicroSeconds => UserUsage.TotalMicroSeconds + KernelUsage.TotalMicroSeconds;

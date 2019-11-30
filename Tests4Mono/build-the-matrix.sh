@@ -100,7 +100,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
         printf 'echo ""; popd >/dev/null\n\n' >> $matrix/run.sh
       done
 
-echo 'Say "Total Success: $success, Errors: $errors"; exit $errors' >> $matrix/run.sh
+echo 'Say "Target Summary. Success: $success, Errors: $errors"; exit $errors' >> $matrix/run.sh
 chmod +x $matrix/run.sh
 
 
