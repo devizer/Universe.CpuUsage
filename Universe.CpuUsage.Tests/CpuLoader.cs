@@ -11,10 +11,10 @@ namespace Universe.CpuUsage.Tests
 
         public int IncrementsCount => Population.Count;
 
-        public static CpuLoader Run(int milliseconds, bool needKernelLoad)
+        public static CpuLoader Run(int minDuration, bool needKernelLoad)
         {
             CpuLoader ret = new CpuLoader();
-            ret.LoadCpu(milliseconds, needKernelLoad);
+            ret.LoadCpu(minDuration, needKernelLoad);
             return ret;
         }
 
