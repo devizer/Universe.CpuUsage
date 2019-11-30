@@ -34,12 +34,12 @@ namespace Universe.CpuUsage.Tests
         {
             var fullCases = new[]
             {
-                new GranularityCase(ProcessPriorityClass.AboveNormal, true),
                 new GranularityCase(ProcessPriorityClass.AboveNormal, false),
-                new GranularityCase(ProcessPriorityClass.Normal, true),
+                new GranularityCase(ProcessPriorityClass.AboveNormal, true),
                 new GranularityCase(ProcessPriorityClass.Normal, false),
-                new GranularityCase(ProcessPriorityClass.BelowNormal, true),
+                new GranularityCase(ProcessPriorityClass.Normal, true),
                 new GranularityCase(ProcessPriorityClass.BelowNormal, false),
+                new GranularityCase(ProcessPriorityClass.BelowNormal, true),
             };
 
             if (CrossFullInfo.IsMono)
