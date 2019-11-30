@@ -43,7 +43,7 @@ namespace Universe.CpuUsage.Tests
             };
 
             if (CrossFullInfo.IsMono)
-                fullCases = fullCases.Take(1).ToArray();
+                return new[] {new GranularityCase(ProcessPriorityClass.AboveNormal, false),};
 
             return fullCases;
         }
