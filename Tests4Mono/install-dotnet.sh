@@ -46,6 +46,8 @@ else
 
 fi
 
+echo "uname -m: $(uname -m)"
+
 if [[ "$(uname -m)" == "aarch64" || "$(uname -m)" == "x86_64" ]] || [ $OS_X_VER -ge 13 ]; then
     DOTNET_Url=https://dot.net/v1/dotnet-install.sh
     cmd_curl_dotnet_install="curl -ksSL -o /tmp/dotnet-install.sh $DOTNET_Url"
