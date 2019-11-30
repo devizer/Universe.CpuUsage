@@ -15,7 +15,7 @@
         <Title>Universe.CpuUsage</Title>
         <Authors>Volodymyr Hoida</Authors>
         <Product>Universe.CpuUsage</Product>
-        <Description>It receives the amount of time that the current thread/process has executed in kernel and user mode. Works everywhere: Linux, OSX and Windows.
+        <Description>It receives the amount of time that the current thread/process has executed in kernel and user mode including async/await scenarios. Works everywhere: Linux, OSX and Windows.
 Targets everywhere: Net Framework 2.0+ and Net Standard 1.3+, Net Core 1.0+</Description>
         <PackageProjectUrl>https://github.com/devizer/Universe.CpuUsage</PackageProjectUrl>
         <RepositoryUrl>https://github.com/devizer/Universe.CpuUsage</RepositoryUrl>
