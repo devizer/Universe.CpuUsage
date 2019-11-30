@@ -94,9 +94,10 @@ script:
     sudo docker exec tests bash -ec "$matrix_run"
 
   else
-    # MAC OS (check renice without sudo)
+    # MAC OS (check renice without sudo), both 14th and 10th
     echo "Starting tests using Mono in [$(pwd)]"
     cd Tests4Mono; set +e; source build-the-matrix.sh; echo $matrix_run
-    # bash -ec "$matrix_run" || true
+    # need -e -c
+    bash -c "$matrix_run" || true
   fi
     
