@@ -38,7 +38,7 @@ cd Theraot.Core*/lib
 for subdir in $(ls -1); do
   # Say "TRY ${copyto}/${subdir}"
   if [[ -d "${copyto}/${subdir}" ]]; then
-    echo "COPY [Theraot.Core $RAOT_VER] @ ${subdir} to ${copyto}/${subdir}"
+    echo -e "COPY [Theraot.Core $RAOT_VER] @ ${subdir} to\n     [${copyto}/${subdir}]"
     cp -r ${subdir}/. "${copyto}/${subdir}"
   fi
 done
