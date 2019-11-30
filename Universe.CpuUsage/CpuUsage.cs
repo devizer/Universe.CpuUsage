@@ -51,7 +51,10 @@ namespace Universe.CpuUsage
 
         public override string ToString()
         {
-            return $"{{User: {UserUsage}, Kernel: {KernelUsage}}}";
+            var user = UserUsage.TotalMicroSeconds;
+            var kernel = KernelUsage.TotalMicroSeconds;
+            return $"{{{(user + kernel) / 1000d:n3} = {user / 1000d:n3} [user] + {kernel / 1000d:n3} [kernel] milliseconds}}";
+            // return $"{{User: {UserUsage}, Kernel: {KernelUsage}}}";
         }
 
         public static CpuUsage Substruct(CpuUsage onEnd, CpuUsage onStart)

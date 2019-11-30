@@ -15,6 +15,7 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public async Task AwaitForEachTests()
         {
+            await Task.Run(() => "nothing to do");
         }
         
     }
