@@ -71,6 +71,7 @@ namespace Universe.CpuUsage.Tests
         {
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
             await Task.Run(() => LoadCpu(1));
+            await NotifyFinishedTasks();
             var _ = watch.ToHumanString();
         }
 

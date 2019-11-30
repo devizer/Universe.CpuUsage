@@ -12,7 +12,7 @@ namespace Universe.CpuUsage.Tests
         public int IncrementsCount => Population.Count;
 
         // MILLI seconds
-        public static CpuLoader Run(int minDuration = 200, int minCpuUsage = 200, bool needKernelLoad = true)
+        public static CpuLoader Run(int minDuration = 1, int minCpuUsage = 1, bool needKernelLoad = true)
         {
             CpuLoader ret = new CpuLoader();
             ret.LoadCpu(minDuration, minCpuUsage, needKernelLoad);
@@ -28,11 +28,16 @@ namespace Universe.CpuUsage.Tests
             var firstUsage = prev;
             CpuUsage next = prev;
             
-            while (sw.ElapsedMilliseconds <= minDuration && (CpuUsage.Substruct(next, firstUsage).TotalMicroSeconds <= minCpuUsage * 1000L))
+            while (true)
             {
+                bool isDone = sw.ElapsedMilliseconds >= minDuration
+                              && (CpuUsage.Substruct(next, firstUsage).TotalMicroSeconds >= minCpuUsage * 1000L);
+
+                if (isDone) break;
+                
                 if (needKernelLoad)
                 {
-                    var ptr = Marshal.AllocHGlobal(1024);
+                    var ptr = Marshal.AllocHGlobal(512*1024);
                     Marshal.FreeHGlobal(ptr);
                 }
 
