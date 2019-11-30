@@ -10,6 +10,7 @@ namespace Universe.CpuUsage
 {
     public class CpuUsageAsyncWatcher
     {
+        private bool IsRunning = true;
         public List<ContextSwitchLogItem> Totals
         {
             get
@@ -43,6 +44,11 @@ namespace Universe.CpuUsage
             public CpuUsage UsageOnStart;
         }
 
+        public void Stop()
+        {
+            IsRunning = false;
+        }
+
         private static ThreadLocal<ContextSwitchInfo> ContextItem = new ThreadLocal<ContextSwitchInfo>();
 
         private AsyncLocal<object> _ContextSwitchListener;
@@ -50,6 +56,7 @@ namespace Universe.CpuUsage
         private void ContextChangedHandler(AsyncLocalValueChangedArgs<object> args)
         {
             // if (!args.ThreadContextChanged) return;
+            if (!IsRunning) return;
             
             int tid = Thread.CurrentThread.ManagedThreadId;
             if (args.PreviousValue == null)

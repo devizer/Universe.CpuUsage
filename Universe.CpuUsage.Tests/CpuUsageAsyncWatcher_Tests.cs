@@ -9,12 +9,18 @@ namespace Universe.CpuUsage.Tests
     [TestFixture]
     public class CpuUsageAsyncWatcher_Tests : NUnitTestsBase
     {
+        [SetUp]
+        public void SetUp()
+        {
+            Console.WriteLine("Pre-Jitting CpuUsageAsyncWatcher class");
+            PreJit().Wait();
+        }
+        
         [Test]
         public async Task SimpleTests()
         {
             if (!IsSupported()) return;
 
-            await PreJit();
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
             await Task.Run(() => LoadCpu(milliseconds: 111));
             await Task.Run(() => LoadCpu(milliseconds: 222));
@@ -40,7 +46,6 @@ namespace Universe.CpuUsage.Tests
         {
             if (!IsSupported()) return;
             
-            await PreJit();
             CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
             var task4 = Task.Run(() => LoadCpu(milliseconds: 555));
             var task3 = Task.Run(() => LoadCpu(milliseconds: 444));
@@ -73,6 +78,8 @@ namespace Universe.CpuUsage.Tests
             await Task.Run(() => LoadCpu(1));
             await NotifyFinishedTasks();
             var _ = watch.ToHumanString();
+            watch.Stop();
+            
         }
 
         async Task NotifyFinishedTasks()
