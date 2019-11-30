@@ -128,44 +128,10 @@ test_script:
     popd
 
 - sh: |
-      Say "Mono Tests: Copy the build folder"
-      mkdir -p Tests4Linux/bin
-      cp -r "Universe.CpuUsage/bin/Any CPU/Debug/." Tests4Linux/bin/
-
-      Say "Mono Tests: nuget restore"
-      pushd Tests4Linux
-      nuget restore -verbosity quiet
-      
-      proj=Universe.CpuUsage.MonoTests/Universe.CpuUsage.MonoTests.csproj
-      cp -f ${proj} ${proj}-bak
-      for target_dir in $(ls -d bin/*/); do
-        target=$(basename $target_dir)
-
-        Say "Mono Tests: msbuild rebuild for [$target]"
-        sed_cmd="s/\.\.\\bin\\net20\\Universe/\.\.\\bin\\${target}\\Universe/g"
-        sed_cmd="s/net20/${target}/g"
-        
-        cp -f ${proj}-bak ${proj}
-        sed -i "$sed_cmd" $proj
-        echo "REF: $(cat $proj | grep $target)"
-        
-        cfg=Release
-        msbuild /t:Rebuild /p:Configuration=$cfg /v:q
-        
-        pushd packages/NUnit.ConsoleRunner*/tools >/dev/null
-        runner=$(pwd)/nunit3-console.exe
-        popd >/dev/null
-
-        Say "Mono Tests: Run Tests for [$target]"
-        pushd Universe.CpuUsage.MonoTests/bin/$cfg >/dev/null
-        sudo $runner --workers=1 Universe.CpuUsage.MonoTests.exe --result=MonoTests.xml;format=AppVeyor || (Say "TESTING NET 2.0 ERROR"; exit 666)
-        popd >/dev/null
-      
-      done
-
-      
-      popd
-      Say "Mono Tests: Done"
+      echo "Starting tests using Mono in [$(pwd)]"
+      cd Tests4Mono; set +e; source build-the-matrix.sh; echo $matrix_run
+      # need -e -c
+      bash -e -c "$matrix_run" || true
 
 - ps: | 
 
