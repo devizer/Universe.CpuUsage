@@ -7,23 +7,28 @@ namespace Universe.CpuUsage.Tests
     public class CpuLoader
     {
         // contains value of each CpuUsage increment 
-        public readonly List<long> Population = new List<long>(10000);
+        public readonly List<long> Population = new List<long>(64000/8);
 
         public int IncrementsCount => Population.Count;
 
-        public static CpuLoader Run(int minDuration, bool needKernelLoad)
+        // MILLI seconds
+        public static CpuLoader Run(int minDuration = 200, int minCpuUsage = 200, bool needKernelLoad = true)
         {
             CpuLoader ret = new CpuLoader();
-            ret.LoadCpu(minDuration, needKernelLoad);
+            ret.LoadCpu(minDuration, minCpuUsage, needKernelLoad);
             return ret;
         }
 
-        public long LoadCpu(int milliseconds, bool needKernelLoad)
+        // MILLI seconds
+        private long LoadCpu(int minDuration, int minCpuUsage, bool needKernelLoad)
         {
             long ret = 0;
             Stopwatch sw = Stopwatch.StartNew();
             CpuUsage prev = CpuUsage.GetByThread().Value;
-            while (sw.ElapsedMilliseconds <= milliseconds)
+            var firstUsage = prev;
+            CpuUsage next = prev;
+            
+            while (sw.ElapsedMilliseconds <= minDuration && (CpuUsage.Substruct(next, firstUsage).TotalMicroSeconds <= minCpuUsage * 1000L))
             {
                 if (needKernelLoad)
                 {
@@ -31,7 +36,7 @@ namespace Universe.CpuUsage.Tests
                     Marshal.FreeHGlobal(ptr);
                 }
 
-                CpuUsage next = CpuUsage.GetByThread().Value;
+                next = CpuUsage.GetByThread().Value;
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
                     Population.Add(CpuUsage.Substruct(next, prev).TotalMicroSeconds);

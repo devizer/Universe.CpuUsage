@@ -54,7 +54,7 @@ namespace Universe.CpuUsage.Tests
         public void ShowGranularity(GranularityCase granularityCase)
         {
             ApplyPriority(granularityCase.Priority);
-            var preJit = CpuLoader.Run(11, true).IncrementsCount;
+            var preJit = CpuLoader.Run(11, 1, true).IncrementsCount;
             Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
             var actualCase = new GranularityCase(Process.GetCurrentProcess().PriorityClass, granularityCase.IncludeKernelLoad);
@@ -62,7 +62,7 @@ namespace Universe.CpuUsage.Tests
             int count = CrossFullInfo.IsMono ? 1 : 9;
             for (int i = 1; i <= count; i++)
             {
-                var cpuLoadResult = CpuLoader.Run(1000, granularityCase.IncludeKernelLoad);
+                var cpuLoadResult = CpuLoader.Run(minDuration: 1000, needKernelLoad: granularityCase.IncludeKernelLoad);
                 long granularity = cpuLoadResult.IncrementsCount;
                 double microSeconds = 1000000d / granularity;
                 Console.WriteLine($" #{i}: {granularity} increments a second, eg {microSeconds:n1} microseconds in average");
