@@ -35,8 +35,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine(watch.ToHumanString(taskDescription:"SimpleTests()"));
             
             Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
-            // the 0.95 multiplier is need to compensate granularity and precision
-            Assert.Greater(actualMicroseconds, 0.95d * expectedMicroseconds, "Actual CPU Usage should be about as expected.");
+            Assert.GreaterOrEqual(actualMicroseconds, expectedMicroseconds, "Actual CPU Usage should be about as expected.");
         }
 
         [Test]
@@ -62,8 +61,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine(totals.ToHumanString(taskDescription:"ParallelTests()"));
             // 7 for windows 8 cores, rarely 6 for slow 2 core machine
             Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
-            // the 0.95 multiplier is need to compensate granularity and precision
-            Assert.Greater(actualMicroseconds, 0.95d * expected, "Actual CPU Usage should be about as expected.");
+            Assert.GreaterOrEqual(actualMicroseconds, expected, "Actual CPU Usage should be about as expected.");
         }
 
         // Load CPU Usage at least number of milliseconds 
