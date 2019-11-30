@@ -20,38 +20,32 @@ namespace Universe.CpuUsage.Tests
         }
 
         // MILLI seconds
-        private long LoadCpu(int minDuration, int minCpuUsage, bool needKernelLoad)
+        private void LoadCpu(int minDuration, int minCpuUsage, bool needKernelLoad)
         {
-            long ret = 0;
             Stopwatch sw = Stopwatch.StartNew();
             CpuUsage prev = CpuUsage.GetByThread().Value;
             var firstUsage = prev;
-            CpuUsage next = prev;
+            bool isDone = false;
             
-            while (true)
+            while (!isDone)
             {
-                bool isDone = sw.ElapsedMilliseconds >= minDuration
-                              && (CpuUsage.Substruct(next, firstUsage).TotalMicroSeconds >= minCpuUsage * 1000L);
-
-                if (isDone) break;
-                
                 if (needKernelLoad)
                 {
                     var ptr = Marshal.AllocHGlobal(512*1024);
                     Marshal.FreeHGlobal(ptr);
                 }
 
-                next = CpuUsage.GetByThread().Value;
+                CpuUsage next = CpuUsage.GetByThread().Value;
                 if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
-                    Population.Add(CpuUsage.Substruct(next, prev).TotalMicroSeconds);
-                    ret++;
+                    var increment = CpuUsage.Substruct(next, prev).TotalMicroSeconds;
+                    Population.Add(increment);
                 }
-
                 prev = next;
-            }
 
-            return ret;
+                isDone = sw.ElapsedMilliseconds >= minDuration
+                         && (CpuUsage.Substruct(next, firstUsage).TotalMicroSeconds >= minCpuUsage * 1000L);
+            }
         }
 
     }
