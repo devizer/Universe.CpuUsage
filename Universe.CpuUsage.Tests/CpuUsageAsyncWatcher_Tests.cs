@@ -29,7 +29,7 @@ namespace Universe.CpuUsage.Tests
             
             // Assert
             long actualMicroseconds = totals.GetSummaryCpuUsage().TotalMicroSeconds;
-            long expectedMicroseconds = 1000L * (111 + 222 + 333);
+            long expectedMicroseconds = 1000L * (200 + 500 + 800);
             Console.WriteLine($"Expected usage: {(expectedMicroseconds/1000):n3}, Actual usage: {(actualMicroseconds/1000):n3} milliseconds");            
             Console.WriteLine(watch.ToHumanString(taskDescription:"SimpleTests()"));
             
@@ -59,7 +59,7 @@ namespace Universe.CpuUsage.Tests
             
             // Assert
             long actualMicroseconds = totals.GetSummaryCpuUsage().TotalMicroSeconds;
-            long expected = 1000L * (555 + 444 + 333 + 222);
+            long expected = 1000L * (2400 + 2100 + 1800 + 1500);
             Console.WriteLine($"Expected usage: {(expected/1000):n3}, Actual usage: {(actualMicroseconds/1000):n3} milliseconds");
             Console.WriteLine(totals.ToHumanString(taskDescription:"ParallelTests()"));
             // 5 for windows 8 cores, 6 for linux 2 cores
