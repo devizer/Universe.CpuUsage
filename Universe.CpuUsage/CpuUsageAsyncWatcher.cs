@@ -89,7 +89,7 @@ namespace Universe.CpuUsage
 
 #if DEBUG
             Console.ForegroundColor = ConsoleColor.Cyan;
-            string AsString(object value) => value == null ? "offline" : Convert.ToString(value); 
+            string AsString(object value) => value == null ? "off" : Convert.ToString(value); 
             Console.WriteLine($"Value Changed {(args.ThreadContextChanged ? $"WITH context #{tid}" : $"WITHOUT context #{tid}")}: {AsString(args.PreviousValue)} => {AsString(args.CurrentValue)}");
 #endif            
         }
@@ -97,7 +97,7 @@ namespace Universe.CpuUsage
         public CpuUsageAsyncWatcher()
         {
             _ContextSwitchListener = new AsyncLocal<object>(ContextChangedHandler);
-            _ContextSwitchListener.Value = "online";
+            _ContextSwitchListener.Value = "Online";
         }
 
         public static bool IsSupported => true && CpuUsageReader.IsSupported;

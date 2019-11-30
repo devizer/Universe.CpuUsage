@@ -24,12 +24,14 @@ namespace Universe.CpuUsage.Tests
             // Assert
             long actualMicroseconds = totals.GetSummaryCpuUsage().TotalMicroSeconds;
             long expectedMicroseconds = 1000L * (111 + 222 + 333);
+            Console.WriteLine($"Expected usage: {(expectedMicroseconds/1000):n3}, Actual usage: {(actualMicroseconds/1000):n3} milliseconds");            
             Console.WriteLine(watch.ToHumanString(taskDescription:"SimpleTests()"));
-            Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6");
+            
+            Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
             // the 0.95 multiplier is need to compensate granularity and precision
             if (actualMicroseconds < 0.95d * expectedMicroseconds)
             {
-                Assert.Warn("Actual CPU Usage should be about as expected.");
+                Console.WriteLine("Warning! 2 cores is not yet enough. Actual CPU Usage should be about as expected.");
             }
         }
 
@@ -51,14 +53,14 @@ namespace Universe.CpuUsage.Tests
             // Assert
             long actualMicroseconds = totals.GetSummaryCpuUsage().TotalMicroSeconds;
             long expected = 1000L * (555 + 444 + 333 + 222);
-            Console.WriteLine($"Expected: {(expected/1000):n3}, Actual: {(actualMicroseconds/1000):n3} milliseconds");
+            Console.WriteLine($"Expected usage: {(expected/1000):n3}, Actual usage: {(actualMicroseconds/1000):n3} milliseconds");
             Console.WriteLine(totals.ToHumanString(taskDescription:"ParallelTests()"));
             // 5 for windows 8 cores, 6 for linux 2 cores
-            Assert.GreaterOrEqual(totals.Count, 5, "Number of context switches should be 5");
+            Assert.GreaterOrEqual(totals.Count, 5, "Number of context switches should be 5 at least");
             // the 0.95 multiplier is need to compensate granularity and precision
             if (actualMicroseconds < 0.95d * expected)
             {
-                Assert.Warn("Actual CPU Usage should be about as expected.");
+                Console.WriteLine("Warning! 2 cores is not yet enough. Actual CPU Usage should be about as expected.");
             }
         }
 
