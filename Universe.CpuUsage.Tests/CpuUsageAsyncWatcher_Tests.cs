@@ -102,7 +102,7 @@ namespace Universe.CpuUsage.Tests
             return isOk;
         }
 
-        // Load CPU Usage at least number of milliseconds 
+        // Load CPU by number of milliseconds 
         private void LoadCpu(int milliseconds = 42) => CpuLoader.Run(minDuration: milliseconds, minCpuUsage: milliseconds, needKernelLoad: true);
 
         private async Task PreJit()
