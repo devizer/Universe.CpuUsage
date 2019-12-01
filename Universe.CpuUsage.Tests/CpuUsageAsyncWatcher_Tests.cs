@@ -69,32 +69,37 @@ namespace Universe.CpuUsage.Tests
         {
             if (!IsSupported()) return;
             
-            // var cts = new CancellationTokenSource();
-            Task[] tasks = new Task[3];
+            System.Collections.Generic.List<Task> tasks = new System.Collections.Generic.List<Task>();
             int errors = 0;
-            for (int i = 0; i < tasks.Length; i++)
+            int maxThreads = Environment.ProcessorCount + 9;
+            for (int i = 1; i <= maxThreads; i++)
             {
                 var iCopy = i;
-                tasks[i] = Task.Factory.StartNew(
-                    async () =>
-                    {
-                        CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
-                        for (int j = 0; j < iCopy * 2 + 2; j++)
-                        {
-                            await Task.Run(() => LoadCpu(500));
-                        }
-                        watcher.Stop();
-                        Console.WriteLine(watcher.ToHumanString(taskDescription:$"'Expected CPU Load is {(iCopy+1)} seconds'"));
-                        // Assert: CpuUsage should be about (iCopy + 1) seconds
-                        var actualSeconds = watcher.GetTotalCpuUsage().TotalMicroSeconds / 1000000d;
-                        var expectedSeconds = iCopy + 1d;
-                        if (Math.Abs(actualSeconds - expectedSeconds) > 0.2d) Interlocked.Increment(ref errors);
-
-                    }, TaskCreationOptions.LongRunning).Unwrap();
+                tasks.Add( Task.Factory.StartNew(async () =>
+                {
+                    var expectedMilliseconds = iCopy * 400;
+                    if (!await CheckExpectedCpuUsage(expectedMilliseconds)) 
+                        Interlocked.Increment(ref errors);
+                    
+                }, TaskCreationOptions.LongRunning).Unwrap());
             }
 
-            Task.WaitAll(tasks);
+            Task.WaitAll(tasks.ToArray());
             Assert.IsTrue(errors == 0, "Concurrent CpuUsageAsyncWatcher should not infer on each other. See details above");
+        }
+
+        async Task<bool> CheckExpectedCpuUsage(int expectedMilliseconds)
+        {
+            // Act
+            CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
+            await Task.Run(() => LoadCpu(expectedMilliseconds));
+            watcher.Stop();
+            Console.WriteLine(watcher.ToHumanString(taskDescription: $"'Expected CPU Load is {expectedMilliseconds} milli-seconds'"));
+                    
+            // Assert: CpuUsage should be expectedMilliseconds
+            var actualSeconds = watcher.GetTotalCpuUsage().TotalMicroSeconds / 1000000d;
+            bool isOk = Math.Abs(actualSeconds - expectedMilliseconds / 1000d) < 0.2d;
+            return isOk;
         }
 
         // Load CPU Usage at least number of milliseconds 
@@ -106,8 +111,8 @@ namespace Universe.CpuUsage.Tests
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
             await Task.Run(() => LoadCpu(1));
             await NotifyFinishedTasks();
-            var _ = watch.ToHumanString();
             watch.Stop();
+            watch.ToHumanString();
             Console.WriteLine("Pre-Jitted CpuUsageAsyncWatcher class");
         }
 

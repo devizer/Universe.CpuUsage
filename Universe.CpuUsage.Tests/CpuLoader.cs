@@ -6,7 +6,7 @@ namespace Universe.CpuUsage.Tests
 {
     public class CpuLoader
     {
-        // contains value of each CpuUsage increment 
+        // contains a value of each CpuUsage increment 
         public readonly List<long> Population = new List<long>(64000/8);
 
         public int IncrementsCount => Population.Count;
@@ -23,10 +23,9 @@ namespace Universe.CpuUsage.Tests
         private void LoadCpu(int minDuration, int minCpuUsage, bool needKernelLoad)
         {
             Stopwatch sw = Stopwatch.StartNew();
-            CpuUsage prev = CpuUsage.GetByThread().Value;
-            var firstUsage = prev;
+            CpuUsage firstUsage = CpuUsage.GetByThread().Value;
+            var prev = firstUsage;
             bool isDone = false;
-            
             while (!isDone)
             {
                 if (needKernelLoad)
