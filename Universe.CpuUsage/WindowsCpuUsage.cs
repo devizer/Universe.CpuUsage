@@ -52,7 +52,7 @@ namespace Universe.CpuUsage
         public class WindowsCpuUsageInterop
         {
             [DllImport("kernel32.dll")]
-            static extern IntPtr GetCurrentThread();
+            internal static extern IntPtr GetCurrentThread();
 
             [DllImport("kernel32.dll", SetLastError = true)]
             static extern bool GetThreadTimes(IntPtr hThread, out long lpCreationTime,

@@ -39,12 +39,24 @@ namespace Universe.CpuUsage
         {
             IsRunning = false;
         }
+        
+#if NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6
+        public static bool IsSupported => CpuUsageReader.IsSupported && LegacyNetStandardInterop.IsSupported && IsFrameworkSupported;
+        static long GetThreadId() => LegacyNetStandardInterop.GetThreadId();        
+#else
+        static long GetThreadId() => Thread.CurrentThread.ManagedThreadId;
+        public static bool IsSupported => CpuUsageReader.IsSupported && IsFrameworkSupported;
+#endif        
 
-#if NETCOREAPP || NETSTANDARD2_0 || NETSTANDARD2_1 || NET48 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46
+
+// legacy net framework [2.0 ... 4.6) is not supported 
+#if NETCOREAPP || NETSTANDARD2_0 || NETSTANDARD2_1 || NET48 || NET472 || NET471 || NET47 || NET462 || NET461 || NET46 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6
+
+        const bool IsFrameworkSupported = true;
 
         private class ContextSwitchInfo
         {
-            public int ThreadId;
+            public long ThreadId;
             public Stopwatch StartAt;
             public CpuUsage UsageOnStart;
         }
@@ -58,7 +70,7 @@ namespace Universe.CpuUsage
             // if (!args.ThreadContextChanged) return;
             if (!IsRunning) return;
             
-            int tid = Thread.CurrentThread.ManagedThreadId;
+            long tid = GetThreadId();
             if (args.PreviousValue == null)
             {
                 ContextItem.Value = new ContextSwitchInfo()
@@ -106,15 +118,16 @@ namespace Universe.CpuUsage
             _ContextSwitchListener = new AsyncLocal<object>(ContextChangedHandler);
             _ContextSwitchListener.Value = "Online";
         }
-
-        public static bool IsSupported => true && CpuUsageReader.IsSupported;
+        
 #else
+        const bool IsFrameworkSupported = false;
         public CpuUsageAsyncWatcher()
         {
         }
-
-        public static bool IsSupported => false && CpuUsageReader.IsSupported;
+        
 #endif
+        
+
 
     }
 
