@@ -2,11 +2,33 @@
 CPU Usage for .NET Core, .NET Framework and Mono on Linux, Windows and macOS
 
 ## Crossplatform CPU Usage metrics
-It receives the amount of time that the current **thread/process** has executed in _**kernel**_ and _**user**_ mode.
+It receives the amount of time that the current **thread(s)/process** has executed in _**kernel**_ and _**user**_ mode.
 
 Works everywhere: Linux, OSX and Windows.
 
 Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
+
+## Low level API: class CpuUsage
+```csharp
+var cpuUsage1 = CpuUsage.GetByProcess();
+var cpuUsage2 = CpuUsage.GetByThread();
+```
+
+## High level API: class CpuUsageAsyncWatcher
+```csharp
+public void Configure(IApplicationBuilder app)
+{
+    // Here is a middleware that displays summary CPU Usage
+    // from all the Tasks executed by ASP.NET Core pipeline
+    app.Use(async (context, next) =>
+    {
+        CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
+        await next.Invoke();
+        watcher.Stop()
+        Console.WriteLine($"Cpu Usage by http request is {watcher.Totals.GetSummaryCpuUsage()}");
+    });
+}
+```
 
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
@@ -20,7 +42,11 @@ Autotests using Mono:
 - Linux x86_64, Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
 - Mac OSX 10.10 using travis-ci.org
 
-Never tested on Windows Arm. Also, it should work on BSD-like system with linux compatibility layer using both mono and .net core, but this way was never tested. 
+Manually tested on:
+- Windows 7 x86 (net core)
+- FreeBSD with builtin linux compatiblity layer (net core 2.0)
+
+Never tested on Windows Arm. 
 
 | appveyor                   | travis-ci                                                                                 |
 |----------------------------|-------------------------------------------------------------------------------------------|
