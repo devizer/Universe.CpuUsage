@@ -23,7 +23,7 @@ namespace Universe.CpuUsage
             }
         }
 
-        public CpuUsage GetTotalCpuUsage()
+        public CpuUsage GetSummaryCpuUsage()
         {
             return Totals.GetSummaryCpuUsage();
         }  
