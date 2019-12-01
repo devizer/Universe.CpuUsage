@@ -68,7 +68,7 @@ script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
 - export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; export DOTNET_CLI_TELEMETRY_OPTOUT=1;
 - export CI=false
-- [[ $OS_X_VER -ge 13  || "$(uname -s)" == "Linux" ]] && dotnet restore --disable-parallel || true
+- '[[ $OS_X_VER -ge 13  || $(uname -s) == Linux ]] && dotnet restore --disable-parallel || true'
 - nuget restore -verbosity quiet || true
 
 - '[ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 -c Release | cat) || true'
