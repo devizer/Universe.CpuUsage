@@ -117,14 +117,11 @@ test_script:
 - ps: |
     Say ".NET Core Tests"
     pushd Universe.CpuUsage.Tests 
-    # $cmd=if ($isWindows) {"cmd /c"} else {"sudo"}
-    # & $cmd.split([char]32) dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
     if ($isWindows) {
-             dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+             dotnet test -f netcoreapp3.0 -c Release --test-adapter-path:. --logger:Appveyor
     } else {
-             dotnet test -f netcoreapp3.0 --test-adapter-path:. --logger:Appveyor
+             dotnet test -f netcoreapp3.0 -c Release --test-adapter-path:. --logger:Appveyor
     }
-
     popd
 
 - sh: |
