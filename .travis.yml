@@ -68,7 +68,7 @@ script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
 - export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1; export DOTNET_CLI_TELEMETRY_OPTOUT=1;
 - export CI=false
-- dotnet restore --disable-parallel || true
+- [[ $OS_X_VER -ge 13  || "$(uname -s)" == "Linux" ]] && dotnet restore --disable-parallel || true
 - nuget restore -verbosity quiet || true
 
 - '[ $OS_X_VER -ge 13 ] && (dotnet test -f netcoreapp3.0 -c Release | cat) || true'
@@ -98,6 +98,6 @@ script:
     echo "Starting tests using Mono in [$(pwd)]"
     cd Tests4Mono; set +e; source build-the-matrix.sh; echo $matrix_run
     # need -e -c
-    bash -e -c "$matrix_run" || true
+    bash -e -c "$matrix_run"
   fi
     
