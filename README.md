@@ -30,6 +30,16 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
+## Precision depends on
+Here is a summary of CPU usage precision. In general, it depends on OS and version
+| OS                                           | Average Precision |
+|----------------------------------------------|------------------:|
+| Windows Server 2019, Xeon E5-2697 v3         |         16,250 μs |
+| Linux, Xeon E5-2697 v3 @ 2.60GHz, kernel 5.0 |          3,900 μs |
+| Mac OS 10.14, Xeon E5-2697 v2 @ 2.70GHz      |             14 μs |
+| Linux, ARMv7 H3 CPU, kernel 3.4              |         10,000 μs |
+
+
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
 
