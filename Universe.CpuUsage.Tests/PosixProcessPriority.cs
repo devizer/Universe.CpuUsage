@@ -131,6 +131,5 @@ namespace Universe.CpuUsage.Tests
 
             return null;
         }
-        
     }
 }
