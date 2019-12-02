@@ -21,8 +21,8 @@ Autotests using Mono:
 - Mac OSX 10.10 using travis-ci.org
 
 Manually tested on:
-- Windows 7 x86 (net core)
-- FreeBSD with builtin linux compatiblity layer (net core 2.0)
+- Windows 7 x86 (.NET Core)
+- FreeBSD 12 (both .NET Core and Mono).
 
 Never tested on Windows Arm. 
 
