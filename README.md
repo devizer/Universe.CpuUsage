@@ -18,14 +18,14 @@ var cpuUsage2 = CpuUsage.GetByThread();
 ```csharp
 public void Configure(IApplicationBuilder app)
 {
-    // Here is a middleware that displays summary CPU Usage
-    // from all the Tasks executed by ASP.NET Core pipeline
+    // Here is a middleware that displays total CPU usage
+    // of all the Tasks executed by ASP.NET Core pipeline during each http request
     app.Use(async (context, next) =>
     {
         CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
         await next.Invoke();
         watcher.Stop()
-        Console.WriteLine($"Cpu Usage by http request is {watcher.Totals.GetSummaryCpuUsage()}");
+        Console.WriteLine($"Cpu Usage by http request is {watcher.GetSummaryCpuUsage()}");
     });
 }
 ```
