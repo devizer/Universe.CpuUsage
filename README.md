@@ -51,6 +51,7 @@ Here is a summary of CPU usage precision. In general, it depends on OS and versi
 | Mac OS 10.14, Xeon E5-2697 v2 @ 2.70GHz                                    |           14.0 μs |
 | FreeBSD 12, .NET Core 2.0, Xeon E3-1270 v2 @ 3.50GHz, pseudo kernel 2.6.32 |            3.0 μs |
 | FreeBSD 12, Mono 5,1, Xeon E3-1270 v2 @ 3.50GHz, native BSD 12             |            1.9 μs |
+
 Detailed histograms of precision are produced by PrecisionTest.cs
 
 ## Low level API: class CpuUsage
