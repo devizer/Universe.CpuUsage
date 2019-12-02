@@ -38,8 +38,10 @@ Here is a summary of CPU usage precision. In general, it depends on OS and versi
 | Windows Server 2019, Xeon E5-2697 v3                                       |         16,250 μs |
 | Linux, Xeon E5-2697 v3 @ 2.60GHz, kernel 5.0                               |          3,900 μs |
 | Linux, ARMv7 H3 CPU, kernel 3.4                                            |         10,000 μs |
-| Mac OS 10.14, Xeon E5-2697 v2 @ 2.70GHz                                    |             14 μs |
-| FreeBSD 12, .NET Core 2.0, Xeon E3-1270 v2 @ 3.50GHz, pseudo kernel 2.6.32 |              3 μs |
+| Mac OS 10.14, Xeon E5-2697 v2 @ 2.70GHz                                    |           14.0 μs |
+| FreeBSD 12, .NET Core 2.0, Xeon E3-1270 v2 @ 3.50GHz, pseudo kernel 2.6.32 |            3.0 μs |
+| FreeBSD 12, Mono 5,1, Xeon E3-1270 v2 @ 3.50GHz, native BSD 12             |            1.9 μs |
+Detailed histograms of precision are produced by PrecisionTest.cs
 
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
