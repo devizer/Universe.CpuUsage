@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -35,7 +37,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine(watch.ToHumanString(taskDescription:"SimpleTests()"));
             
             Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
-            Assert.GreaterOrEqual(actualMicroseconds, expectedMicroseconds, "Actual CPU Usage should be about as expected.");
+            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected.");
         }
 
         [Test]
@@ -56,20 +58,20 @@ namespace Universe.CpuUsage.Tests
             
             // Assert
             long actualMicroseconds = totals.GetSummaryCpuUsage().TotalMicroSeconds;
-            long expected = 1000L * (2400 + 2100 + 1800 + 1500);
-            Console.WriteLine($"Expected usage: {(expected/1000d):n3}, Actual usage: {(actualMicroseconds/1000d):n3} milliseconds");
+            long expectedMicroseconds = 1000L * (2400 + 2100 + 1800 + 1500);
+            Console.WriteLine($"Expected usage: {(expectedMicroseconds/1000d):n3}, Actual usage: {(actualMicroseconds/1000d):n3} milliseconds");
             Console.WriteLine(totals.ToHumanString(taskDescription:"ParallelTests()"));
             // 7 for windows 8 cores, rarely 6 for slow 2 core machine
             Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
-            Assert.GreaterOrEqual(actualMicroseconds, expected, "Actual CPU Usage should be about as expected.");
+            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
         }
 
         [Test]
-        public async Task ConcurrentTest()
+        public void ConcurrentTest()
         {
             if (!IsSupported()) return;
             
-            System.Collections.Generic.List<Task> tasks = new System.Collections.Generic.List<Task>();
+            IList<Task> tasks = new List<Task>();
             int errors = 0;
             int maxThreads = Environment.ProcessorCount + 9;
             for (int i = 1; i <= maxThreads; i++)
@@ -140,4 +142,5 @@ namespace Universe.CpuUsage.Tests
         
         
     }
+    
 }
