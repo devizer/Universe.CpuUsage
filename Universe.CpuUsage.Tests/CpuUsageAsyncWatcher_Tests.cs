@@ -98,9 +98,10 @@ namespace Universe.CpuUsage.Tests
             watcher.Stop();
             Console.WriteLine(watcher.ToHumanString(taskDescription: $"'Expected CPU Load is {expectedMilliseconds} milli-seconds'"));
                     
+            Assert.AreEqual(2, watcher.Totals.Count, "The CheckExpectedCpuUsage should produce exact 2 context switches");
             // Assert: CpuUsage should be expectedMilliseconds
             var actualSeconds = watcher.GetSummaryCpuUsage().TotalMicroSeconds / 1000000d;
-            bool isOk = Math.Abs(actualSeconds - expectedMilliseconds / 1000d) < 0.2d;
+            bool isOk = actualSeconds >= expectedMilliseconds / 1000d;
             return isOk;
         }
 
