@@ -30,7 +30,7 @@ namespace Universe.CpuUsage.Tests
             {
                 if (needKernelLoad)
                 {
-                    var ptr = Marshal.AllocHGlobal(512*1024);
+                    var ptr = Marshal.AllocHGlobal(2*1024);
                     Marshal.FreeHGlobal(ptr);
                 }
 

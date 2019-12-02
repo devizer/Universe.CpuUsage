@@ -65,11 +65,14 @@
     <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo_Tests.cs">
       <Link>LinkedTests\CrossInfo_Tests.cs</Link>
     </Compile>
-    <Compile Include="..\..\Universe.CpuUsage.Tests\GranularityTest.cs">
-      <Link>LinkedTests\GranularityTest.cs</Link>
-    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\NUnitTestsBase.cs">
       <Link>LinkedTests\NUnitTestsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\PosixProcessPriority.cs">
+      <Link>LinkedTests\PosixProcessPriority.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\PrecisionTest.cs">
+      <Link>LinkedTests\PrecisionTest.cs</Link>
     </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\RisingTest.cs">
       <Link>LinkedTests\RisingTest.cs</Link>
