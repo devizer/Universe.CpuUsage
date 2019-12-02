@@ -8,41 +8,6 @@ Works everywhere: Linux, OSX and Windows.
 
 Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
 
-## Low level API: class CpuUsage
-```csharp
-var cpuUsage1 = CpuUsage.GetByProcess();
-var cpuUsage2 = CpuUsage.GetByThread();
-```
-
-## High level API: class CpuUsageAsyncWatcher
-```csharp
-public void Configure(IApplicationBuilder app)
-{
-    // Here is a middleware that displays total CPU usage
-    // of all the Tasks executed by ASP.NET Core pipeline during each http request
-    app.Use(async (context, next) =>
-    {
-        CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
-        await next.Invoke();
-        watcher.Stop()
-        Console.WriteLine($"Cpu Usage by http request is {watcher.GetSummaryCpuUsage()}");
-    });
-}
-```
-
-## Precision depends on
-Here is a summary of CPU usage precision. In general, it depends on OS and version
-
-| OS                                           | Average Precision |
-|----------------------------------------------|------------------:|
-| Windows Server 2019, Xeon E5-2697 v3                                       |         16,250 μs |
-| Linux, Xeon E5-2697 v3 @ 2.60GHz, kernel 5.0                               |          3,900 μs |
-| Linux, ARMv7 H3 CPU, kernel 3.4                                            |         10,000 μs |
-| Mac OS 10.14, Xeon E5-2697 v2 @ 2.70GHz                                    |           14.0 μs |
-| FreeBSD 12, .NET Core 2.0, Xeon E3-1270 v2 @ 3.50GHz, pseudo kernel 2.6.32 |            3.0 μs |
-| FreeBSD 12, Mono 5,1, Xeon E3-1270 v2 @ 3.50GHz, native BSD 12             |            1.9 μs |
-Detailed histograms of precision are produced by PrecisionTest.cs
-
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
 
@@ -74,6 +39,41 @@ The implementation utilizes platform invocation (P/Invoke) of the corresponding 
 | Linux    | getrusage(RUSAGE_THREAD) | getrusage(RUSAGE_SELF) | libc.so         |
 | Windows  | GetThreadTimes()         | GetProcessTimes()      | kernel32.dll    |
 | Mac OS X | thread_info()            | getrusage(RUSAGE_SELF) | libSystem.dylib |
+
+## Precision depends on
+Here is a summary of CPU usage precision. In general, it depends on OS and version
+
+| OS                                           | Average Precision |
+|----------------------------------------------|------------------:|
+| Windows Server 2019, Xeon E5-2697 v3                                       |         16,250 μs |
+| Linux, Xeon E5-2697 v3 @ 2.60GHz, kernel 5.0                               |          3,900 μs |
+| Linux, ARMv7 H3 CPU, kernel 3.4                                            |         10,000 μs |
+| Mac OS 10.14, Xeon E5-2697 v2 @ 2.70GHz                                    |           14.0 μs |
+| FreeBSD 12, .NET Core 2.0, Xeon E3-1270 v2 @ 3.50GHz, pseudo kernel 2.6.32 |            3.0 μs |
+| FreeBSD 12, Mono 5,1, Xeon E3-1270 v2 @ 3.50GHz, native BSD 12             |            1.9 μs |
+Detailed histograms of precision are produced by PrecisionTest.cs
+
+## Low level API: class CpuUsage
+```csharp
+var cpuUsage1 = CpuUsage.GetByProcess();
+var cpuUsage2 = CpuUsage.GetByThread();
+```
+
+## High level API: class CpuUsageAsyncWatcher
+```csharp
+public void Configure(IApplicationBuilder app)
+{
+    // Here is a middleware that displays total CPU usage
+    // of all the Tasks executed by ASP.NET Core pipeline during each http request
+    app.Use(async (context, next) =>
+    {
+        CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
+        await next.Invoke();
+        watcher.Stop()
+        Console.WriteLine($"Cpu Usage by http request is {watcher.GetSummaryCpuUsage()}");
+    });
+}
+```
 
 ## Benchmark 
 Just for illustration here is a comparison to well known DateTime.Now and Stopwatch using benchmark.net. All of them are taken using .NET Core 3.0 runtime.
