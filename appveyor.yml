@@ -138,6 +138,7 @@ test_script:
 
 after_test:
 - sh: 'find . -name "*.nupkg" -exec rm -f {} \;'
+- sh: 'Show-System-Stat || true'
 - ps: Stop-Transcript;
 # - cmd: bash -c 'time echo "Hello from $(bash --version)"'
 

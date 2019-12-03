@@ -58,6 +58,7 @@ matrix:
 
 # https://docs.travis-ci.com/user/caching/
 before_script:
+- 'script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash'
 - pushd Tests4Mono; . install-dotnet.sh; popd
 - dotnet --info || true
 - mono --version || true
@@ -101,3 +102,4 @@ script:
     bash -e -c "$matrix_run"
   fi
     
+- 'Show-System-Stat || true'
