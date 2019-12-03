@@ -80,7 +80,7 @@ msbuild /t:Rebuild /p:Configuration=Release /v:q
         
         cp -f ${proj}-bak ${proj}
         sed "$sed_cmd" ${proj}-bak > ${proj}
-        echo "REF: {$(cat $proj | grep $target)}"
+        echo "REF: {$(cat $proj | grep $target | grep HintPath)}"
         
         cfg=Debug
         msbuild /noLogo /t:Rebuild /p:Configuration=$cfg /v:q
