@@ -23,6 +23,7 @@ Autotests using Mono:
 Manually tested on:
 - Windows 7 x86 (.NET Core)
 - FreeBSD 12 (both .NET Core and Mono).
+- Debian 8 on armv5 (Mono)
 
 Never tested on Windows Arm. 
 
