@@ -45,6 +45,7 @@ Disk: /home/vsts/work/1/s, Size: 10G, Flavour: Random, Block: 4096 bytes
 [Completed]  102.0% 00:00:30 1315.9K/s Random Write, 16 threads
 [Completed]  Clean up
 
+sdb on AzurePipelines
 Disk: /mnt, Size: 10G, Flavour: Random, Block: 4096 bytes
 [Completed]  Direct Access is detected
 [Completed]  100.0% 00:03:15   52.5M/s Allocate 10G
@@ -55,3 +56,16 @@ Disk: /mnt, Size: 10G, Flavour: Random, Block: 4096 bytes
 [Completed]  100.0% 00:00:30   31.4M/s Random Read, 16 threads
 [Completed]  100.1% 00:00:30   26.7M/s Random Write, 16 threads
 [Completed]  Clean up
+
+compressed (zlib:8) sdb on AzurePipelines 
+Disk: /transient-builds, Size: 10G, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:08:28   20.1M/s Allocate 10G
+[Completed]  100.0% 00:02:40   63.7M/s Sequential read
+[Completed]  100.0% 00:03:08   54.2M/s Sequential write
+[Completed]  100.0% 00:00:30   12.9M/s Random Read, 1 thread
+[Completed]  100.0% 00:00:30 1456.7K/s Random Write, 1 thread
+[Completed]  100.0% 00:00:30   31.8M/s Random Read, 16 threads
+[Completed]  100.6% 00:00:30 3213.1K/s Random Write, 16 threads
+[Completed]  Clean up
+
