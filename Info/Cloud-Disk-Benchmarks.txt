@@ -9,6 +9,17 @@ Disk: /home/appveyor/projects/, Size: 4002M, Flavour: Random, Block: 4096 bytes
 [Completed]  100.0% 00:00:30   14.4M/s Random Write, 16 threads
 [Completed]  Clean up
 
+Disk: /home/appveyor/projects/universe-cpuusage, WorkingSet: 12G, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:03:59   51.3M/s Allocate 12G
+[Completed]  100.0% 00:00:12  990.2M/s Sequential read
+[Completed]  100.0% 00:00:32  380.6M/s Sequential write
+[Completed]  100.0% 00:00:30 5399.6K/s Random Read, 1 thread
+[Completed]  100.0% 00:00:30 2958.5K/s Random Write, 1 thread
+[Completed]  100.0% 00:00:30   86.8M/s Random Read, 16 threads
+[Completed]  100.0% 00:00:30   14.7M/s Random Write, 16 threads
+[Completed]  Clean up
+
 Linux on TRAVIS, Working Set 4Gb
 Disk: /home/travis/build/, Size: 4002M, Flavour: Random, Block: 4096 bytes
 [Completed]  Direct Access is detected
