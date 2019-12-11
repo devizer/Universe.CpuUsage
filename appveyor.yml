@@ -22,7 +22,12 @@ dotnet_csproj:
   
 platform: Any CPU
 init:
-- sh: 'script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash'
+- sh: |
+    script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+    Say "Installing disk-benchmark"
+    script=https://raw.githubusercontent.com/devizer/glist/master/install-disk-benchmark-from-source.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -sSL $script) | bash
+    disk-benchmark -s=4098000 -t=30000
+    
 - ps: |
 
     # copy paste it
