@@ -71,10 +71,20 @@ namespace Tests
             Console.WriteLine($"#{GlobalThisTestCounter}.{TestCounter} {{{TestContext.CurrentContext.Test.Name}}} >{TestContext.CurrentContext.Result.Outcome.Status.ToString().ToUpper()}< in {elapsed}{cpuUsage}{Environment.NewLine}");
         }
 
+        private static bool SetupDone; 
         [OneTimeSetUp]
         public void BaseOneTimeSetUp()
         {
             TestConsole.Setup();
+            if (!SetupDone)
+            {
+                SetupDone = true;
+                Console.WriteLine($@"Before Any Tests:
+   - ConsoleInfo.IsConsoleSizeZero .... {ConsoleInfo.IsConsoleSizeZero}
+   - ConsoleInfo.IsInputRedirected .... {ConsoleInfo.IsInputRedirected}
+   - ConsoleInfo.IsOutputRedirected ... {ConsoleInfo.IsOutputRedirected}
+");
+            }
             
             ThreadPool.GetMinThreads(out var minWorker, out var minCompletion);
             ThreadPool.GetMaxThreads(out var maxWorker, out var maxCompletion);
@@ -139,4 +149,50 @@ namespace Tests
         }
 
     }
+    
+    public static class ConsoleInfo {
+        public static bool IsConsoleSizeZero {
+            get {
+                try {
+                    return (0 == (Console.WindowHeight + Console.WindowWidth));
+                }
+                catch (Exception exc){
+                    return true;
+                }
+            }
+        }
+        public static bool IsOutputRedirected {
+            get { return IsConsoleSizeZero && !Console.KeyAvailable; }
+        }
+        public static bool IsInputRedirected {
+            get { return IsConsoleSizeZero && Console.KeyAvailable; }
+        }
+    }
+
+    [SetUpFixture]
+    public class GlobalCleanUp
+    {
+
+        [OneTimeSetUp]
+        public void RunBeforeAnyTests()
+        {
+            Console.WriteLine($@"Before Any Tests:
+   - ConsoleInfo.IsConsoleSizeZero .... {ConsoleInfo.IsConsoleSizeZero}
+   - ConsoleInfo.IsInputRedirected .... {ConsoleInfo.IsInputRedirected}
+   - ConsoleInfo.IsOutputRedirected ... {ConsoleInfo.IsOutputRedirected}
+");
+        }
+
+        [OneTimeTearDown]
+        public void RunAfterAnyTests()
+        {
+            Console.WriteLine($@"After all the tests:
+   - ConsoleInfo.IsConsoleSizeZero .... {ConsoleInfo.IsConsoleSizeZero}
+   - ConsoleInfo.IsInputRedirected .... {ConsoleInfo.IsInputRedirected}
+   - ConsoleInfo.IsOutputRedirected ... {ConsoleInfo.IsOutputRedirected}
+");
+        }
+    }
+
+
 }
