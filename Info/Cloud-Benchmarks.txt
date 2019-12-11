@@ -1,0 +1,57 @@
+Disk: /home/appveyor/projects/, Size: 4002M, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:01:09   57.9M/s Allocate 4002M
+[Completed]  100.0% 00:00:05  745.4M/s Sequential read
+[Completed]  100.0% 00:00:08  446.1M/s Sequential write
+[Completed]  100.0% 00:00:30 7676.1K/s Random Read, 1 thread
+[Completed]  100.0% 00:00:30 3528.6K/s Random Write, 1 thread
+[Completed]  100.0% 00:00:30     93M/s Random Read, 16 threads
+[Completed]  100.0% 00:00:30   14.4M/s Random Write, 16 threads
+[Completed]  Clean up
+
+Linux on TRAVIS
+Disk: /home/travis/build/, Size: 4002M, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:02:15   29.6M/s Allocate 4002M
+[Completed]  100.0% 00:00:17  233.2M/s Sequential read
+[Completed]  100.0% 00:01:42   39.2M/s Sequential write
+[Completed]  100.0% 00:00:30 5680.7K/s Random Read, 1 thread
+[Completed]  100.0% 00:00:30 5163.4K/s Random Write, 1 thread
+[Completed]  100.0% 00:00:30   17.9M/s Random Read, 16 threads
+[Completed]  100.0% 00:00:30 7922.8K/s Random Write, 16 threads
+[Completed]  Clean up
+
+MacOS on TRAVIS
+Disk: /Users/travis/build/devizer/Universe.CpuUsage, Size: 4002M, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected?
+[Completed]  100.0% 00:01:52   35.6M/s Allocate 4002M
+[Completed]  100.0% 00:00:11  334.2M/s Sequential read
+[Completed]  100.0% 00:00:30  131.6M/s Sequential write
+[Completed]  100.0% 00:00:30   11.4M/s Random Read, 1 thread
+[Completed]  100.0% 00:00:30 1870.5K/s Random Write, 1 thread
+[Completed]  100.0% 00:00:30   19.2M/s Random Read, 16 threads
+[Completed]  100.0% 00:00:30 4851.8K/s Random Write, 16 threads
+[Completed]  Clean up
+
+
+Disk: /home/vsts/work/1/s, Size: 10G, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:16:49   10.1M/s Allocate 10G
+[Completed]  100.0% 00:02:27   69.6M/s Sequential read
+[Completed]  100.0% 00:06:33     26M/s Sequential write
+[Completed]  100.0% 00:00:30   11.2M/s Random Read, 1 thread
+[Completed]  100.5% 00:00:30  443.2K/s Random Write, 1 thread
+[Completed]  100.1% 00:00:30   32.1M/s Random Read, 16 threads
+[Completed]  102.0% 00:00:30 1315.9K/s Random Write, 16 threads
+[Completed]  Clean up
+
+Disk: /mnt, Size: 10G, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:03:15   52.5M/s Allocate 10G
+[Completed]  100.0% 00:02:32   67.2M/s Sequential read
+[Completed]  100.0% 00:02:43   62.6M/s Sequential write
+[Completed]  100.0% 00:00:30   13.4M/s Random Read, 1 thread
+[Completed]  100.0% 00:00:30   16.9M/s Random Write, 1 thread
+[Completed]  100.0% 00:00:30   31.4M/s Random Read, 16 threads
+[Completed]  100.1% 00:00:30   26.7M/s Random Write, 16 threads
+[Completed]  Clean up

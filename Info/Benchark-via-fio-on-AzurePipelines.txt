@@ -1,0 +1,339 @@
+##[section]Starting: DISK benchmark using "fio": sda1 (working) and sda2 (second)
+==============================================================================
+Task         : Command line
+Description  : Run a command line script using Bash on Linux and macOS and cmd.exe on Windows
+Version      : 2.151.2
+Author       : Microsoft Corporation
+Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/utility/command-line
+==============================================================================
+Generating script.
+========================== Starting Command Output ===========================
+[command]/bin/bash --noprofile --norc /home/vsts/work/_temp/93c4f32e-fb7b-497a-b068-382ff98da6b7.sh
+chown: changing ownership of '/mnt/DATALOSS_WARNING_README.txt': Operation not permitted
+┌──────────────────────────────────────┐
+│sdb1 (default): Sequential read (/mnt)│
+└──────────────────────────────────────┘
+Benchmark '/mnt' folder
+fiotest: (g=0): rw=read, bs=(R) 1024KiB-1024KiB, (W) 1024KiB-1024KiB, (T) 1024KiB-1024KiB, ioengine=libaio, iodepth=1
+fio-3.1
+Starting 1 process
+fiotest: Laying out IO file (1 file / 10240MiB)
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=11410: Wed Dec 11 11:02:36 2019
+   read: IOPS=63, BW=63.4MiB/s (66.5MB/s)(1933MiB/30502msec)
+   bw (  KiB/s): min=57344, max=67719, per=99.97%, avg=64871.08, stdev=2073.10, samples=61
+   iops        : min=   56, max=   66, avg=63.30, stdev= 2.03, samples=61
+  cpu          : usr=0.14%, sys=0.49%, ctx=1945, majf=0, minf=1
+  IO depths    : 1=165.4%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=1933,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=63.4MiB/s (66.5MB/s), 63.4MiB/s-63.4MiB/s (66.5MB/s-66.5MB/s), io=1933MiB (2027MB), run=30502-30502msec
+
+Disk stats (read/write):
+  sdb: ios=6392/3, merge=0/1, ticks=76358/24, in_queue=68240, util=15.27%
+
+┌───────────────────────────────────────┐
+│sdb1 (default): Sequential write (/mnt)│
+└───────────────────────────────────────┘
+Benchmark '/mnt' folder
+fiotest: (g=0): rw=write, bs=(R) 1024KiB-1024KiB, (W) 1024KiB-1024KiB, (T) 1024KiB-1024KiB, ioengine=libaio, iodepth=1
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=11505: Wed Dec 11 11:03:27 2019
+  write: IOPS=63, BW=63.3MiB/s (66.4MB/s)(1923MiB/30362msec)
+   bw (  KiB/s): min=53354, max=69632, per=99.99%, avg=64847.25, stdev=2716.65, samples=60
+   iops        : min=   52, max=   68, avg=63.28, stdev= 2.69, samples=60
+  cpu          : usr=0.28%, sys=0.48%, ctx=1931, majf=0, minf=1
+  IO depths    : 1=166.3%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=0,1923,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=63.3MiB/s (66.4MB/s), 63.3MiB/s-63.3MiB/s (66.4MB/s-66.4MB/s), io=1923MiB (2016MB), run=30362-30362msec
+
+Disk stats (read/write):
+  sdb: ios=0/6380, merge=0/1, ticks=0/75929, in_queue=67472, util=15.56%
+
+┌──────────────────────────────────┐
+│sdb1 (default): Random read (/mnt)│
+└──────────────────────────────────┘
+Benchmark '/mnt' folder
+fiotest: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=64
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=11588: Wed Dec 11 11:04:18 2019
+   read: IOPS=8065, BW=31.5MiB/s (33.0MB/s)(946MiB/30002msec)
+   bw (  KiB/s): min=25077, max=33736, per=99.97%, avg=32263.08, stdev=1481.25, samples=60
+   iops        : min= 6269, max= 8434, avg=8065.70, stdev=370.36, samples=60
+  cpu          : usr=2.01%, sys=5.01%, ctx=12559, majf=0, minf=1
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=167.2%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwt: total=241995,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=31.5MiB/s (33.0MB/s), 31.5MiB/s-31.5MiB/s (33.0MB/s-33.0MB/s), io=946MiB (991MB), run=30002-30002msec
+
+Disk stats (read/write):
+  sdb: ios=404482/3, merge=0/1, ticks=3134469/63, in_queue=2749536, util=20.10%
+
+┌───────────────────────────────────┐
+│sdb1 (default): Random write (/mnt)│
+└───────────────────────────────────┘
+Benchmark '/mnt' folder
+fiotest: (g=0): rw=randwrite, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=64
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=11674: Wed Dec 11 11:05:08 2019
+  write: IOPS=8104, BW=31.7MiB/s (33.2MB/s)(950MiB/30002msec)
+   bw (  KiB/s): min=28024, max=34080, per=100.00%, avg=32429.35, stdev=1134.08, samples=60
+   iops        : min= 7006, max= 8520, avg=8107.25, stdev=283.44, samples=60
+  cpu          : usr=1.92%, sys=5.35%, ctx=10555, majf=0, minf=1
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=166.6%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwt: total=0,243139,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+  WRITE: bw=31.7MiB/s (33.2MB/s), 31.7MiB/s-31.7MiB/s (33.2MB/s-33.2MB/s), io=950MiB (996MB), run=30002-30002msec
+
+Disk stats (read/write):
+  sdb: ios=0/405043, merge=0/1, ticks=0/3131207, in_queue=2763048, util=19.56%
+
+┌───────────────────────────────────────────┐
+│sda1: Sequential read (/home/vsts/work/1/s)│
+└───────────────────────────────────────────┘
+Benchmark '/home/vsts/work/1/s' folder
+fiotest: (g=0): rw=read, bs=(R) 1024KiB-1024KiB, (W) 1024KiB-1024KiB, (T) 1024KiB-1024KiB, ioengine=libaio, iodepth=1
+fio-3.1
+Starting 1 process
+fiotest: Laying out IO file (1 file / 10240MiB)
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=12012: Wed Dec 11 11:08:42 2019
+   read: IOPS=67, BW=67.8MiB/s (71.1MB/s)(2034MiB/30004msec)
+   bw (  KiB/s): min=59511, max=73728, per=99.96%, avg=69385.78, stdev=2790.50, samples=60
+   iops        : min=   58, max=   72, avg=67.70, stdev= 2.75, samples=60
+  cpu          : usr=0.10%, sys=0.55%, ctx=2039, majf=0, minf=1
+  IO depths    : 1=166.7%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=2034,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=67.8MiB/s (71.1MB/s), 67.8MiB/s-67.8MiB/s (71.1MB/s-71.1MB/s), io=2034MiB (2133MB), run=30004-30004msec
+
+Disk stats (read/write):
+  sda: ios=6778/119, merge=3/11, ticks=75866/1973, in_queue=68820, util=16.63%
+
+┌────────────────────────────────────────────┐
+│sda1: Sequential write (/home/vsts/work/1/s)│
+└────────────────────────────────────────────┘
+Benchmark '/home/vsts/work/1/s' folder
+fiotest: (g=0): rw=write, bs=(R) 1024KiB-1024KiB, (W) 1024KiB-1024KiB, (T) 1024KiB-1024KiB, ioengine=libaio, iodepth=1
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=12101: Wed Dec 11 11:09:33 2019
+  write: IOPS=66, BW=66.8MiB/s (70.0MB/s)(2017MiB/30199msec)
+   bw (  KiB/s): min=61440, max=71823, per=100.00%, avg=68503.70, stdev=2190.63, samples=60
+   iops        : min=   60, max=   70, avg=66.85, stdev= 2.15, samples=60
+  cpu          : usr=0.22%, sys=0.64%, ctx=2031, majf=0, minf=1
+  IO depths    : 1=168.1%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=0,2017,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=66.8MiB/s (70.0MB/s), 66.8MiB/s-66.8MiB/s (70.0MB/s-70.0MB/s), io=2017MiB (2115MB), run=30199-30199msec
+
+Disk stats (read/write):
+  sda: ios=1454/6962, merge=1/38, ticks=31032/128581, in_queue=152056, util=13.99%
+
+┌───────────────────────────────────────┐
+│sda1: Random read (/home/vsts/work/1/s)│
+└───────────────────────────────────────┘
+Benchmark '/home/vsts/work/1/s' folder
+fiotest: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=64
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=12371: Wed Dec 11 11:10:23 2019
+   read: IOPS=8300, BW=32.4MiB/s (34.0MB/s)(973MiB/30002msec)
+   bw (  KiB/s): min=27320, max=34411, per=99.99%, avg=33206.53, stdev=1102.30, samples=60
+   iops        : min= 6830, max= 8602, avg=8301.55, stdev=275.58, samples=60
+  cpu          : usr=1.92%, sys=5.44%, ctx=19587, majf=0, minf=1
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=164.2%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwt: total=249034,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=32.4MiB/s (34.0MB/s), 32.4MiB/s-32.4MiB/s (34.0MB/s-34.0MB/s), io=973MiB (1020MB), run=30002-30002msec
+
+Disk stats (read/write):
+  sda: ios=408999/133, merge=0/34, ticks=3142563/2058, in_queue=2730720, util=23.07%
+
+┌────────────────────────────────────────┐
+│sda1: Random write (/home/vsts/work/1/s)│
+└────────────────────────────────────────┘
+Benchmark '/home/vsts/work/1/s' folder
+fiotest: (g=0): rw=randwrite, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=64
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=12447: Wed Dec 11 11:11:21 2019
+  write: IOPS=2185, BW=8752KiB/s (8962kB/s)(257MiB/30044msec)
+   bw (  KiB/s): min=    8, max=35374, per=100.00%, avg=10506.24, stdev=14164.42, samples=50
+   iops        : min=    2, max= 8843, avg=2626.42, stdev=3541.00, samples=50
+  cpu          : usr=0.73%, sys=2.01%, ctx=13963, majf=0, minf=1
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=132.2%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwt: total=0,65672,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+  WRITE: bw=8752KiB/s (8962kB/s), 8752KiB/s-8752KiB/s (8962kB/s-8962kB/s), io=257MiB (269MB), run=30044-30044msec
+
+Disk stats (read/write):
+  sda: ios=2/86822, merge=0/9, ticks=2/3808188, in_queue=3758972, util=6.57%
+
+Accelerating /dev/sdb1 as /sdb1-accelerated
+mke2fs 1.44.1 (24-Mar-2018)
+Discarding device blocks:    4096/3669744               done                            
+Creating filesystem with 3669744 4k blocks and 917504 inodes
+Filesystem UUID: c14a05c0-90f9-4146-97c9-ef5f05c1e9b1
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208
+
+Allocating group tables:   0/112       done                            
+Writing inode tables:   0/112       done                            
+Writing superblocks and filesystem accounting information:   0/112       done
+
+Filesystem     Type      Size  Used Avail Use% Mounted on
+udev           devtmpfs  3.4G     0  3.4G   0% /dev
+tmpfs          tmpfs     695M  684K  694M   1% /run
+/dev/sda1      ext4       84G   59G   26G  70% /
+tmpfs          tmpfs     3.4G  8.0K  3.4G   1% /dev/shm
+tmpfs          tmpfs     5.0M     0  5.0M   0% /run/lock
+tmpfs          tmpfs     3.4G     0  3.4G   0% /sys/fs/cgroup
+/dev/sda15     vfat      105M  3.6M  101M   4% /boot/efi
+/dev/sdb1      ext2       14G   35M   14G   1% /sdb1-accelerated
+
+┌───────────────────────────────────────────────────────┐
+│sdb1 (Accelerated): Sequential read (/sdb1-accelerated)│
+└───────────────────────────────────────────────────────┘
+Benchmark '/sdb1-accelerated' folder
+fiotest: (g=0): rw=read, bs=(R) 1024KiB-1024KiB, (W) 1024KiB-1024KiB, (T) 1024KiB-1024KiB, ioengine=libaio, iodepth=1
+fio-3.1
+Starting 1 process
+fiotest: Laying out IO file (1 file / 10240MiB)
+fio: native_fallocate call failed: Operation not supported
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=12843: Wed Dec 11 11:15:08 2019
+   read: IOPS=63, BW=63.3MiB/s (66.4MB/s)(1931MiB/30499msec)
+   bw (  KiB/s): min=55296, max=67719, per=100.00%, avg=64956.20, stdev=1821.10, samples=60
+   iops        : min=   54, max=   66, avg=63.38, stdev= 1.80, samples=60
+  cpu          : usr=0.07%, sys=0.48%, ctx=1936, majf=0, minf=1
+  IO depths    : 1=165.6%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=1931,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=63.3MiB/s (66.4MB/s), 63.3MiB/s-63.3MiB/s (66.4MB/s-66.4MB/s), io=1931MiB (2025MB), run=30499-30499msec
+
+Disk stats (read/write):
+  sdb: ios=6370/0, merge=0/0, ticks=76223/0, in_queue=68064, util=15.41%
+
+┌────────────────────────────────────────────────────────┐
+│sdb1 (Accelerated): Sequential write (/sdb1-accelerated)│
+└────────────────────────────────────────────────────────┘
+Benchmark '/sdb1-accelerated' folder
+fiotest: (g=0): rw=write, bs=(R) 1024KiB-1024KiB, (W) 1024KiB-1024KiB, (T) 1024KiB-1024KiB, ioengine=libaio, iodepth=1
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=12937: Wed Dec 11 11:16:00 2019
+  write: IOPS=63, BW=63.4MiB/s (66.4MB/s)(1930MiB/30457msec)
+   bw (  KiB/s): min=55296, max=67719, per=99.93%, avg=64845.00, stdev=2090.91, samples=60
+   iops        : min=   54, max=   66, avg=63.25, stdev= 2.02, samples=60
+  cpu          : usr=0.35%, sys=0.36%, ctx=1934, majf=0, minf=1
+  IO depths    : 1=165.7%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwt: total=0,1930,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=63.4MiB/s (66.4MB/s), 63.4MiB/s-63.4MiB/s (66.4MB/s-66.4MB/s), io=1930MiB (2024MB), run=30457-30457msec
+
+Disk stats (read/write):
+  sdb: ios=0/6367, merge=0/0, ticks=0/75903, in_queue=67628, util=15.57%
+
+┌───────────────────────────────────────────────────┐
+│sdb1 (Accelerated): Random read (/sdb1-accelerated)│
+└───────────────────────────────────────────────────┘
+Benchmark '/sdb1-accelerated' folder
+fiotest: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=64
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=13028: Wed Dec 11 11:16:50 2019
+   read: IOPS=8086, BW=31.6MiB/s (33.1MB/s)(949MiB/30034msec)
+   bw (  KiB/s): min=27016, max=33736, per=100.00%, avg=32372.20, stdev=1113.08, samples=60
+   iops        : min= 6754, max= 8434, avg=8092.97, stdev=278.26, samples=60
+  cpu          : usr=2.18%, sys=5.00%, ctx=10825, majf=0, minf=1
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=166.8%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwt: total=242860,0,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+   READ: bw=31.6MiB/s (33.1MB/s), 31.6MiB/s-31.6MiB/s (33.1MB/s-33.1MB/s), io=949MiB (995MB), run=30034-30034msec
+
+Disk stats (read/write):
+  sdb: ios=404932/1, merge=0/0, ticks=3133839/23, in_queue=2756348, util=19.44%
+
+┌────────────────────────────────────────────────────┐
+│sdb1 (Accelerated): Random write (/sdb1-accelerated)│
+└────────────────────────────────────────────────────┘
+Benchmark '/sdb1-accelerated' folder
+fiotest: (g=0): rw=randwrite, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=libaio, iodepth=64
+fio-3.1
+Starting 1 process
+
+fiotest: (groupid=0, jobs=1): err= 0: pid=13114: Wed Dec 11 11:17:41 2019
+  write: IOPS=8096, BW=31.6MiB/s (33.2MB/s)(949MiB/30002msec)
+   bw (  KiB/s): min=27240, max=33588, per=99.93%, avg=32370.35, stdev=1025.47, samples=60
+   iops        : min= 6810, max= 8397, avg=8092.55, stdev=256.36, samples=60
+  cpu          : usr=2.10%, sys=5.10%, ctx=10390, majf=0, minf=1
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%, >=64=166.7%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.1%, >=64=0.0%
+     issued rwt: total=0,242912,0, short=0,0,0, dropped=0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=64
+
+Run status group 0 (all jobs):
+  WRITE: bw=31.6MiB/s (33.2MB/s), 31.6MiB/s-31.6MiB/s (33.2MB/s-33.2MB/s), io=949MiB (995MB), run=30002-30002msec
+
+Disk stats (read/write):
+  sdb: ios=0/404951, merge=0/0, ticks=0/3128066, in_queue=2766200, util=18.76%
+
+##[section]Finishing: DISK benchmark using "fio": sda1 (working) and sda2 (second)
