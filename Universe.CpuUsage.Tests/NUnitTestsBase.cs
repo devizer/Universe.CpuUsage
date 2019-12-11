@@ -83,6 +83,9 @@ namespace Tests
    - ConsoleInfo.IsConsoleSizeZero .... {ConsoleInfo.IsConsoleSizeZero}
    - ConsoleInfo.IsInputRedirected .... {ConsoleInfo.IsInputRedirected}
    - ConsoleInfo.IsOutputRedirected ... {ConsoleInfo.IsOutputRedirected}
+   - Console.IsInputRedirected ... {Console.IsInputRedirected}
+   - Console.IsOutputRedirected ... {Console.IsOutputRedirected}
+   - Console.IsErrorRedirected ... {Console.IsErrorRedirected}
 ");
             }
             
