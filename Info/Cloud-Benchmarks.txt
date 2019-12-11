@@ -9,8 +9,19 @@ Disk: /home/appveyor/projects/, Size: 4002M, Flavour: Random, Block: 4096 bytes
 [Completed]  100.0% 00:00:30   14.4M/s Random Write, 16 threads
 [Completed]  Clean up
 
-Linux on TRAVIS
+Linux on TRAVIS, Working Set 4Gb
 Disk: /home/travis/build/, Size: 4002M, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:07:18     28M/s Allocate 12G
+[Completed]  100.0% 00:05:16   38.8M/s Sequential read
+[Completed]  100.0% 00:05:39   36.2M/s Sequential write
+[Completed]  100.0% 00:01:00 6543.8K/s Random Read, 1 thread
+[Completed]  100.0% 00:01:00 6689.8K/s Random Write, 1 thread
+[Completed]  100.0% 00:01:00   12.8M/s Random Read, 16 threads
+[Completed]  100.0% 00:01:00 7822.3K/s Random Write, 16 threads
+[Completed]  Clean up
+
+Linux on TRAVIS, Working Set 4Gb
 [Completed]  Direct Access is detected
 [Completed]  100.0% 00:02:15   29.6M/s Allocate 4002M
 [Completed]  100.0% 00:00:17  233.2M/s Sequential read
@@ -21,7 +32,19 @@ Disk: /home/travis/build/, Size: 4002M, Flavour: Random, Block: 4096 bytes
 [Completed]  100.0% 00:00:30 7922.8K/s Random Write, 16 threads
 [Completed]  Clean up
 
-MacOS on TRAVIS
+MacOS on TRAVIS, Working Set 12Gb
+Disk: /Users/travis/build/devizer/Universe.CpuUsage, Size: 12G, Flavour: Random, Block: 4096 bytes
+[Completed]  Direct Access is detected
+[Completed]  100.0% 00:04:19   47.4M/s Allocate 12G
+[Completed]  100.0% 00:00:37    330M/s Sequential read
+[Completed]  100.0% 00:01:16  161.4M/s Sequential write
+[Completed]  100.0% 00:01:00 4371.4K/s Random Read, 1 thread
+[Completed]  100.0% 00:01:00 2906.9K/s Random Write, 1 thread
+[Completed]  100.0% 00:01:00 6855.3K/s Random Read, 16 threads
+[Completed]  100.0% 00:01:00 6447.3K/s Random Write, 16 threads
+[Completed]  Clean up
+
+MacOS on TRAVIS, Working Set 4Gb
 Disk: /Users/travis/build/devizer/Universe.CpuUsage, Size: 4002M, Flavour: Random, Block: 4096 bytes
 [Completed]  Direct Access is detected?
 [Completed]  100.0% 00:01:52   35.6M/s Allocate 4002M
@@ -32,7 +55,6 @@ Disk: /Users/travis/build/devizer/Universe.CpuUsage, Size: 4002M, Flavour: Rando
 [Completed]  100.0% 00:00:30   19.2M/s Random Read, 16 threads
 [Completed]  100.0% 00:00:30 4851.8K/s Random Write, 16 threads
 [Completed]  Clean up
-
 
 Disk: /home/vsts/work/1/s, Size: 10G, Flavour: Random, Block: 4096 bytes
 [Completed]  Direct Access is detected
@@ -57,7 +79,7 @@ Disk: /mnt, Size: 10G, Flavour: Random, Block: 4096 bytes
 [Completed]  100.1% 00:00:30   26.7M/s Random Write, 16 threads
 [Completed]  Clean up
 
-compressed (zlib:8) sdb on AzurePipelines 
+Linux on AzurePipelines, compressed (zlib:8) sdb  
 Disk: /transient-builds, Size: 10G, Flavour: Random, Block: 4096 bytes
 [Completed]  Direct Access is detected
 [Completed]  100.0% 00:08:28   20.1M/s Allocate 10G
@@ -68,4 +90,3 @@ Disk: /transient-builds, Size: 10G, Flavour: Random, Block: 4096 bytes
 [Completed]  100.0% 00:00:30   31.8M/s Random Read, 16 threads
 [Completed]  100.6% 00:00:30 3213.1K/s Random Write, 16 threads
 [Completed]  Clean up
-

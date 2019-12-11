@@ -64,7 +64,7 @@ before_script:
   Say "Installing disk-benchmark"
   script=https://raw.githubusercontent.com/devizer/glist/master/install-disk-benchmark-from-source.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -sSL $script) | bash
   free -m
-  disk-benchmark -s=$((12*1024*1024)) -t=60000 | cat || true
+  disk-benchmark -s=$((1*1024*1024)) -t=20000 | cat || true
 
 - pushd Tests4Mono; . install-dotnet.sh; popd
 - dotnet --info || true
