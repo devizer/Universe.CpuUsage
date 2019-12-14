@@ -28,7 +28,7 @@ namespace Universe.CpuUsage.MonoTests
 
 
 
-        [Test, Ignore("Experimental")]
+        [Test/*, Ignore("Experimental")*/]
         public void Show_TargetFramework_ByCecil()
         {
             var fileName = typeof(CpuUsage).Assembly.Location;
