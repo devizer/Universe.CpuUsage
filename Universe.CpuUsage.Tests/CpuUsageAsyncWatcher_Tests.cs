@@ -61,7 +61,7 @@ namespace Universe.CpuUsage.Tests
             long expectedMicroseconds = 1000L * (2400 + 2100 + 1800 + 1500);
             Console.WriteLine($"Expected usage: {(expectedMicroseconds/1000d):n3}, Actual usage: {(actualMicroseconds/1000d):n3} milliseconds");
             Console.WriteLine(totals.ToHumanString(taskDescription:"ParallelTests()"));
-            // 7 for windows 8 cores, rarely 6 for slow 2 core machine
+            // 7 for windows 8 cores, rarely 6 for slow 2 core machine, but 7 for single core armv5
             Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
             Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
         }
