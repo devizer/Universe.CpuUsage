@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mono.Cecil;
 using NUnit.Framework;
 
@@ -8,15 +9,52 @@ namespace Universe.CpuUsage.MonoTests
     public class FirstTest
     {
         [Test]
-        public void GetByProcess_Test()
+        public void Smoke_Test()
         {
-            CpuUsage? usage = CpuUsage.GetByProcess();
-            TestContext.Progress.WriteLine($"Process's CPU Usage: {usage}");
-
-            Show_Metatdata_ByCecil();
+            Show_CpuUsage_Version();
+            CpuUsage? byThread = CpuUsage.GetByThread();
+            CpuUsage? byProcess = CpuUsage.GetByProcess();
+            TestContext.Progress.WriteLine($"Process's CPU Usage  : {byProcess}");
+            TestContext.Progress.WriteLine($"Thread's CPU Usage   : {byThread}");
         }
 
         [Test]
+        public void Show_CpuUsage_Version()
+        {
+            var asm = typeof(CpuUsage).Assembly;
+            TestContext.Progress.WriteLine($"CpuUsage Version     : {asm.GetName().Version}");
+            TestContext.Progress.WriteLine($"Its Target Framework : '{GetTargetFramework(asm.Location)}'");
+        }
+
+
+
+        [Test, Ignore("Experimental")]
+        public void Show_TargetFramework_ByCecil()
+        {
+            var fileName = typeof(CpuUsage).Assembly.Location;
+
+            TryAndForget("AssemblyDefinition.ReadAssembly()", () =>
+            {
+                var asmDef = AssemblyDefinition.ReadAssembly(fileName);
+                ShowProperties(asmDef, 3);
+                TestContext.Progress.WriteLine(" ");
+
+                foreach (var attr in asmDef.CustomAttributes)
+                {
+                    TestContext.Progress.WriteLine($"Attribute {attr.AttributeType}");
+                    ShowProperties(attr, 6);
+                    foreach (var prop in attr.Properties)
+                    {
+                        TestContext.Progress.WriteLine($"      Property [{prop.Argument.Type}] {prop.Name}: '{prop.Argument.Value}'");
+                    }
+                    TestContext.Progress.WriteLine(" ");
+                }
+
+
+            });
+        }
+
+        [Test, Ignore("Experimental")]
         public void Show_Metatdata_ByCecil()
         {
             var fileName = typeof(CpuUsage).Assembly.Location;
@@ -36,13 +74,6 @@ namespace Universe.CpuUsage.MonoTests
                     TestContext.Progress.WriteLine(" ");
                 }
             });
-        }
-
-        [Test]
-        public void Show_CpuUsage_Version()
-        {
-            var cpuUsageVersion = typeof(CpuUsage).Assembly.GetName().Version;
-            TestContext.Progress.WriteLine($"CpuUsage Version: {cpuUsageVersion}");
         }
 
         void ShowProperties(object obj, int indent)
@@ -71,6 +102,14 @@ namespace Universe.CpuUsage.MonoTests
                     Console.WriteLine($"Fail. {caption}. {ex.GetType().Name}: {ex.Message}");
             }
 
+        }
+
+        string GetTargetFramework(string fileName)
+        {
+            var asmDef = AssemblyDefinition.ReadAssembly(fileName);
+            const string attrName = "System.Runtime.Versioning.TargetFrameworkAttribute";
+            var tfa = asmDef.CustomAttributes.FirstOrDefault(x => x.AttributeType.FullName == attrName);
+            return tfa?.Properties.FirstOrDefault().Argument.Value?.ToString();
         }
     }
 }
