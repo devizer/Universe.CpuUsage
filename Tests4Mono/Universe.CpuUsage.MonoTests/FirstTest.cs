@@ -8,19 +8,19 @@ namespace Universe.CpuUsage.MonoTests
     public class FirstTest
     {
         [Test]
-        public void Go()
+        public void GetByProcess_Test()
         {
             CpuUsage? usage = CpuUsage.GetByProcess();
             TestContext.Progress.WriteLine($"Process's CPU Usage: {usage}");
 
-            var cpuUsageVersion = typeof(CpuUsage).Assembly.GetName().Version;
-            TestContext.Progress.WriteLine($"CpuUsage Version: {cpuUsageVersion}");
+            Show_Metatdata_ByCecil();
+        }
 
+        [Test]
+        public void Show_Metatdata_ByCecil()
+        {
             var fileName = typeof(CpuUsage).Assembly.Location;
-
             TestContext.Progress.WriteLine($"CpuUsage Location: {fileName}");
-
-
 
             TryAndForget("ModuleDefinition.ReadModule()", () =>
             {
@@ -35,10 +35,14 @@ namespace Universe.CpuUsage.MonoTests
                     ShowProperties(moduleCustomAttribute, 4);
                     TestContext.Progress.WriteLine(" ");
                 }
-
-
             });
-            
+        }
+
+        [Test]
+        public void Show_CpuUsage_Version()
+        {
+            var cpuUsageVersion = typeof(CpuUsage).Assembly.GetName().Version;
+            TestContext.Progress.WriteLine($"CpuUsage Version: {cpuUsageVersion}");
         }
 
         void ShowProperties(object obj, int indent)
