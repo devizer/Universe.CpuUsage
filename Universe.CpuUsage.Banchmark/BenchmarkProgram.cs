@@ -12,10 +12,13 @@ namespace Universe.CpuUsage.Banchmark
     {
         public static void Main(string[] args)
         {
+            var run = Job.ShortRun;
             IConfig config = ManualConfig.Create(DefaultConfig.Instance);
             // Job jobLlvm = Job.InProcess;
-            Job jobLlvm = Job.ShortRun.With(Jit.Llvm).With(MonoRuntime.Default);
-            config = config.With(jobLlvm.WithWarmupCount(2));
+            Job jobLlvm = run.With(Jit.Llvm).With(MonoRuntime.Default).WithId("LLVM-ON").WithWarmupCount(3);
+            Job jobNoLlvm = run.With(MonoRuntime.Default).WithId("LLVM-OFF").WithWarmupCount(3);
+            Job jobCore = run.With(CoreRuntime.Core22).WithId("NET-CORE").WithWarmupCount(3);
+            config = config.With(new[] { jobLlvm, jobNoLlvm, jobCore});
             Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
         }
 
