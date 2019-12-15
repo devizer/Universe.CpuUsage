@@ -22,6 +22,7 @@ dotnet_csproj:
   
 platform: Any CPU
 init:
+- sh: script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 - sh: |
     Say "Memory"
     free -m
