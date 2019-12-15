@@ -12,7 +12,8 @@ namespace Universe.CpuUsage.Banchmark
     {
         public static void Main(string[] args)
         {
-            var run = Job.ShortRun;
+            // var run = Job.ShortRun;
+            var run = Job.MediumRun;
             IConfig config = ManualConfig.Create(DefaultConfig.Instance);
             // Job jobLlvm = Job.InProcess;
             Job jobLlvm = run.With(Jit.Llvm).With(MonoRuntime.Default).WithId("LLVM-ON").WithWarmupCount(3);
