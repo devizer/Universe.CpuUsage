@@ -17,7 +17,7 @@ namespace Universe.CpuUsage.Banchmark
             IConfig config = ManualConfig.Create(DefaultConfig.Instance);
             // Job jobLlvm = Job.ShortRun.WithWarmupCount(1).With(Jit.Llvm);
             Job jobLlvm = Job.Dry.With(Jit.Llvm);
-            config.With(jobLlvm);
+            // config.With(jobLlvm);
             Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
         }
 
