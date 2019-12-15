@@ -1,5 +1,6 @@
 ﻿using System;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
@@ -8,13 +9,24 @@ namespace Universe.CpuUsage.Banchmark
 {
     class BenchmarkProgram
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            IConfig config = ManualConfig.Create(DefaultConfig.Instance).With(Job.ShortRun.WithWarmupCount(1));
-            // config.Add(DefaultConfig.Instance.GetExporters());
-            // c.Add(DefaultConfig.Instance.GetLoggers());
-            Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
 
+            if (IsMono())
+            {
+                
+            }
+            
+            Job jobLlvm = Job.ShortRun.WithWarmupCount(1).With(Jit.Llvm);
+            // https://benchmarkdotnet.org/articles/guides/customizing-runtime.html
+            IConfig config = ManualConfig.Create(DefaultConfig.Instance).With(jobLlvm);
+            Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
         }
+        
+        static bool IsMono()
+        {
+            return Type.GetType("Mono.Runtime", false) != null;
+        }
+
     }
 }
