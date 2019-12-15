@@ -12,6 +12,8 @@ namespace Universe.CpuUsage.Banchmark
     {
         public static void Main(string[] args)
         {
+            
+            bool isLlvm = 
 
             if (IsMono())
             {
@@ -21,16 +23,16 @@ namespace Universe.CpuUsage.Banchmark
             List<Job> jobs = new List<Job>();
             if (IsMono())
             {
-                Job jobLlvm = new Job("LLVM", RunMode.Medium).WithWarmupCount(1).With(Jit.Llvm);
-                Job jobNoLlvm = new Job("NO LLVM", RunMode.Medium).WithWarmupCount(1);
+                Job jobLlvm = new Job("LLVM", RunMode.Short).WithWarmupCount(1).With(Jit.Llvm);
+                Job jobNoLlvm = new Job("NO LLVM", RunMode.Short).WithWarmupCount(1);
                 jobs.AddRange(new[] { jobLlvm,jobNoLlvm });
             }
             else
-                jobs.Add(new Job(".NET Core", RunMode.Medium).WithWarmupCount(1));
+                jobs.Add(new Job(".NET Core", RunMode.Short).WithWarmupCount(1));
 
             // https://benchmarkdotnet.org/articles/guides/customizing-runtime.html
             IConfig config = ManualConfig.Create(DefaultConfig.Instance);
-            foreach (var job in jobs) config.With(job);
+            config.With(jobs.ToArray());
             Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
         }
         
