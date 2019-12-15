@@ -3,22 +3,27 @@
     <Import Project="..\Shared\Targeting.props" />
     <Import Project="..\Shared\Version.props" />
 
+    <Target Name="DisplayInfo">
+        <Message Text="Project File Name = $(MSBuildProjectFile)" />
+        <Message Text="Project Extension = $(MSBuildProjectExtension)" />
+        <Message Text="OS                = $(OS)" />
+    </Target>
+
     <PropertyGroup>
-        <CommonTargetFrameworks>net48;net472;net47;net46;net45;net40;net35;net30;net20;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1;netcoreapp2.0;netcoreapp1.1;netcoreapp1.0;netstandard2.1;netstandard2.0;netstandard1.6;netstandard1.4;netstandard1.3;</CommonTargetFrameworks>
+        <CommonTargetFrameworks>netcoreapp3.0;netcoreapp2.2;netcoreapp2.1;netcoreapp2.0;netcoreapp1.1;netcoreapp1.0;netstandard2.1;netstandard2.0;netstandard1.6;netstandard1.4;netstandard1.3;</CommonTargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
-        <CommonTargetFrameworks>net48;$(CommonTargetFrameworks)</CommonTargetFrameworks>
+        <TargetFrameworks>net48;net472;net47;net46;net45;net40;net35;net30;net20;$(CommonTargetFrameworks)</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-        <CommonTargetFrameworks>$(CommonTargetFrameworks)</CommonTargetFrameworks>
+        <TargetFrameworks>$(CommonTargetFrameworks)</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>net48;net472;net47;net46;net45;net40;net35;net30;net20;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1;netcoreapp2.0;netcoreapp1.1;netcoreapp1.0;netstandard2.1;netstandard2.0;netstandard1.6;netstandard1.4;netstandard1.3;</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
