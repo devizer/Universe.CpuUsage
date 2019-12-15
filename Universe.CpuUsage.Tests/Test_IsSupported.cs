@@ -38,6 +38,8 @@ namespace Universe.CpuUsage.Tests
         [Test]
         public void Show_Is_Supported()
         {
+            Console.WriteLine($"CpuUsage.IsSupported ............... : {CpuUsage.IsSupported}");
+            Console.WriteLine($"CpuUsageAsyncWatcher.IsSupported ... : {CpuUsageAsyncWatcher.IsSupported}");
             Console.WriteLine($"LinuxResourceUsage.IsSupported ..... : {LinuxResourceUsage.IsSupported}");
             Console.WriteLine($"MacOsThreadInfo.IsSupported ........ : {MacOsThreadInfo.IsSupported}");
             Console.WriteLine($"WindowsCpuUsage.IsSupported ........ : {WindowsCpuUsage.IsSupported}");
