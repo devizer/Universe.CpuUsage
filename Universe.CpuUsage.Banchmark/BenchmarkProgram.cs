@@ -28,7 +28,9 @@ namespace Universe.CpuUsage.Banchmark
                 jobs.AddRange(new[] { jobLlvm/*, jobNoLlvm*/ });
             }
             else
-                jobs.Add(new Job(".NET Core", RunMode.Short).WithWarmupCount(1));
+            {
+                // jobs.Add(new Job(".NET Core", RunMode.Short).WithWarmupCount(1));
+            }
 
             // https://benchmarkdotnet.org/articles/guides/customizing-runtime.html
             IConfig config = ManualConfig.Create(DefaultConfig.Instance);
