@@ -1,4 +1,4 @@
-# work=$HOME/build/devizer; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; git pull; cd cd Universe.CpuUsage.Banchmark; bash run-llvm.sh  
+# work=$HOME/build/devizer; mkdir -p $work; cd $work; git clone https://github.com/devizer/Universe.CpuUsage; cd Universe.CpuUsage; git pull; cd Universe.CpuUsage.Banchmark; bash run-llvm.sh  
 
 pushd ..
 nuget restore || true; dotnet restore || true
