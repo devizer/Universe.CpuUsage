@@ -16,7 +16,7 @@ namespace Universe.CpuUsage.Banchmark
             // https://benchmarkdotnet.org/articles/guides/customizing-runtime.html
             IConfig config = ManualConfig.Create(DefaultConfig.Instance);
             // Job jobLlvm = Job.ShortRun.WithWarmupCount(1).With(Jit.Llvm);
-            Job jobLlvm = Job.ShortRun.With(MonoRuntime.Default).With(Jit.Llvm);
+            Job jobLlvm = Job.ShortRun.With(Jit.Llvm).With(MonoRuntime.Default);
             config.With(jobLlvm);
             Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
         }
