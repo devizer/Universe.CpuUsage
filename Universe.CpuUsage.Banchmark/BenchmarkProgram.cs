@@ -13,7 +13,7 @@ namespace Universe.CpuUsage.Banchmark
         public static void Main(string[] args)
         {
             
-            bool isLlvm = 
+            // bool isLlvm = 
 
             if (IsMono())
             {
