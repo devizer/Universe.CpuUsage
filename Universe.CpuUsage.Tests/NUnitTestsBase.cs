@@ -11,8 +11,6 @@ namespace Tests
 {
     public class NUnitTestsBase
     {
-        public static bool IsTravis => Environment.GetEnvironmentVariable("TRAVIS") == "true";
-
         protected static TextWriter OUT;
         private Stopwatch StartAt;
         private CpuUsage? _CpuUsage_OnStart;
@@ -80,9 +78,6 @@ namespace Tests
             {
                 SetupDone = true;
                 Console.WriteLine($@"Before Any Tests:
-   - ConsoleInfo.IsConsoleSizeZero .... {ConsoleInfo.IsConsoleSizeZero}
-   - ConsoleInfo.IsInputRedirected .... {ConsoleInfo.IsInputRedirected}
-   - ConsoleInfo.IsOutputRedirected ... {ConsoleInfo.IsOutputRedirected}
    - Console.IsInputRedirected .... {Console.IsInputRedirected}
    - Console.IsOutputRedirected ... {Console.IsOutputRedirected}
    - Console.IsErrorRedirected .... {Console.IsErrorRedirected}
@@ -153,24 +148,6 @@ namespace Tests
 
     }
     
-    public static class ConsoleInfo {
-        public static bool IsConsoleSizeZero {
-            get {
-                try {
-                    return (0 == (Console.WindowHeight + Console.WindowWidth));
-                }
-                catch (Exception exc){
-                    return true;
-                }
-            }
-        }
-        public static bool IsOutputRedirected {
-            get { return IsConsoleSizeZero && !Console.KeyAvailable; }
-        }
-        public static bool IsInputRedirected {
-            get { return IsConsoleSizeZero && Console.KeyAvailable; }
-        }
-    }
 
     [SetUpFixture]
     public class GlobalCleanUp
@@ -179,21 +156,11 @@ namespace Tests
         [OneTimeSetUp]
         public void RunBeforeAnyTests()
         {
-            Console.WriteLine($@"Before Any Tests:
-   - ConsoleInfo.IsConsoleSizeZero .... {ConsoleInfo.IsConsoleSizeZero}
-   - ConsoleInfo.IsInputRedirected .... {ConsoleInfo.IsInputRedirected}
-   - ConsoleInfo.IsOutputRedirected ... {ConsoleInfo.IsOutputRedirected}
-");
         }
 
         [OneTimeTearDown]
         public void RunAfterAnyTests()
         {
-            Console.WriteLine($@"After all the tests:
-   - ConsoleInfo.IsConsoleSizeZero .... {ConsoleInfo.IsConsoleSizeZero}
-   - ConsoleInfo.IsInputRedirected .... {ConsoleInfo.IsInputRedirected}
-   - ConsoleInfo.IsOutputRedirected ... {ConsoleInfo.IsOutputRedirected}
-");
         }
     }
 
