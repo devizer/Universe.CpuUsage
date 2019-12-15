@@ -12,6 +12,17 @@ namespace Universe.CpuUsage.Banchmark
     {
         public static void Main(string[] args)
         {
+
+            // https://benchmarkdotnet.org/articles/guides/customizing-runtime.html
+            IConfig config = ManualConfig.Create(DefaultConfig.Instance);
+            Job jobLlvm = Job.ShortRun.WithWarmupCount(1).With(Jit.Llvm);
+            config.With(jobLlvm);
+            Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
+        }
+
+/*
+        public static void Main_PREV(string[] args)
+        {
             
             // bool isLlvm = 
 
@@ -26,7 +37,7 @@ namespace Universe.CpuUsage.Banchmark
                 // Job jobLlvm = new Job("LLVM", RunMode.Short).WithWarmupCount(1).With(Jit.Llvm);
                 Job jobLlvm = Job.ShortRun.WithWarmupCount(1).With(Jit.Llvm);
                 Job jobNoLlvm = new Job("NO LLVM", RunMode.Short).WithWarmupCount(1);
-                jobs.AddRange(new[] { jobLlvm/*, jobNoLlvm*/ });
+                jobs.AddRange(new[] { jobLlvm/*, jobNoLlvm#1# });
             }
             else
             {
@@ -43,6 +54,7 @@ namespace Universe.CpuUsage.Banchmark
         {
             return Type.GetType("Mono.Runtime", false) != null;
         }
+*/
 
     }
 }
