@@ -12,10 +12,18 @@ namespace Universe.CpuUsage.Banchmark
     {
         public static void Main(string[] args)
         {
+            IConfig config = ManualConfig.Create(DefaultConfig.Instance);
+            Job jobLlvm = Job.InProcess;
+            config.With(jobLlvm.WithWarmupCount(2));
+            Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
+        }
+
+        public static void Main_Always_NOLLVM(string[] args)
+        {
+            // Job jobLlvm = Job.ShortRun.WithWarmupCount(1).With(Jit.Llvm);
 
             // https://benchmarkdotnet.org/articles/guides/customizing-runtime.html
             IConfig config = ManualConfig.Create(DefaultConfig.Instance);
-            // Job jobLlvm = Job.ShortRun.WithWarmupCount(1).With(Jit.Llvm);
             Job jobLlvm = Job.ShortRun.With(Jit.Llvm).With(MonoRuntime.Default);
             config.With(jobLlvm);
             Summary summary = BenchmarkRunner.Run<CpuUsageBenchmarks>(config);
