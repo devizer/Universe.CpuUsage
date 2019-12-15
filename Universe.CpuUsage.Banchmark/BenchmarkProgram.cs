@@ -25,7 +25,7 @@ namespace Universe.CpuUsage.Banchmark
             {
                 Job jobLlvm = new Job("LLVM", RunMode.Short).WithWarmupCount(1).With(Jit.Llvm);
                 Job jobNoLlvm = new Job("NO LLVM", RunMode.Short).WithWarmupCount(1);
-                jobs.AddRange(new[] { jobLlvm,jobNoLlvm });
+                jobs.AddRange(new[] { jobLlvm/*, jobNoLlvm*/ });
             }
             else
                 jobs.Add(new Job(".NET Core", RunMode.Short).WithWarmupCount(1));
