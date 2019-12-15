@@ -17,8 +17,7 @@ namespace Universe.CpuUsage
             {
                 lock (_Log)
                 {
-                    List<ContextSwitchLogItem> copy = new List<ContextSwitchLogItem>(_Log);
-                    return copy;
+                    return new List<ContextSwitchLogItem>(_Log);
                 }
             }
         }

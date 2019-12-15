@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 
@@ -33,6 +34,14 @@ namespace Universe.CpuUsage.Banchmark
         public void ByThread()
         {
             CpuUsage.GetByProcess();
+        }
+
+        [Benchmark]
+        public async Task CpuUsageAsyncMinimal()
+        {
+            CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
+            await Task.Run(() => "nothing to do");
+            var totals = watcher.Totals.GetSummaryCpuUsage();
         }
         
     }
