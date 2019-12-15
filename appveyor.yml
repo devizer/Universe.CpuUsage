@@ -22,13 +22,13 @@ dotnet_csproj:
   
 platform: Any CPU
 init:
+- sh: script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 - sh: |
-    script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
-    Say "Installing disk-benchmark"
-    script=https://raw.githubusercontent.com/devizer/glist/master/install-disk-benchmark-from-source.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -sSL $script) | bash
-    disk-benchmark -s=$((1*1024*1024)) -t=30000 | cat
+    Say "Memory"
     free -m
+    Say "Mounted Volumes"
     df -h -T
+    Say "All partitions and disks"
     sudo fdisk -l
     true
     
@@ -56,16 +56,16 @@ init:
     }
 
 
-- sh: |
-    function header() {
-      if [[ $(uname -s) != Darwin ]]; then
-        startAt=${startAt:-$(date +%s)}; elapsed=$(date +%s); elapsed=$((elapsed-startAt)); elapsed=$(TZ=UTC date -d "@${elapsed}" "+%_H:%M:%S");
-      fi
-      LightGreen='\033[1;32m'; Yellow='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'; LightGray='\033[1;2m';
-      printf "${LightGray}${elapsed:-}${NC} ${LightGreen}$1${NC} ${Yellow}$2${NC}\n"; 
-    }
-    counter=0; function Say() { echo ""; counter=$((counter+1)); header "STEP $counter" "$1"; }; Say "" >/dev/null; counter=0;
-    
+#- sh: |
+#    function header() {
+#      if [[ $(uname -s) != Darwin ]]; then
+#        startAt=${startAt:-$(date +%s)}; elapsed=$(date +%s); elapsed=$((elapsed-startAt)); elapsed=$(TZ=UTC date -d "@${elapsed}" "+%_H:%M:%S");
+#      fi
+#      LightGreen='\033[1;32m'; Yellow='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'; LightGray='\033[1;2m';
+#      printf "${LightGray}${elapsed:-}${NC} ${LightGreen}$1${NC} ${Yellow}$2${NC}\n"; 
+#    }
+#    counter=0; function Say() { echo ""; counter=$((counter+1)); header "STEP $counter" "$1"; }; Say "" >/dev/null; counter=0;
+#    
 
 install:
 - ps: '$Env:ARTIFACT = "$($Env:APPVEYOR_BUILD_FOLDER)$([IO.Path]::DirectorySeparatorChar)Artifact"; mkdir $Env:ARTIFACT | out-null; Say "ARTIFACT folder: $($Env:ARTIFACT)"'
@@ -94,10 +94,10 @@ build_script:
       Say "RESTORE and BUILD"
       & dotnet restore
 
-- sh: |
-      Say "Remove net 4.8 target for msbuild on linux"
-      sed -i 's/net48;//g' Universe.CpuUsage/Universe.CpuUsage.csproj
-      # cat Universe.CpuUsage/Universe.CpuUsage.csproj
+#- sh: |
+#      Say "Remove net 4.8 target for msbuild on linux"
+#      sed -i 's/net48;//g' Universe.CpuUsage/Universe.CpuUsage.csproj
+#      # cat Universe.CpuUsage/Universe.CpuUsage.csproj
       
 - ps: |
 
@@ -108,8 +108,8 @@ build_script:
       Say "Rebuild and pack Release"
       pushd Universe.CpuUsage
       & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
-      Say "Rebuild and pack Debug"
-      & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
+      # Say "Rebuild and pack Debug"
+      # & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
       popd
 
 after_build:
@@ -147,6 +147,7 @@ test_script:
     Say "Bye-bye"
 
 after_test:
+# do not publish nuget to feeds on LINUX 
 - sh: 'find . -name "*.nupkg" -exec rm -f {} \;'
 - sh: 'Show-System-Stat || true'
 - ps: Stop-Transcript;
