@@ -163,6 +163,7 @@ artifacts:
  - path: Artifact
  - path: 'AppVeyor Build Folder.7z'
  - path: '**\Release\*.nupkg'
+ - path: '**\Release\*.snupkg'
 
 # on_success:
 # - cmd: 'appveyor PushArtifact "Universe.CpuUsage\bin\Any CPU\Release\*.nupkg"'
