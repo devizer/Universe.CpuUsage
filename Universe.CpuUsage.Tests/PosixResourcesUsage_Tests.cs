@@ -52,7 +52,10 @@ namespace KernelManagementJam.Tests
             var delta = PosixResourceUsage.Substruct(after, before);
             Console.WriteLine($"delta.InvoluntaryContextSwitches = {delta.InvoluntaryContextSwitches}");
             Console.WriteLine($"delta.VoluntaryContextSwitches = {delta.VoluntaryContextSwitches}");
-            Assert.AreEqual(switchCount, delta.VoluntaryContextSwitches);
+            if (scope == CpuUsageScope.Thread)
+                Assert.AreEqual(switchCount, delta.VoluntaryContextSwitches);
+            else
+                Assert.GreaterOrEqual(delta.VoluntaryContextSwitches, switchCount);
         }
     }
 }
