@@ -55,8 +55,9 @@ namespace KernelManagementJam.Benchmarks
             {
                 ProcessStartInfo si = new ProcessStartInfo(executableName, args);
                 if (string.IsNullOrEmpty(args)) si = new ProcessStartInfo(executableName);
-                si.RedirectStandardError = true;
-                si.RedirectStandardOutput = true;
+                // si.RedirectStandardError = true;
+                // si.RedirectStandardOutput = true;
+                // si.UseShellExecute = false;
                 using (Process p = Process.Start(si))
                 {
                     p.Start();
