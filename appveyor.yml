@@ -148,6 +148,7 @@ test_script:
 
 after_test:
 # do not publish nuget to feeds on LINUX 
+- sh: shopt -s globstar; rm -f **/*.nupkg; rm -f **/*.snupkg; 
 - sh: 'find . -name "*.nupkg" -exec rm -f {} \;'
 - sh: 'find . -name "*.snupkg" -exec rm -f {} \;'
 - sh: 'Show-System-Stat || true'
