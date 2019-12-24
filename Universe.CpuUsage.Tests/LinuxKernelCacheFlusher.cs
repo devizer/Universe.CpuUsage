@@ -30,7 +30,7 @@ namespace KernelManagementJam.Benchmarks
             bool isDropOk = false;
             try
             {
-                File.WriteAllText("/proc/sys/vm/drop_caches", "1");
+                File.WriteAllText("/proc/sys/vm/drop_caches", "3");
                 // sudo on Linux: ok
                 // non-sudo on Linux: fail
                 // macOS - fail
@@ -54,6 +54,7 @@ namespace KernelManagementJam.Benchmarks
             try
             {
                 ProcessStartInfo si = new ProcessStartInfo(executableName, args);
+                if (string.IsNullOrEmpty(args)) si = new ProcessStartInfo(executableName);
                 si.RedirectStandardError = true;
                 si.RedirectStandardOutput = true;
                 using (Process p = Process.Start(si))
@@ -73,10 +74,10 @@ namespace KernelManagementJam.Benchmarks
                     return p.ExitCode;
                 }
             }
-            catch
+            catch(Exception ex)
             {
 #if DEBUG
-                Console.WriteLine($"Info: Process [{info}] failed in {sw.ElapsedMilliseconds:n0} milliseconds");
+                Console.WriteLine($"Info: Process [{info}] failed in {sw.ElapsedMilliseconds:n0} milliseconds. {ex.GetType().Name} {ex.Message}");
 #endif
                 return -1;
             }
