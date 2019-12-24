@@ -77,6 +77,9 @@
     <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo_Tests.cs">
       <Link>LinkedTests\CrossInfo_Tests.cs</Link>
     </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\LinuxKernelCacheFlusher.cs">
+      <Link>LinkedTests\LinuxKernelCacheFlusher.cs</Link>
+    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\LinuxResourcesUsage_Reader_Tests.cs">
       <Link>LinkedTests\LinuxResourcesUsage_Reader_Tests.cs</Link>
     </Compile>

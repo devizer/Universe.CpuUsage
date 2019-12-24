@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using KernelManagementJam.Benchmarks;
 using NUnit.Framework;
 using Tests;
 using Universe;
@@ -28,7 +29,7 @@ namespace KernelManagementJam.Tests
 
         private void ReadFile()
         {
-            File.ReadAllBytes(FileName);
+            var bytes = File.ReadAllBytes(FileName);
         }
 
         [TearDown]
@@ -93,6 +94,7 @@ namespace KernelManagementJam.Tests
 
             // Arrange
             WriteFile(512*1024);
+            LinuxKernelCacheFlusher.Sync();
             
             // Act
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
@@ -103,7 +105,7 @@ namespace KernelManagementJam.Tests
             // Assert
             Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
             Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
-            Assert.GreaterOrEqual(delta.ReadOps, 0);
+            Assert.Greater(delta.ReadOps, 0);
         }
  
         [Test]
@@ -114,7 +116,7 @@ namespace KernelManagementJam.Tests
             if (!PosixResourceUsage.IsSupported) return;
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
 
-            // Arrange
+            // Arrange: nothing to do
             
             // Act
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
@@ -125,7 +127,7 @@ namespace KernelManagementJam.Tests
             // Assert
             Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
             Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
-            Assert.GreaterOrEqual(delta.WriteOps, 0);
+            Assert.Greater(delta.WriteOps, 0);
         }
     }
 }
