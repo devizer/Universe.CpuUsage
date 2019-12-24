@@ -1,0 +1,21 @@
+x64:
+
+#5 {Show_Raw_Process_Usage} @ LinuxResourcesUsage_Tests starting...
+getrusage returns 0
+GetRawUsageResources(RUSAGE_SELF):
+    u_sec 0:11,         u_usec 1:612017,      k_sec 2:1,          k_usec 3:767126,  
+   maxrss 4:899992,      ixrss 5:0,           idrss 6:0,           isrss 7:0,       
+   minflt 8:693381,     majflt 9:1,          nswap 10:0,        inblock 11:25424,   
+ oublock 12:21512,     msgsnd 13:0,         msgrcv 14:0,       nsignals 15:0,       
+   nvcsw 16:2074,      nivcsw 17:3717     
+#5 {Show_Raw_Process_Usage} >PASSED< in 00:00:00.0101869 (cpu: 79%, 8.045 = 8.045 [user] + 0.000 [kernel] milliseconds)
+
+#6 {Show_Raw_Thread_Usage} @ LinuxResourcesUsage_Tests starting...
+getrusage returns 0
+GetRawUsageResources(RUSAGE_THREAD):
+    u_sec 0:10,         u_usec 1:521780,      k_sec 2:1,          k_usec 3:486560,  
+   maxrss 4:900276,      ixrss 5:0,           idrss 6:0,           isrss 7:0,       
+   minflt 8:650550,     majflt 9:0,          nswap 10:0,        inblock 11:18384,   
+ oublock 12:17672,     msgsnd 13:0,         msgrcv 14:0,       nsignals 15:0,       
+   nvcsw 16:372,       nivcsw 17:2248     
+#6 {Show_Raw_Thread_Usage} >PASSED< in 00:00:00.0009432 (cpu: 71%, 0.671 = 0.671 [user] + 0.000 [kernel] milliseconds)
