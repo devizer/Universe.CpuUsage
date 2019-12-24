@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using NUnit.Framework;
 using Tests;
@@ -38,9 +39,12 @@ namespace KernelManagementJam.Tests
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
+            
             for (int i = 0; i < switchCount; i++)
             {
-                CpuLoader.Run(1, 0, true);
+                // CpuLoader.Run(1, 0, true);
+                Stopwatch sw = Stopwatch.StartNew();
+                while (sw.ElapsedMilliseconds < 1) ;
                 Thread.Sleep(1);
             }
             
@@ -48,6 +52,7 @@ namespace KernelManagementJam.Tests
             var delta = PosixResourceUsage.Substruct(after, before);
             Console.WriteLine($"delta.InvoluntaryContextSwitches = {delta.InvoluntaryContextSwitches}");
             Console.WriteLine($"delta.VoluntaryContextSwitches = {delta.VoluntaryContextSwitches}");
+            Assert.AreEqual(switchCount, delta.VoluntaryContextSwitches);
         }
     }
 }
