@@ -138,7 +138,7 @@ test_script:
       echo "Starting tests using Mono in [$(pwd)]"
       pushd Tests4Mono; set +e; source build-the-matrix.sh; echo $matrix_run
       # need -e -c
-      bash -e -c "$matrix_run" || true
+      sudo bash -e -c "$matrix_run" || true
       popd
 
 - ps: | 
