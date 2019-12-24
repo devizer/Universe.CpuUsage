@@ -22,7 +22,7 @@ namespace KernelManagementJam.Tests
         [TestCase(CpuUsageScope.Process)]
         public void Smoke_Test(CpuUsageScope scope)
         {
-            if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows) return;
+            if (!PosixResourceUsage.IsSupported) return;
             Console.WriteLine($"PosixResourceUsage.GetByScope({scope}): {PosixResourceUsage.GetByScope(scope)}");
         }
 
@@ -34,7 +34,7 @@ namespace KernelManagementJam.Tests
         [TestCase(CpuUsageScope.Process,42)]
         public void ContextSwitch_Test(CpuUsageScope scope, int switchCount)
         {
-            if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows) return;
+            if (!PosixResourceUsage.IsSupported) return;
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
