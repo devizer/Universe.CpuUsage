@@ -77,14 +77,17 @@
     <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo_Tests.cs">
       <Link>LinkedTests\CrossInfo_Tests.cs</Link>
     </Compile>
-    <Compile Include="..\..\Universe.CpuUsage.Tests\LinuxResourcesUsage_Tests.cs">
-      <Link>LinkedTests\LinuxResourcesUsage_Tests.cs</Link>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\LinuxResourcesUsage_Reader_Tests.cs">
+      <Link>LinkedTests\LinuxResourcesUsage_Reader_Tests.cs</Link>
     </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\NUnitTestsBase.cs">
       <Link>LinkedTests\NUnitTestsBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\PosixProcessPriority.cs">
       <Link>LinkedTests\PosixProcessPriority.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\PosixResourcesUsage_Tests.cs">
+      <Link>LinkedTests\PosixResourcesUsage_Tests.cs</Link>
     </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\PrecisionTest.cs">
       <Link>LinkedTests\PrecisionTest.cs</Link>

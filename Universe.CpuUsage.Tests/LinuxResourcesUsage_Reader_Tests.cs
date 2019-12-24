@@ -13,18 +13,18 @@ namespace KernelManagementJam.Tests
 {
     // git pull; time dotnet test --filter LinuxResourcesUsage
     [TestFixture]
-    public class LinuxResourcesUsage_Tests : NUnitTestsBase
+    public class LinuxResourcesUsage_Reader_Tests : NUnitTestsBase
     {
         [Test]
         public void Is_Supported()
         {
-            Console.WriteLine($"LinuxResourceUsage.IsSupported: {LinuxResourceUsage.IsSupported}");
+            Console.WriteLine($"LinuxResourceUsageReader.IsSupported: {LinuxResourceUsageReader.IsSupported}");
 
             bool expectedSupported = CrossInfo.ThePlatform == CrossInfo.Platform.Linux ||
                                      CrossInfo.ThePlatform == CrossInfo.Platform.MacOSX;
             
-            if (expectedSupported && !LinuxResourceUsage.IsSupported)
-                Assert.Fail("On Linux 2.6.26+ the value of LinuxResourceUsage.IsSupported should be true");
+            if (expectedSupported && !LinuxResourceUsageReader.IsSupported)
+                Assert.Fail("On Linux 2.6.26+ the value of LinuxResourceUsageReader.IsSupported should be true");
         }
 
         [Test]
@@ -38,12 +38,12 @@ namespace KernelManagementJam.Tests
                 : CpuUsageScope.Thread;
 
             Console.WriteLine($"Supported scope: {scope}");
-            LinuxResourceUsage.GetByScope(scope);
-            var prev = LinuxResourceUsage.GetByScope(scope);
+            LinuxResourceUsageReader.GetByScope(scope);
+            var prev = LinuxResourceUsageReader.GetByScope(scope);
             for (int i = 0; i < 10; i++)
             {
                 CpuLoader.Run(1, 1, true);
-                CpuUsage? next = LinuxResourceUsage.GetByScope(scope);
+                CpuUsage? next = LinuxResourceUsageReader.GetByScope(scope);
                 Console.WriteLine($" {i} -> {next}");
                 Assert.GreaterOrEqual(next.Value.KernelUsage.TotalMicroSeconds, prev.Value.KernelUsage.TotalMicroSeconds);
                 Assert.GreaterOrEqual(next.Value.UserUsage.TotalMicroSeconds, prev.Value.UserUsage.TotalMicroSeconds);
@@ -56,12 +56,12 @@ namespace KernelManagementJam.Tests
         {
             if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
             {
-                Console.WriteLine($"LinuxResourceUsage is not supported on platform {CrossInfo.ThePlatform}");
+                Console.WriteLine($"LinuxResourceUsageReader is not supported on platform {CrossInfo.ThePlatform}");
                 return;
             }
             
-            var usage = LinuxResourceUsage.GetByProcess();
-            Console.WriteLine($"LinuxResourceUsage.GetByProcess(): {usage}");
+            var usage = LinuxResourceUsageReader.GetByProcess();
+            Console.WriteLine($"LinuxResourceUsageReader.GetByProcess(): {usage}");
         }
         
 
@@ -70,12 +70,12 @@ namespace KernelManagementJam.Tests
         {
             if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
             {
-                Console.WriteLine($"LinuxResourceUsage is not supported on platform {CrossInfo.ThePlatform}");
+                Console.WriteLine($"LinuxResourceUsageReader is not supported on platform {CrossInfo.ThePlatform}");
                 return;
             }
             
-            var usage = LinuxResourceUsage.GetByThread();
-            Console.WriteLine($"LinuxResourceUsage.GetByThread(): {usage}");
+            var usage = LinuxResourceUsageReader.GetByThread();
+            Console.WriteLine($"LinuxResourceUsageReader.GetByThread(): {usage}");
         }
         
         [Test]
@@ -83,7 +83,7 @@ namespace KernelManagementJam.Tests
         {
             if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
             {
-                Console.WriteLine($"LinuxResourceUsage is not supported on platform {CrossInfo.ThePlatform}");
+                Console.WriteLine($"LinuxResourceUsageReader is not supported on platform {CrossInfo.ThePlatform}");
                 return;
             }
             
@@ -96,7 +96,7 @@ namespace KernelManagementJam.Tests
         {
             if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
             {
-                Console.WriteLine($"LinuxResourceUsage is not supported on platform {CrossInfo.ThePlatform}");
+                Console.WriteLine($"LinuxResourceUsageReader is not supported on platform {CrossInfo.ThePlatform}");
                 return;
             }
             

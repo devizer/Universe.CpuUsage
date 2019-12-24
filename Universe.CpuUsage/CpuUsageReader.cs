@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
 
 namespace Universe.CpuUsage
 {
@@ -35,13 +34,13 @@ namespace Universe.CpuUsage
             if (scope == CpuUsageScope.Process)
             {
                 if (platform == CrossInfo.Platform.Linux || platform == CrossInfo.Platform.MacOSX)
-                    return LinuxResourceUsage.GetByProcess();
+                    return LinuxResourceUsageReader.GetByProcess();
                 else
                     return WindowsCpuUsage.Get(CpuUsageScope.Process);
             }
 
             if (platform == CrossInfo.Platform.Linux)
-                return LinuxResourceUsage.GetByThread();
+                return LinuxResourceUsageReader.GetByThread();
             
             else if (platform == CrossInfo.Platform.MacOSX)
                 return MacOsThreadInfo.GetByThread();
@@ -66,7 +65,6 @@ namespace Universe.CpuUsage
                 return false;
             }
         });
-
 
     }
 }

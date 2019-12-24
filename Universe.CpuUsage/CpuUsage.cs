@@ -93,6 +93,13 @@ namespace Universe.CpuUsage
         public long TotalMicroSeconds => Seconds * 1000000 + MicroSeconds;
         public double TotalSeconds => Seconds + MicroSeconds / 1000000d;
 
+        public TimeValue(long totalMicroseconds)
+        {
+            const long _1M = 1000000L;
+            Seconds = totalMicroseconds / _1M;
+            MicroSeconds = totalMicroseconds % _1M;
+        }
+
 
         public override string ToString()
         {

@@ -31,7 +31,7 @@ namespace Universe.CpuUsage.Tests
         {
             if (CrossInfo.ThePlatform == CrossInfo.Platform.Linux)
             {
-                Assert.IsTrue(LinuxResourceUsage.IsSupported);
+                Assert.IsTrue(LinuxResourceUsageReader.IsSupported);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Universe.CpuUsage.Tests
         {
             Console.WriteLine($"CpuUsage.IsSupported ............... : {CpuUsage.IsSupported}");
             Console.WriteLine($"CpuUsageAsyncWatcher.IsSupported ... : {CpuUsageAsyncWatcher.IsSupported}");
-            Console.WriteLine($"LinuxResourceUsage.IsSupported ..... : {LinuxResourceUsage.IsSupported}");
+            Console.WriteLine($"LinuxResourceUsageReader.IsSupported ..... : {LinuxResourceUsageReader.IsSupported}");
             Console.WriteLine($"MacOsThreadInfo.IsSupported ........ : {MacOsThreadInfo.IsSupported}");
             Console.WriteLine($"WindowsCpuUsage.IsSupported ........ : {WindowsCpuUsage.IsSupported}");
         }
