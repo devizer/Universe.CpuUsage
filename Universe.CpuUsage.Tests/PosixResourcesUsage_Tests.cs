@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using NUnit.Framework;
 using Tests;
+using Universe;
 using Universe.CpuUsage;
 
 namespace KernelManagementJam.Tests
@@ -29,6 +30,8 @@ namespace KernelManagementJam.Tests
         [TestCase(CpuUsageScope.Process)]
         public void ContextSwitch_Test(CpuUsageScope scope)
         {
+            if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform == CrossInfo.Platform.Linux) return;
+            
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
             Thread.Sleep(1);
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
