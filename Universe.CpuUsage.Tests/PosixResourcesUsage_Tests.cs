@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Tests;
 using Universe;
 using Universe.CpuUsage;
+using Universe.CpuUsage.Tests;
 
 namespace KernelManagementJam.Tests
 {
@@ -26,14 +27,21 @@ namespace KernelManagementJam.Tests
 
 
         [Test]
-        [TestCase(CpuUsageScope.Thread)]
-        [TestCase(CpuUsageScope.Process)]
-        public void ContextSwitch_Test(CpuUsageScope scope)
+        [TestCase(CpuUsageScope.Thread,1)]
+        [TestCase(CpuUsageScope.Process,1)]
+        [TestCase(CpuUsageScope.Thread,42)]
+        [TestCase(CpuUsageScope.Process,42)]
+        public void ContextSwitch_Test(CpuUsageScope scope, int switchCount)
         {
-            if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform == CrossInfo.Platform.Linux) return;
+            if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
-            Thread.Sleep(1);
+            for (int i = 0; i < switchCount; i++)
+            {
+                CpuLoader.Run(1, 0, true);
+                Thread.Sleep(1);
+            }
+            
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
             var delta = PosixResourceUsage.Substruct(after, before);
             Console.WriteLine($"delta.InvoluntaryContextSwitches = {delta.InvoluntaryContextSwitches}");
