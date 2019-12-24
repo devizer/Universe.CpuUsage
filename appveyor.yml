@@ -136,9 +136,10 @@ test_script:
 
 - sh: |
       echo "Starting tests using Mono in [$(pwd)]"
-      cd Tests4Mono; set +e; source build-the-matrix.sh; echo $matrix_run
+      pushd Tests4Mono; set +e; source build-the-matrix.sh; echo $matrix_run
       # need -e -c
       bash -e -c "$matrix_run" || true
+      popd
 
 - ps: | 
 
@@ -148,6 +149,7 @@ test_script:
 
 after_test:
 # do not publish nuget to feeds on LINUX 
+- sh: Say "removing [s]nupkg in $(pwd)"
 - sh: shopt -s globstar; rm -f **/*.nupkg; rm -f **/*.snupkg; 
 - sh: 'find . -name "*.nupkg" -exec bash -c "DELETING {}; rm -f {}" \;'
 - sh: 'find . -name "*.snupkg" -exec bash -c "DELETING {}; rm -f {}" \;'
