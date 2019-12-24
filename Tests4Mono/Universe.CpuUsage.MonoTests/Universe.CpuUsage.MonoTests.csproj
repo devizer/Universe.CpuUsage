@@ -77,6 +77,9 @@
     <Compile Include="..\..\Universe.CpuUsage.Tests\CrossInfo_Tests.cs">
       <Link>LinkedTests\CrossInfo_Tests.cs</Link>
     </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\LinuxResourcesUsage_Tests.cs">
+      <Link>LinkedTests\LinuxResourcesUsage_Tests.cs</Link>
+    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\NUnitTestsBase.cs">
       <Link>LinkedTests\NUnitTestsBase.cs</Link>
     </Compile>
