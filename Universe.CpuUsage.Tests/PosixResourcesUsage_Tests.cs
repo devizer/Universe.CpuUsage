@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using NUnit.Framework;
 using Tests;
@@ -12,6 +13,30 @@ namespace KernelManagementJam.Tests
     [TestFixture]
     public class PosixResourcesUsage_Tests : NUnitTestsBase
     {
+        private string FileName = "IO-Metrics-Tests-" + Guid.NewGuid().ToString() + ".tmp";
+
+        private void WriteFile(int size)
+        {
+            Random rnd = new Random(42);
+            byte[] content = new byte[size];
+            rnd.NextBytes(content);
+            using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 128, FileOptions.WriteThrough))
+            {
+                fs.Write(content, 0, content.Length);
+            }
+        }
+
+        private void ReadFile()
+        {
+            File.ReadAllBytes(FileName);
+        }
+
+        [TearDown]
+        public void TearDown_IO_Metrics()
+        {
+            if (File.Exists(FileName)) File.Delete(FileName);
+        }
+        
         [Test]
         public void Is_Supported()
         {
@@ -56,6 +81,51 @@ namespace KernelManagementJam.Tests
                 Assert.AreEqual(switchCount, delta.VoluntaryContextSwitches);
             else
                 Assert.GreaterOrEqual(delta.VoluntaryContextSwitches, switchCount);
+        }
+        
+        [Test]
+        [TestCase(CpuUsageScope.Thread)]
+        [TestCase(CpuUsageScope.Process)]
+        public void IO_Reads_Test(CpuUsageScope scope)
+        {
+            if (!PosixResourceUsage.IsSupported) return;
+            if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
+
+            // Arrange
+            WriteFile(512*1024);
+            
+            // Act
+            PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
+            ReadFile();
+            PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
+            var delta = PosixResourceUsage.Substruct(after, before);
+            
+            // Assert
+            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
+            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
+            Assert.GreaterOrEqual(delta.ReadOps, 0);
+        }
+ 
+        [Test]
+        [TestCase(CpuUsageScope.Thread)]
+        [TestCase(CpuUsageScope.Process)]
+        public void IO_Write_Test(CpuUsageScope scope)
+        {
+            if (!PosixResourceUsage.IsSupported) return;
+            if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
+
+            // Arrange
+            
+            // Act
+            PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
+            WriteFile(10*512*1024);
+            PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
+            var delta = PosixResourceUsage.Substruct(after, before);
+            
+            // Assert
+            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
+            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
+            Assert.GreaterOrEqual(delta.WriteOps, 0);
         }
     }
 }
