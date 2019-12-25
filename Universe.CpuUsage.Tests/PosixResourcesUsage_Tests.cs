@@ -16,6 +16,9 @@ namespace KernelManagementJam.Tests
     {
         private string FileName = "IO-Metrics-Tests-" + Guid.NewGuid().ToString() + ".tmp";
 
+        private bool SkipPosixResourcesUsageAsserts => 
+            Environment.GetEnvironmentVariable("SKIP_POSIXRESOURCESUSAGE_ASSERTS") == "True";
+
         private void WriteFile(int size)
         {
             Random rnd = new Random(42);
@@ -64,8 +67,8 @@ namespace KernelManagementJam.Tests
             if (!PosixResourceUsage.IsSupported) return;
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             
+            // Act
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
-            
             for (int i = 0; i < switchCount; i++)
             {
                 // CpuLoader.Run(1, 0, true);
@@ -79,7 +82,9 @@ namespace KernelManagementJam.Tests
             Console.WriteLine($"delta.InvoluntaryContextSwitches = {delta.InvoluntaryContextSwitches}");
             Console.WriteLine($"delta.VoluntaryContextSwitches = {delta.VoluntaryContextSwitches}");
 
+            // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
+            if (SkipPosixResourcesUsageAsserts) return;
             if (scope == CpuUsageScope.Thread)
                 Assert.AreEqual(switchCount, delta.VoluntaryContextSwitches);
             else
@@ -103,11 +108,12 @@ namespace KernelManagementJam.Tests
             ReadFile();
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
             var delta = PosixResourceUsage.Substruct(after, before);
+            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
+            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
             
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
-            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
-            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
+            if (SkipPosixResourcesUsageAsserts) return;
             Assert.Greater(delta.ReadOps, 0);
         }
  
@@ -126,11 +132,12 @@ namespace KernelManagementJam.Tests
             WriteFile(10*512*1024);
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
             var delta = PosixResourceUsage.Substruct(after, before);
+            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
+            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
             
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
-            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
-            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
+            if (SkipPosixResourcesUsageAsserts) return;
             Assert.Greater(delta.WriteOps, 0);
         }
     }
