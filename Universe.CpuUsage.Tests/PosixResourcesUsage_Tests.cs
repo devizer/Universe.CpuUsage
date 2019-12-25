@@ -78,6 +78,8 @@ namespace KernelManagementJam.Tests
             var delta = PosixResourceUsage.Substruct(after, before);
             Console.WriteLine($"delta.InvoluntaryContextSwitches = {delta.InvoluntaryContextSwitches}");
             Console.WriteLine($"delta.VoluntaryContextSwitches = {delta.VoluntaryContextSwitches}");
+
+            if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             if (scope == CpuUsageScope.Thread)
                 Assert.AreEqual(switchCount, delta.VoluntaryContextSwitches);
             else
@@ -103,6 +105,7 @@ namespace KernelManagementJam.Tests
             var delta = PosixResourceUsage.Substruct(after, before);
             
             // Assert
+            if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
             Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
             Assert.Greater(delta.ReadOps, 0);
@@ -125,6 +128,7 @@ namespace KernelManagementJam.Tests
             var delta = PosixResourceUsage.Substruct(after, before);
             
             // Assert
+            if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
             Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
             Assert.Greater(delta.WriteOps, 0);
