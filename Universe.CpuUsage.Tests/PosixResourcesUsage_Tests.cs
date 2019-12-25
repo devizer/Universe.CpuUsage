@@ -16,6 +16,8 @@ namespace KernelManagementJam.Tests
     {
         private string FileName = "IO-Metrics-Tests-" + Guid.NewGuid().ToString() + ".tmp";
 
+        // Works at home PC and AppVeyor linux,
+        // Does not work on multi arch docker container on travis-ci 
         private bool SkipPosixResourcesUsageAsserts => 
             Environment.GetEnvironmentVariable("SKIP_POSIXRESOURCESUSAGE_ASSERTS") == "True";
 
