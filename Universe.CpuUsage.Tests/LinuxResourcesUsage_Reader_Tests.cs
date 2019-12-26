@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Tests;
 using Universe;
 using Universe.CpuUsage;
+using Universe.CpuUsage.Interop;
 using Universe.CpuUsage.Tests;
 
 namespace KernelManagementJam.Tests

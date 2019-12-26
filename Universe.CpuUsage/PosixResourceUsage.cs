@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Universe.CpuUsage.Interop;
 
 namespace Universe.CpuUsage
 {

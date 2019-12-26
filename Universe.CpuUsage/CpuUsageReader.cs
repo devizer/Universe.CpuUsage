@@ -1,4 +1,5 @@
 using System;
+using Universe.CpuUsage.Interop;
 
 namespace Universe.CpuUsage
 {
