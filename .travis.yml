@@ -92,14 +92,14 @@ script:
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
     docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
 
-    echo "RUN TESTS in the qemu. BUILDING MATRIX"
-    cd Tests4Mono; source build-the-matrix.sh; echo $matrix_run; cd ..
-
     Say "Installing mono in the QEMU"
     docker cp Tests4Mono/install-dotnet.sh tests:/
     docker exec tests bash /install-dotnet.sh
 
-    
+    Say "BUILDING MATRIX"
+    cd Tests4Mono; source build-the-matrix.sh; echo $matrix_run; cd ..
+
+    Say "Runnig test matrix"
     pushd $matrix
     docker exec tests mkdir -p $matrix
     docker cp ./. tests:$(pwd)
