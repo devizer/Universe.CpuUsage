@@ -84,7 +84,7 @@ script:
 
     Say "Daemonizing ${MULTIARCH_IMAGE} image as 'tests' container"
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    docker run -d --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
+    docker run -d -h debian-multiarch-tests --name tests -t "${MULTIARCH_IMAGE}" bash -c 'sleep 424242'
 
     Say "Installing mono in the QEMU"
     docker cp Tests4Mono/install-dotnet.sh tests:/
