@@ -25,7 +25,7 @@ namespace Universe.CpuUsage
                 return WindowsCpuUsageInterop.GetCurrentThread().ToInt64();
             }
 
-            throw new NotSupportedException();
+            throw new NotSupportedException($"Platform '{CrossInfo.ThePlatform}' is not supported");
         }
 
         [DllImport("libc", SetLastError = true, EntryPoint = "pthread_self")]
