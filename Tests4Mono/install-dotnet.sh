@@ -3,6 +3,7 @@
 set -e
 OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2 || true); OS_X_VER=$((OS_X_VER-4))
 
+script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 
 # OSX?
 if [[ "$(uname -s)" == "Darwin" ]]; then
@@ -12,8 +13,8 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
     export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
 else
 
-    cmd1="apt-get -qq update >/dev/null"
-    cmd2="apt-get install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates >/dev/null"
+    cmd1="try-and-retry apt-get -qq update >/dev/null"
+    cmd2="try-and-retry apt-get install -y -qq git sudo jq tar bzip2 gzip curl lsb-release procps gnupg apt-transport-https dirmngr ca-certificates >/dev/null"
     for cmd in "$cmd1" "$cmd2"; do
         echo "eval [$cmd]"
         sudo true >/dev/null 2>&1 && time eval "sudo $cmd" || time eval "$cmd"
@@ -30,7 +31,7 @@ else
       # export MONO_ENV_OPTIONS=-O=-aot
       export MONO_USE_LLVM=0
       
-      sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A6A19B38D3D831EF
+      try-and-retry sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A6A19B38D3D831EF
       # sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
       source /etc/os-release
       def="deb https://download.mono-project.com/repo/$ID stable-$(lsb_release -s -c) main"
@@ -38,7 +39,7 @@ else
       echo "$def" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list >/dev/null
       echo "Official mono repo: /etc/apt/sources.list.d/mono-official-stable.list"
       echo $def
-      sudo apt -qq update; time sudo apt -qq install mono-complete nuget msbuild -y
+      try-and-retry sudo apt-get -qq update; time try-and-retry sudo apt-get -qq install mono-complete nuget msbuild -y
       # --allow-unauthenticated ?
     fi
     set -e
