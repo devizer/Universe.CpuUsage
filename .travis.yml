@@ -63,12 +63,6 @@ before_script:
 - |
     OS_X_VER=$(sw_vers 2>/dev/null | grep BuildVer | awk '{print $2}' | cut -c1-2 || true); OS_X_VER=$((OS_X_VER-4))
 
-- |
-  Say "Installing disk-benchmark"
-  script=https://raw.githubusercontent.com/devizer/glist/master/install-disk-benchmark-from-source.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -sSL $script) | bash
-  free -m
-  disk-benchmark -s=$((1*1024*1024)) -t=20000 | cat || true
-
 - pushd Tests4Mono; . install-dotnet.sh; popd
 - dotnet --info || true
 - mono --version || true
