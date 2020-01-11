@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using NUnit.Framework;
 using Tests;
+using Universe.CpuUsage.Tests.Statistica;
 
 namespace Universe.CpuUsage.Tests
 {
@@ -57,7 +60,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine($"OS: {CrossFullInfo.OsDisplayName}");
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
             var actualCase = new PrecisionCase(Process.GetCurrentProcess().PriorityClass, precisionCase.IncludeKernelLoad);
-            Console.WriteLine($"Granularity[{actualCase}] (it may vary if Intel SpeedStep, TorboBoost, etc are active):");
+            Console.WriteLine($"Granularity[{actualCase}] (it may vary if Intel SpeedStep, TurboBoost, etc are active):");
             int count = CrossFullInfo.IsMono ? 1 : 9;
             for (int i = 1; i <= count; i++)
             {
@@ -65,6 +68,18 @@ namespace Universe.CpuUsage.Tests
                 long granularity = cpuLoadResult.IncrementsCount;
                 double microSeconds = 1000000d / granularity;
                 Console.WriteLine($" #{i}: {granularity} increments a second, eg {microSeconds:n1} microseconds in average");
+                
+                PercentileCalc<long> percentileCalc = new PercentileCalc<long>(cpuLoadResult.Population, x => x, x => x.ToString("n3"));
+                double[] percents = new[] {1d, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99};
+                // double[] percents = new[] {1d, 5, 10, 90, 95, 99}.Reverse().ToArray();
+                StringBuilder pcReport = new StringBuilder();
+                for(int p=0; p<percents.Length; p++)
+                {
+                    pcReport.Append($"  {percents[p].ToString("f0").PadLeft(3)}%: {percentileCalc[percents[p]].ToString("n3"),-12}");
+                    if ((p+1) % 5 == 0) pcReport.AppendLine();
+                }
+                
+                Console.WriteLine(pcReport);
 
                 Statistica<long> stat = new Statistica<long>(cpuLoadResult.Population, x => (double) x, x => x, x => x.ToString("n3"));
                 var histogram = stat.BuildReport(12, 3);
