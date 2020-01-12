@@ -101,8 +101,14 @@
     <Compile Include="..\..\Universe.CpuUsage.Tests\SmokeCpuUsage.cs">
       <Link>LinkedTests\SmokeCpuUsage.cs</Link>
     </Compile>
-    <Compile Include="..\..\Universe.CpuUsage.Tests\Statistica.cs">
-      <Link>Statistica.cs</Link>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\Statistica\HistogramReport.cs">
+      <Link>LinkedTests\Statistica\HistogramReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\Statistica\PercentileCalc.cs">
+      <Link>LinkedTests\Statistica\PercentileCalc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\Statistica\Statistica.cs">
+      <Link>LinkedTests\Statistica\Statistica.cs</Link>
     </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\Test_IsSupported.cs">
       <Link>LinkedTests\Test_IsSupported.cs</Link>
