@@ -44,7 +44,7 @@ namespace Universe.CpuUsage.Tests
                 return new[]
                 {
                     new PrecisionCase(ProcessPriorityClass.AboveNormal, false),
-                    new PrecisionCase(ProcessPriorityClass.AboveNormal, false),
+                    new PrecisionCase(ProcessPriorityClass.AboveNormal, true),
                 };
 
             return fullCases;
@@ -69,6 +69,7 @@ namespace Universe.CpuUsage.Tests
                 double microSeconds = 1000000d / granularity;
                 Console.WriteLine($" #{i}: {granularity} increments a second, eg {microSeconds:n1} microseconds in average");
                 
+                // Percentile report
                 PercentileCalc<long> percentileCalc = new PercentileCalc<long>(cpuLoadResult.Population, x => x, x => x.ToString("n3"));
                 double[] percents = new[] {1d, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99};
                 // double[] percents = new[] {1d, 5, 10, 90, 95, 99}.Reverse().ToArray();
@@ -81,6 +82,7 @@ namespace Universe.CpuUsage.Tests
                 
                 Console.WriteLine(pcReport);
 
+                // Histogram report
                 Statistica<long> stat = new Statistica<long>(cpuLoadResult.Population, x => (double) x, x => x, x => x.ToString("n3"));
                 var histogram = stat.BuildReport(12, 3);
                 Console.WriteLine(histogram.ToConsole("CPU Usage increments (microseconds)", 42));
