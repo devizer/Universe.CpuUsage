@@ -5,11 +5,8 @@ using System.Threading;
 using KernelManagementJam.Benchmarks;
 using NUnit.Framework;
 using Tests;
-using Universe;
-using Universe.CpuUsage;
-using Universe.CpuUsage.Tests;
 
-namespace KernelManagementJam.Tests
+namespace Universe.CpuUsage.Tests
 {
     [TestFixture]
     public class PosixResourcesUsage_Tests : NUnitTestsBase
