@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Tests;
-using Universe;
-using Universe.CpuUsage;
 using Universe.CpuUsage.Interop;
-using Universe.CpuUsage.Tests;
 
-namespace KernelManagementJam.Tests
+namespace Universe.CpuUsage.Tests
 {
     // git pull; time dotnet test --filter LinuxResourcesUsage
     [TestFixture]
@@ -139,6 +136,5 @@ namespace KernelManagementJam.Tests
             return b.ToString();
         }
 
-        
     }
 }
