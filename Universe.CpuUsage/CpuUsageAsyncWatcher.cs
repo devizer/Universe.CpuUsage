@@ -11,13 +11,13 @@ namespace Universe.CpuUsage
     public class CpuUsageAsyncWatcher
     {
         private bool IsRunning = true;
-        public List<ContextSwitchLogItem> Totals
+        public List<ContextSwitchMetrics> Totals
         {
             get
             {
                 lock (_Log)
                 {
-                    return new List<ContextSwitchLogItem>(_Log);
+                    return new List<ContextSwitchMetrics>(_Log);
                 }
             }
         }
@@ -27,8 +27,8 @@ namespace Universe.CpuUsage
             return Totals.GetSummaryCpuUsage();
         }  
         
-        private List<ContextSwitchLogItem> _Log = new List<ContextSwitchLogItem>(); 
-        public class ContextSwitchLogItem
+        private List<ContextSwitchMetrics> _Log = new List<ContextSwitchMetrics>(); 
+        public class ContextSwitchMetrics
         {
             public double Duration { get; internal set; }
             public CpuUsage CpuUsage { get; internal set; }
@@ -96,7 +96,7 @@ namespace Universe.CpuUsage
                 var duration = ticks / (double) Stopwatch.Frequency;
                 var usageOnEnd = CpuUsageReader.GetByThread().Value;
                 var cpuUsage = CpuUsage.Substruct(usageOnEnd, contextOnStart.UsageOnStart);
-                ContextSwitchLogItem logRow = new ContextSwitchLogItem()
+                ContextSwitchMetrics logRow = new ContextSwitchMetrics()
                 {
                     Duration = duration, 
                     CpuUsage = cpuUsage
@@ -132,12 +132,12 @@ namespace Universe.CpuUsage
 
     public static class CpuUsageAsyncWatcherExtensions
     {
-        public static CpuUsage GetSummaryCpuUsage(this IEnumerable<CpuUsageAsyncWatcher.ContextSwitchLogItem> log)
+        public static CpuUsage GetSummaryCpuUsage(this IEnumerable<CpuUsageAsyncWatcher.ContextSwitchMetrics> log)
         {
             return CpuUsage.Sum(log.Select(x => x.CpuUsage));
         }  
         
-        public static string ToHumanString(this ICollection<CpuUsageAsyncWatcher.ContextSwitchLogItem> log, int indent = 2, string taskDescription = "")
+        public static string ToHumanString(this ICollection<CpuUsageAsyncWatcher.ContextSwitchMetrics> log, int indent = 2, string taskDescription = "")
         {
             string pre = indent > 0 ? new string(' ', indent) : "";
             StringBuilder ret = new StringBuilder();

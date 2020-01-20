@@ -88,7 +88,7 @@ namespace Universe.CpuUsage.Tests
             }
 
             Task.WaitAll(tasks.ToArray());
-            Assert.IsTrue(errors == 0, "Concurrent CpuUsageAsyncWatcher should not infer on each other. See details above");
+            Assert.IsTrue(errors == 0, "Concurrent CpuUsageAsyncWatchers should not infer on each other. See details above");
         }
 
         async Task<bool> CheckExpectedCpuUsage(int expectedMilliseconds)
