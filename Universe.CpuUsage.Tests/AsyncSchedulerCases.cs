@@ -13,11 +13,15 @@ namespace Universe.CpuUsage.Tests
                 var defaultScheduler = TaskScheduler.Default;
                 yield return new AsyncSchedulerCase("Default .NET Scheduler", new TaskFactory(defaultScheduler), defaultScheduler);
 
-                if (CrossInfo.ThePlatform != CrossInfo.Platform.Windows) yield break;
-                
-                QueuedTaskScheduler s = new QueuedTaskScheduler(1);
-                yield return new AsyncSchedulerCase("Single Threaded QueuedTaskScheduler", new TaskFactory(s), s);
-                
+                ThreadPerTaskScheduler tpt = new ThreadPerTaskScheduler();
+                yield return new AsyncSchedulerCase("Thread Per Task Scheduler", new TaskFactory(tpt), tpt);
+
+                if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
+                {
+                    QueuedTaskScheduler s = new QueuedTaskScheduler(1);
+                    yield return new AsyncSchedulerCase("Single Threaded QueuedTaskScheduler", new TaskFactory(s), s);
+                }
+
             }
         } 
     }
