@@ -125,8 +125,6 @@ namespace Universe.CpuUsage
         }
         
 #endif
-        
-
 
     }
 
@@ -134,11 +132,16 @@ namespace Universe.CpuUsage
     {
         public static CpuUsage GetSummaryCpuUsage(this IEnumerable<CpuUsageAsyncWatcher.ContextSwitchMetrics> log)
         {
-            return CpuUsage.Sum(log.Select(x => x.CpuUsage));
+            return log == null 
+                ? new CpuUsage() 
+                : CpuUsage.Sum(log.Select(x => x.CpuUsage));
         }  
         
         public static string ToHumanString(this ICollection<CpuUsageAsyncWatcher.ContextSwitchMetrics> log, int indent = 2, string taskDescription = "")
         {
+            if (log == null) throw new ArgumentNullException(nameof(log));
+            if (indent < 0) throw new ArgumentException("indent should be zero or positive number", nameof(indent));
+            taskDescription = taskDescription ?? string.Empty;
             string pre = indent > 0 ? new string(' ', indent) : "";
             StringBuilder ret = new StringBuilder();
             ret.AppendLine($"Total Cpu Usage {(taskDescription?.Length > 0 ? $"of {taskDescription} " : "")}is {log.GetSummaryCpuUsage()}. Thread switches are:");
@@ -162,6 +165,7 @@ namespace Universe.CpuUsage
 
         public static string ToHumanString(this CpuUsageAsyncWatcher watcher, int indent = 2, string taskDescription = "")
         {
+            if (watcher == null) throw new ArgumentNullException(nameof(watcher));
             return ToHumanString(watcher.Totals, indent, taskDescription);
         }
     }  

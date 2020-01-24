@@ -68,6 +68,19 @@ namespace Universe.CpuUsage
             
             return ret;
         }
+
+        public static PosixResourceUsage? Sum(IEnumerable<PosixResourceUsage?> list)
+        {
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            PosixResourceUsage? ret = null;
+            foreach (var item in list)
+            {
+                if (ret.HasValue || item.HasValue)
+                    ret = Add(ret.GetValueOrDefault(), item.GetValueOrDefault());
+            }
+            
+            return ret;
+        }
         
         public static PosixResourceUsage Add(PosixResourceUsage one, PosixResourceUsage two)
         {
@@ -90,7 +103,32 @@ namespace Universe.CpuUsage
                 InvoluntaryContextSwitches = two.InvoluntaryContextSwitches + one.InvoluntaryContextSwitches,
             };
         }
+        
+        public static PosixResourceUsage operator -(PosixResourceUsage onEnd, PosixResourceUsage onStart)
+        {
+            return Substruct(onEnd, onStart);
+        }
 
+        public static PosixResourceUsage? operator -(PosixResourceUsage? onEnd, PosixResourceUsage? onStart)
+        {
+            if (onEnd.HasValue || onStart.HasValue)
+                return Substruct(onEnd.GetValueOrDefault(), onStart.GetValueOrDefault());
+            
+            return null;
+        }
+
+        public static PosixResourceUsage operator +(PosixResourceUsage one, PosixResourceUsage two)
+        {
+            return Add(one, two);
+        }
+
+        public static PosixResourceUsage? operator +(PosixResourceUsage? one, PosixResourceUsage? two)
+        {
+            if (one.HasValue || two.HasValue)
+                return Add(one.GetValueOrDefault(), two.GetValueOrDefault());
+
+            return null;
+        }
 
     }
 }

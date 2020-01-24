@@ -51,7 +51,7 @@ namespace Universe.CpuUsage.Tests
             var task3 = Task.Run(() => LoadCpu(milliseconds: 2100));
             var task2 = Task.Run(() => LoadCpu(milliseconds: 1800));
             var task1 = Task.Run(() => LoadCpu(milliseconds: 1500));
-            Task.WaitAll(task1, task2, task3, task4);
+            await Task.WhenAll(task1, task2, task3, task4);
             await NotifyFinishedTasks();
             watcher.Stop();
             var totals = watcher.Totals;
