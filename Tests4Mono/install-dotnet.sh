@@ -57,7 +57,8 @@ if [[ "$(uname -m)" == "aarch64" || "$(uname -m)" == "x86_64" ]] || [ $OS_X_VER 
     cmd_curl_dotnet_install="curl -ksSL -o /tmp/dotnet-install.sh $DOTNET_Url"
     cmd_dotnet_22="bash /tmp/dotnet-install.sh -c 2.2 -i ~/.dotnet"
     cmd_dotnet_30="bash /tmp/dotnet-install.sh -c 3.0 -i ~/.dotnet"
-    for cmd in "$cmd_curl_dotnet_install" "$cmd_dotnet_22" "$cmd_dotnet_30"; do
+    cmd_dotnet_31="bash /tmp/dotnet-install.sh -c 3.1 -i ~/.dotnet"
+    for cmd in "$cmd_curl_dotnet_install" "$cmd_dotnet_22" "$cmd_dotnet_30" "$cmd_dotnet_31"; do
         echo "|# $cmd"
         time (eval "$cmd" || eval "$cmd" || eval "$cmd")
     done    
