@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 using NUnit.Framework;
 using Tests;
 
@@ -17,16 +18,16 @@ namespace Universe.CpuUsage.Tests
             PreJit().Wait();
         }
         
-        [Test]
-        public async Task SimpleTests()
+        [Test, TestCaseSource(typeof(AsyncSchedulerCases), nameof(AsyncSchedulerCases.Schedulers))]
+        public async Task SimpleTests(AsyncSchedulerCase testEnvironment)
         {
             if (!IsSupported()) return;
 
             // Act (durations are for debugging)
             CpuUsageAsyncWatcher watch = new CpuUsageAsyncWatcher();
-            await Task.Run(() => LoadCpu(milliseconds: 200));
-            await Task.Run(() => LoadCpu(milliseconds: 500));
-            await Task.Run(() => LoadCpu(milliseconds: 800));
+            await testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 200));
+            await testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 500));
+            await testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 800));
             watch.Stop();
             var totals = watch.Totals;
             
@@ -40,18 +41,18 @@ namespace Universe.CpuUsage.Tests
             Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected.");
         }
 
-        [Test]
-        public async Task ParallelTests()
+        [Test, TestCaseSource(typeof(AsyncSchedulerCases), nameof(AsyncSchedulerCases.Schedulers))]
+        public async Task ParallelTests(AsyncSchedulerCase testEnvironment)
         {
             if (!IsSupported()) return;
             
             // Act (durations are for debugging)
             CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
             TaskFactory tf = new TaskFactory();
-            var task4 = Task.Run(() => LoadCpu(milliseconds: 2400));
-            var task3 = Task.Run(() => LoadCpu(milliseconds: 2100));
-            var task2 = Task.Run(() => LoadCpu(milliseconds: 1800));
-            var task1 = Task.Run(() => LoadCpu(milliseconds: 1500));
+            var task4 = testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 2400));
+            var task3 = testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 2100));
+            var task2 = testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 1800));
+            var task1 = testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 1500));
             await Task.WhenAll(task1, task2, task3, task4);
             await NotifyFinishedTasks();
             watcher.Stop();
@@ -67,10 +68,12 @@ namespace Universe.CpuUsage.Tests
             Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
         }
 
-        [Test]
-        public void ConcurrentTest()
+        [Test, TestCaseSource(typeof(AsyncSchedulerCases), nameof(AsyncSchedulerCases.Schedulers))]
+        public async Task ConcurrentTest(AsyncSchedulerCase testEnvironment)
         {
             if (!IsSupported()) return;
+            // second context switch is lost for ThreadPerTaskScheduler
+            if (testEnvironment.Scheduler is ThreadPerTaskScheduler) return;
             
             IList<Task> tasks = new List<Task>();
             int errors = 0;
@@ -79,24 +82,24 @@ namespace Universe.CpuUsage.Tests
             for (int i = 1; i <= maxThreads; i++)
             {
                 var iCopy = i;
-                tasks.Add( Task.Factory.StartNew(async () =>
+                tasks.Add( testEnvironment.Factory.StartNew(async () =>
                 {
                     var expectedMilliseconds = iCopy * 400;
-                    if (!await CheckExpectedCpuUsage(expectedMilliseconds)) 
+                    if (!await CheckExpectedCpuUsage(expectedMilliseconds, testEnvironment.Factory)) 
                         Interlocked.Increment(ref errors);
                     
                 }, TaskCreationOptions.LongRunning).Unwrap());
             }
 
-            Task.WaitAll(tasks.ToArray());
+            await Task.WhenAll(tasks);
             Assert.IsTrue(errors == 0, "Concurrent CpuUsageAsyncWatchers should not infer on each other. See details above");
         }
 
-        async Task<bool> CheckExpectedCpuUsage(int expectedMilliseconds)
+        async Task<bool> CheckExpectedCpuUsage(int expectedMilliseconds, TaskFactory factory)
         {
             // Act
             CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
-            await Task.Run(() => LoadCpu(expectedMilliseconds));
+            await factory.StartNew(() => LoadCpu(expectedMilliseconds));
             watcher.Stop();
             Console.WriteLine(watcher.ToHumanString(taskDescription: $"'Expected CPU Load is {expectedMilliseconds} milli-seconds'"));
                     
