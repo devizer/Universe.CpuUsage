@@ -34,16 +34,16 @@ namespace Universe.CpuUsage.Tests
                     Marshal.FreeHGlobal(ptr);
                 }
 
-                CpuUsage next = CpuUsage.GetByThread().Value;
-                if (next.TotalMicroSeconds != prev.TotalMicroSeconds)
+                CpuUsage nextUsage = CpuUsage.GetByThread().Value;
+                if (nextUsage.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
-                    var increment = CpuUsage.Substruct(next, prev).TotalMicroSeconds;
+                    var increment = CpuUsage.Substruct(nextUsage, prev).TotalMicroSeconds;
                     Population.Add(increment);
                 }
-                prev = next;
+                prev = nextUsage;
 
                 isDone = sw.ElapsedMilliseconds >= minDuration
-                         && (CpuUsage.Substruct(next, firstUsage).TotalMicroSeconds >= minCpuUsage * 1000L);
+                         && (CpuUsage.Substruct(nextUsage, firstUsage).TotalMicroSeconds >= minCpuUsage * 1000L);
             }
         }
 
