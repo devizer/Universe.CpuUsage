@@ -52,6 +52,9 @@
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="ParallelExtensionsExtras, Version=1.2.3.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\ParallelExtensionsExtras.1.2.0.0\lib\net40\ParallelExtensionsExtras.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -65,8 +68,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\AsyncSchedulerCases.cs">
+      <Link>LinkedTests\AsyncSchedulerCases.cs</Link>
+    </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\CpuLoader.cs">
       <Link>LinkedTests\CpuLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Universe.CpuUsage.Tests\CpuUsageAsyncWatcher_AsyncStreamTests.cs">
+      <Link>LinkedTests\CpuUsageAsyncWatcher_AsyncStreamTests.cs</Link>
     </Compile>
     <Compile Include="..\..\Universe.CpuUsage.Tests\CpuUsageAsyncWatcher_Tests.cs">
       <Link>LinkedTests\CpuUsageAsyncWatcher_Tests.cs</Link>

@@ -47,6 +47,7 @@ namespace Universe.CpuUsage.Tests
             
             // Act (durations are for debugging)
             CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
+            TaskFactory tf = new TaskFactory();
             var task4 = Task.Run(() => LoadCpu(milliseconds: 2400));
             var task3 = Task.Run(() => LoadCpu(milliseconds: 2100));
             var task2 = Task.Run(() => LoadCpu(milliseconds: 1800));
@@ -144,5 +145,5 @@ namespace Universe.CpuUsage.Tests
         
         
     }
-    
+
 }
