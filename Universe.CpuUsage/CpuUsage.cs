@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -64,6 +65,7 @@ namespace Universe.CpuUsage
 
         public static CpuUsage Sum(IEnumerable<CpuUsage> list)
         {
+            if (list == null) throw new ArgumentNullException(nameof(list));
             long user = 0;
             long system = 0;
             foreach (var item in list)
@@ -75,12 +77,53 @@ namespace Universe.CpuUsage
             return new CpuUsage(user, system);
         }
         
+        public static CpuUsage? Sum(IEnumerable<CpuUsage?> list)
+        {
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            CpuUsage? ret = null;
+            foreach (var item in list)
+            {
+                if (ret.HasValue || item.HasValue)
+                    ret = Add(ret.GetValueOrDefault(), item.GetValueOrDefault());
+            }
+            
+            return ret;
+        }
+
+        
         public static CpuUsage Add(CpuUsage one, CpuUsage two)
         {
             long user = one.UserUsage.TotalMicroSeconds + two.UserUsage.TotalMicroSeconds;
             long system = one.KernelUsage.TotalMicroSeconds + two.KernelUsage.TotalMicroSeconds;
             return new CpuUsage(user, system);
         }
+        
+        public static CpuUsage operator -(CpuUsage onEnd, CpuUsage onStart)
+        {
+            return Substruct(onEnd, onStart);
+        }
+
+        public static CpuUsage? operator -(CpuUsage? onEnd, CpuUsage? onStart)
+        {
+            if (onEnd.HasValue || onStart.HasValue)
+                return Substruct(onEnd.GetValueOrDefault(), onStart.GetValueOrDefault());
+            
+            return null;
+        }
+
+        public static CpuUsage operator +(CpuUsage one, CpuUsage two)
+        {
+            return Add(one, two);
+        }
+
+        public static CpuUsage? operator +(CpuUsage? one, CpuUsage? two)
+        {
+            if (one.HasValue || two.HasValue)
+                return Add(one.GetValueOrDefault(), two.GetValueOrDefault());
+
+            return null;
+        }
+
     }
     
     // replacing it to long will limit usage by 3,170,979 years

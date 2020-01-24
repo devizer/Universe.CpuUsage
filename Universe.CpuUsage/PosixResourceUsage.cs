@@ -60,28 +60,6 @@ namespace Universe.CpuUsage
             };
         }
 
-        public static PosixResourceUsage Sum(IEnumerable<PosixResourceUsage> list)
-        {
-            PosixResourceUsage ret = new PosixResourceUsage();
-            foreach (var item in list)
-                ret = Add(ret, item);
-            
-            return ret;
-        }
-
-        public static PosixResourceUsage? Sum(IEnumerable<PosixResourceUsage?> list)
-        {
-            if (list == null) throw new ArgumentNullException(nameof(list));
-            PosixResourceUsage? ret = null;
-            foreach (var item in list)
-            {
-                if (ret.HasValue || item.HasValue)
-                    ret = Add(ret.GetValueOrDefault(), item.GetValueOrDefault());
-            }
-            
-            return ret;
-        }
-        
         public static PosixResourceUsage Add(PosixResourceUsage one, PosixResourceUsage two)
         {
             long user = one.UserUsage.TotalMicroSeconds + two.UserUsage.TotalMicroSeconds;
@@ -104,6 +82,29 @@ namespace Universe.CpuUsage
             };
         }
         
+        public static PosixResourceUsage Sum(IEnumerable<PosixResourceUsage> list)
+        {
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            PosixResourceUsage ret = new PosixResourceUsage();
+            foreach (var item in list)
+                ret = Add(ret, item);
+            
+            return ret;
+        }
+
+        public static PosixResourceUsage? Sum(IEnumerable<PosixResourceUsage?> list)
+        {
+            if (list == null) throw new ArgumentNullException(nameof(list));
+            PosixResourceUsage? ret = null;
+            foreach (var item in list)
+            {
+                if (ret.HasValue || item.HasValue)
+                    ret = Add(ret.GetValueOrDefault(), item.GetValueOrDefault());
+            }
+            
+            return ret;
+        }
+
         public static PosixResourceUsage operator -(PosixResourceUsage onEnd, PosixResourceUsage onStart)
         {
             return Substruct(onEnd, onStart);

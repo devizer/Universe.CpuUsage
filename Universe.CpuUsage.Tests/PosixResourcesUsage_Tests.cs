@@ -99,7 +99,8 @@ namespace Universe.CpuUsage.Tests
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
 
             // Arrange
-            WriteFile(512*1024);
+            var numBytes = 2048*1024;
+            WriteFile(numBytes);
             LinuxKernelCacheFlusher.Sync();
             
             // Act
@@ -107,8 +108,7 @@ namespace Universe.CpuUsage.Tests
             ReadFile();
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
             var delta = PosixResourceUsage.Substruct(after, before);
-            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
-            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
+            Console.WriteLine($"Operation: Read {numBytes:n0} bytes. ReadOps = {delta.ReadOps}. WriteOps = {delta.WriteOps}");
             
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
@@ -128,11 +128,11 @@ namespace Universe.CpuUsage.Tests
             
             // Act
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
-            WriteFile(10*512*1024);
+            var numBytes = 10*512*1024;
+            WriteFile(numBytes);
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
             var delta = PosixResourceUsage.Substruct(after, before);
-            Console.WriteLine($"delta.ReadOps = {delta.ReadOps}");
-            Console.WriteLine($"delta.WriteOps = {delta.WriteOps}");
+            Console.WriteLine($"Operation: write {numBytes:n0} bytes. ReadOps = {delta.ReadOps}. WriteOps = {delta.WriteOps}");
             
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
