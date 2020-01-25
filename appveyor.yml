@@ -128,9 +128,9 @@ test_script:
     Say ".NET Core Tests"
     pushd Universe.CpuUsage.Tests 
     if ($isWindows) {
-             dotnet test -f netcoreapp3.0 -c Release --test-adapter-path:. --logger:Appveyor
+             dotnet test -f netcoreapp3.0 -c Release --test-adapter-path:. --logger:Appveyor -- NUnit.NumberOfTestWorkers=1
     } else {
-             dotnet test -f netcoreapp3.0 -c Release --test-adapter-path:. --logger:Appveyor
+             dotnet test -f netcoreapp3.0 -c Release --test-adapter-path:. --logger:Appveyor -- NUnit.NumberOfTestWorkers=1
     }
     popd
 
