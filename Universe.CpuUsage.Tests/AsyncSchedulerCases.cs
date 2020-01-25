@@ -22,8 +22,8 @@ namespace Universe.CpuUsage.Tests
                     QueuedTaskScheduler s = new QueuedTaskScheduler(1);
                     yield return new AsyncSchedulerCase("Single Threaded QueuedTaskScheduler", new TaskFactory(s), s);
 
-                    QueuedTaskScheduler s2 = new QueuedTaskScheduler();
-                    yield return new AsyncSchedulerCase("QueuedTaskScheduler, unlimited threads", new TaskFactory(s2), s2);
+                    // QueuedTaskScheduler s2 = new QueuedTaskScheduler();
+                    // yield return new AsyncSchedulerCase("QueuedTaskScheduler, unlimited threads", new TaskFactory(s2), s2);
                 }
 
             }
