@@ -10,8 +10,8 @@ namespace Universe.CpuUsage
 {
     public class CpuUsageAsyncWatcher
     {
-        private bool IsRunning = true;
-        public List<ContextSwitchMetrics> Totals
+        private volatile bool IsRunning = true;
+        public ICollection<ContextSwitchMetrics> Totals
         {
             get
             {
