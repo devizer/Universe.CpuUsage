@@ -15,7 +15,7 @@ namespace Universe.CpuUsage.Tests
 
                 if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
                 {
-                    // works on OSX 10.10 on mono, doesnt work on dotnet 
+                    // works on OSX 10.10 on mono and windows, doesnt work on dotnet except of ConcurrentTest 
                     ThreadPerTaskScheduler tpt = new ThreadPerTaskScheduler();
                     yield return new AsyncSchedulerCase("Thread Per Task Scheduler", new TaskFactory(tpt), tpt);
 
