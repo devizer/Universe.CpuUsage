@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
@@ -11,6 +12,18 @@ namespace Universe.CpuUsage.Banchmark
     [MemoryDiagnoser]
     public class CpuUsageBenchmarks
     {
+        [Benchmark]
+        public int ManagedThreadId()
+        {
+            return Thread.CurrentThread.ManagedThreadId;
+        }
+        
+        [Benchmark]
+        public long CustomThreadId()
+        {
+            return LegacyNetStandardInterop.GetThreadId();
+        }
+        
         [Benchmark]
         public void DateTimeNow()
         {
