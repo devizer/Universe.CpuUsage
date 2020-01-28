@@ -28,6 +28,7 @@ namespace Universe.CpuUsage.Tests
             await testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 200));
             await testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 500));
             await testEnvironment.Factory.StartNew(() => LoadCpu(milliseconds: 800));
+            await NotifyFinishedTasks();
             watch.Stop();
             var totals = watch.Totals;
             
