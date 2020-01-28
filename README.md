@@ -58,15 +58,17 @@ Detailed histograms of precision are produced by PrecisionTest.cs
 
 ## Low level API: class CpuUsage
 ```csharp
-var cpuUsage1 = CpuUsage.GetByProcess();
-var cpuUsage2 = CpuUsage.GetByThread();
+var onStart = CpuUsage.GetByThread();
+... 
+var onEnd = CpuUsage.GetByThread();
+Console.WriteLine("CPU Usage: " + (onEnd-onStart));
 ```
 
 ## High level API: class CpuUsageAsyncWatcher
 ```csharp
 public void Configure(IApplicationBuilder app)
 {
-    // Here is a middleware that displays total CPU usage
+    // Here is a "middleware" that displays total CPU usage
     // of all the Tasks executed by ASP.NET Core pipeline during each http request
     app.Use(async (context, next) =>
     {
