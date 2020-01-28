@@ -42,7 +42,7 @@ The implementation utilizes platform invocation (P/Invoke) of the corresponding 
 | Mac OS X | thread_info()            | getrusage(RUSAGE_SELF) | libSystem.dylib |
 
 ## Precision depends on
-Here is a summary of CPU usage precision. In general, it depends on OS and version
+Here is a summary of CPU usage precision. In general, it depends on OS and version and it does not depend on CPU performance
 
 | OS                                           | Average Precision |
 |----------------------------------------------|------------------:|
