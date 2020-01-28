@@ -13,17 +13,17 @@ namespace Universe.CpuUsage.Tests
                 var defaultScheduler = TaskScheduler.Default;
                 yield return new AsyncSchedulerCase("Default .NET Scheduler", new TaskFactory(defaultScheduler), defaultScheduler);
 
+                // works on OSX 10.10 on mono and windows, doesnt work on dotnet except of ConcurrentTest 
+                ThreadPerTaskScheduler tpt = new ThreadPerTaskScheduler();
+                yield return new AsyncSchedulerCase("Thread Per Task Scheduler", new TaskFactory(tpt), tpt);
+
                 if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
                 {
-                    // works on OSX 10.10 on mono and windows, doesnt work on dotnet except of ConcurrentTest 
-                    ThreadPerTaskScheduler tpt = new ThreadPerTaskScheduler();
-                    yield return new AsyncSchedulerCase("Thread Per Task Scheduler", new TaskFactory(tpt), tpt);
-
                     QueuedTaskScheduler s = new QueuedTaskScheduler(1);
-                    yield return new AsyncSchedulerCase("Single Threaded QueuedTaskScheduler", new TaskFactory(s), s);
+                    yield return new AsyncSchedulerCase("QueuedTaskScheduler, Single Thread", new TaskFactory(s), s);
 
-                    // QueuedTaskScheduler s2 = new QueuedTaskScheduler();
-                    // yield return new AsyncSchedulerCase("QueuedTaskScheduler, unlimited threads", new TaskFactory(s2), s2);
+                    QueuedTaskScheduler s2 = new QueuedTaskScheduler();
+                    yield return new AsyncSchedulerCase("QueuedTaskScheduler, Unlimited Threads", new TaskFactory(s2), s2);
                 }
 
             }
