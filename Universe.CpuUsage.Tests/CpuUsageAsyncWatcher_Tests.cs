@@ -135,6 +135,8 @@ namespace Universe.CpuUsage.Tests
             
             // v3
             await Task.Run(() => Thread.Sleep(0));
+            await Task.Delay(1);
+            
         }
 
         bool IsSupported()
