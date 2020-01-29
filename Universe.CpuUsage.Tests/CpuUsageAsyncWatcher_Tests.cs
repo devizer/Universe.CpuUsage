@@ -134,11 +134,11 @@ namespace Universe.CpuUsage.Tests
             // await Task.Delay(0);
             
             // v3
-            await Task.Run(() => Thread.Sleep(0));
-            await Task.Delay(0);
-            await Task.Delay(0);
-            await Task.Delay(0);
-            
+            for (int i = 0; i < 7; i++)
+            {
+                await Task.Run(() => Thread.Sleep(1));
+                await Task.Delay(1);
+            }
         }
 
         bool IsSupported()
