@@ -74,7 +74,7 @@ public void Configure(IApplicationBuilder app)
     {
         CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
         await next.Invoke();
-        watcher.Stop()
+        watcher.Stop();
         Console.WriteLine($"Cpu Usage by http request is {watcher.GetSummaryCpuUsage()}");
     });
 }
