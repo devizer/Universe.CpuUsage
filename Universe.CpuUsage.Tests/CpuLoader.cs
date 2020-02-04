@@ -42,8 +42,9 @@ namespace Universe.CpuUsage.Tests
                 }
                 prev = nextUsage;
 
-                isDone = sw.ElapsedMilliseconds >= minDuration
-                         && (CpuUsage.Substruct(nextUsage, firstUsage).TotalMicroSeconds >= minCpuUsage * 1000L);
+                isDone = 
+                    sw.ElapsedMilliseconds >= minDuration 
+                    && (nextUsage - firstUsage).TotalMicroSeconds >= minCpuUsage * 1000L;
             }
         }
 

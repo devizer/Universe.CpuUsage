@@ -37,8 +37,7 @@ namespace Universe.CpuUsage.Tests
             Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
         }
         
-        static async IAsyncEnumerable<int> GetLoadings(
-            [EnumeratorCancellation] CancellationToken token = default)
+        static async IAsyncEnumerable<int> GetLoadings([EnumeratorCancellation] CancellationToken token = default)
         {
             foreach (var ret in new[] {250, 450, 650, 850})
             {
