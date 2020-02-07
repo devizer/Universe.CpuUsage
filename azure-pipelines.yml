@@ -10,7 +10,7 @@ jobs:
       vmImage: 'windows-latest'
     steps:
     - powershell: |
-        dotnet test -c Debug -f netcoreapp2.2 --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true | cat
+        dotnet test -c Debug -f netcoreapp2.2 --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true 
       displayName: 'Tests'
 
 trigger:
