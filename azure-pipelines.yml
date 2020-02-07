@@ -24,28 +24,28 @@ jobs:
         dotnet test -c Debug -f netcoreapp2.2 --logger trx --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject)
       displayName: 'dotnet test'
       
-    - script: |
-        dotnet tool install dotnet-reportgenerator-globaltool --tool-path . 
-        ./reportgenerator "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-      condition: eq( variables['Agent.OS'], 'Linux' )
-      displayName: Run Reportgenerator on Linux
-
-    - script: |
-        dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
-        .\reportgenerator.exe "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-      condition: eq( variables['Agent.OS'], 'Windows_NT' )
-      displayName: Run Reportgenerator on Windows
+#    - script: |
+#        dotnet tool install dotnet-reportgenerator-globaltool --tool-path . 
+#        ./reportgenerator "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
+#      condition: eq( variables['Agent.OS'], 'Linux' )
+#      displayName: Run Reportgenerator on Linux
+#
+#    - script: |
+#        dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
+#        .\reportgenerator.exe "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
+#      condition: eq( variables['Agent.OS'], 'Windows_NT' )
+#      displayName: Run Reportgenerator on Windows
 
     - task: PublishTestResults@2
       inputs:
         testRunner: NUnit
         testResultsFiles: '**/*.trx'
         
-    - task: PublishCodeCoverageResults@1
-      inputs:
-        summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
-        reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
-        codecoverageTool: cobertura
+#    - task: PublishCodeCoverageResults@1
+#      inputs:
+#        summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
+#        reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
+#        codecoverageTool: cobertura
 
     - task: DotNetCoreCLI@2
       inputs:
