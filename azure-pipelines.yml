@@ -21,7 +21,7 @@ jobs:
       displayName: 'Tests'
 
     - script: |
-        dotnet test --logger trx --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject)
+        dotnet test -c Debug -f netcoreapp2.2 --logger trx --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject)
       displayName: 'dotnet test'
       
     - script: |
@@ -38,7 +38,7 @@ jobs:
 
     - task: PublishTestResults@2
       inputs:
-        testRunner: VSTest
+        testRunner: NUnit
         testResultsFiles: '**/*.trx'
         
     - task: PublishCodeCoverageResults@1
