@@ -36,12 +36,6 @@ jobs:
       condition: eq( variables['Agent.OS'], 'Windows_NT' )
       displayName: Run Reportgenerator on Windows
 
-    - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-      displayName: 'Run Code Analysis'
-
-    - task: SonarCloudPublish@1
-      displayName: 'Publish Quality Gate Results'
-
     - task: PublishTestResults@2
       inputs:
         testRunner: VSTest
