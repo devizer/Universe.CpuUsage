@@ -10,8 +10,8 @@ jobs:
       vmImage: 'windows-latest'
     steps:
     - powershell: |
-      dotnet test -c Debug -f netcoreapp2.2 | cat
-      displayName: 'Install build tools'
+      dotnet test -c Debug -f netcoreapp2.2 --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true | cat
+      displayName: 'Tests'
 
 trigger:
 - master
