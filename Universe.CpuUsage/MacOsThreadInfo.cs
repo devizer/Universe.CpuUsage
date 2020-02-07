@@ -27,8 +27,7 @@ namespace Universe.CpuUsage
             {
                 int? self = null;
                 int kResult2 = -424242;
-                int kResult1 =
-                    MacOsThreadInfoInterop.mach_port_deallocate(threadId, threadId);
+                int kResult1 = MacOsThreadInfoInterop.mach_port_deallocate(threadId, threadId);
 
                 // https://opensource.apple.com/source/xnu/xnu-792/osfmk/mach/kern_return.h
                 // KERN_INVALID_TASK 16: target task isn't an active task.
