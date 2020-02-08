@@ -40,8 +40,7 @@ steps:
   #  displayName: 'dotnet build $(buildConfiguration)'
 
   - script: |
-      dotnet test --logger trx -f netcoreapp2.2 --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
-      rem $(testProject)
+      dotnet test --logger trx -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject) 
     displayName: 'dotnet test'
 
 #  - script: |
