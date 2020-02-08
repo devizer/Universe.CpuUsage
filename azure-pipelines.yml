@@ -39,8 +39,11 @@ steps:
   #- script: dotnet build $(solution) --configuration $(buildConfiguration)
   #  displayName: 'dotnet build $(buildConfiguration)'
 
+  - powershell: |
+      
   - script: |
-      dotnet test --logger trx -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject) 
+      dotnet test --logger trx -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
+      rem $(testProject)
     displayName: 'dotnet test'
 
 #  - script: |
@@ -63,7 +66,7 @@ steps:
 
   - task: PublishTestResults@2
     inputs:
-      testRunner: NUnit
+      testRunner: VSTest
       testResultsFiles: '**/*.trx'
 
 #  - task: PublishCodeCoverageResults@1
