@@ -5,10 +5,14 @@ variables:
 
 strategy:
   matrix:
-    linux:
+    linux_Xenial:
       imageName: 'ubuntu-16.04'
-    windows:
+    linux_Bionic:
+      imageName: 'ubuntu-18.04'
+    windows_2016:
       imageName: 'vs2017-win2016'
+    windows_latest:
+      imageName: 'windows-latest'
 
 trigger:
   - master
@@ -24,6 +28,10 @@ steps:
 #      projectKey: 'cov-demo'
 #      projectName: 'Coverage Demo'
 #      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
+
+  - powershell: | 
+       dotnet --info
+    displayName: 'system info'
 
   - script: dotnet build $(solution) --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
