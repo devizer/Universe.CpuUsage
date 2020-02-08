@@ -82,3 +82,9 @@ steps:
       zipAfterPublish: true
 
   - task: PublishBuildArtifacts@1
+    inputs:
+      # pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      pathtoPublish: '$(build.repository.localpath)'
+      artifactName: '$(imageName)-Full'
+
+  - task: PublishBuildArtifacts@1
