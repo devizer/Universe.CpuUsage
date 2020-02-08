@@ -29,6 +29,17 @@ steps:
 #      projectName: 'Coverage Demo'
 #      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
 
+  - bash: |
+      echo "uname -s: $(uname -s)"
+      dotnet --info
+      dir=/usr/share/dotnet; if [[ "$(uname -s)" != "Linux" ]]; then dir=$HOME/.dotnet; fi
+      echo 3.0 to $dir
+      curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.0 -i $dir
+      echo 3.1 to $dir
+      curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.1 -i $dir
+      dotnet --info
+    displayName: 'Install dotnet sdk 3.1'
+
   - powershell: |
        $ErrorActionPreference = "SilentlyContinue"
        & dotnet --info
