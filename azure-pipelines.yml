@@ -40,7 +40,8 @@ steps:
   #  displayName: 'dotnet build $(buildConfiguration)'
 
   - script: |
-      dotnet test --logger trx -f netcoreapp2.2 --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject)
+      dotnet test --logger trx -f netcoreapp2.2 --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
+      rem $(testProject)
     displayName: 'dotnet test'
 
 #  - script: |
@@ -75,7 +76,7 @@ steps:
   - task: DotNetCoreCLI@2
     inputs:
       command: publish
-      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      arguments: '-f netcoreapp2.2 --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       projects: $(solution)
       publishWebProjects: false
       modifyOutputPath: true
