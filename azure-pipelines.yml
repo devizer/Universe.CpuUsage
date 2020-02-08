@@ -3,62 +3,71 @@ variables:
     testProject: "Universe.CpuUsage.Tests/Universe.CpuUsage.Tests.csproj"
     solution: "Universe.CpuUsage.sln"
 
-jobs:
-
-  - job: Windows
-    variables:
-      OS: Windows
-      LLVM: 9
-    timeoutInMinutes: 299
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'windows-latest'
-
-    steps:
-    
-    - powershell: |
-        dotnet test -c Debug -f netcoreapp2.2 --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true 
-      displayName: 'Tests'
-
-    - script: |
-        dotnet test -c Debug -f netcoreapp2.2 --logger trx --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject)
-      displayName: 'dotnet test'
-      
-#    - script: |
-#        dotnet tool install dotnet-reportgenerator-globaltool --tool-path . 
-#        ./reportgenerator "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-#      condition: eq( variables['Agent.OS'], 'Linux' )
-#      displayName: Run Reportgenerator on Linux
-#
-#    - script: |
-#        dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
-#        .\reportgenerator.exe "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-#      condition: eq( variables['Agent.OS'], 'Windows_NT' )
-#      displayName: Run Reportgenerator on Windows
-
-    - task: PublishTestResults@2
-      inputs:
-        testRunner: NUnit
-        testResultsFiles: '**/*.trx'
-        
-#    - task: PublishCodeCoverageResults@1
-#      inputs:
-#        summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
-#        reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
-#        codecoverageTool: cobertura
-
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: publish
-        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-        projects: $(solution)
-        publishWebProjects: false
-        modifyOutputPath: true
-        zipAfterPublish: true
-
-    - task: PublishBuildArtifacts@1
-
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-16.04'
+    windows:
+      imageName: 'vs2017-win2016'
 
 trigger:
-- master
+  - master
 
+pool:
+  vmImage: $(imageName)
+
+steps:
+#  - task: SonarCloudPrepare@1
+#    inputs:
+#      SonarCloud: '66420b06-0308-4157-9b80-ef53c71c6596'
+#      organization: 'wulfland-github'
+#      projectKey: 'cov-demo'
+#      projectName: 'Coverage Demo'
+#      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
+
+  - script: dotnet build $(solution) --configuration $(buildConfiguration)
+    displayName: 'dotnet build $(buildConfiguration)'
+
+  - script: |
+      dotnet test --logger trx --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ $(testProject)
+    displayName: 'dotnet test'
+
+  - script: |
+      dotnet tool install dotnet-reportgenerator-globaltool --tool-path . 
+      ./reportgenerator "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    displayName: Run Reportgenerator on Linux
+
+  - script: |
+      dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
+      .\reportgenerator.exe "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Run Reportgenerator on Windows
+
+#  - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+#    displayName: 'Run Code Analysis'
+
+#  - task: SonarCloudPublish@1
+#    displayName: 'Publish Quality Gate Results'
+
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
+      reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
+      codecoverageTool: cobertura
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: publish
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      projects: $(solution)
+      publishWebProjects: false
+      modifyOutputPath: true
+      zipAfterPublish: true
+
+  - task: PublishBuildArtifacts@1
