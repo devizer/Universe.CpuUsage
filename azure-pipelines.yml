@@ -38,7 +38,7 @@ steps:
       echo 3.1 to $dir
       curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.1 -i $dir
       dotnet --info
-    displayName: 'Install dotnet sdk 3.1'
+    displayName: 'Install dotnet sdk 3.1 on linux/osx'
 
   - powershell: |
        $ErrorActionPreference = "SilentlyContinue"
@@ -50,8 +50,6 @@ steps:
   #- script: dotnet build $(solution) --configuration $(buildConfiguration)
   #  displayName: 'dotnet build $(buildConfiguration)'
 
-  - powershell: |
-      
   - script: |
       dotnet test --logger trx -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
       rem $(testProject)

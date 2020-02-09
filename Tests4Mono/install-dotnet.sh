@@ -52,7 +52,10 @@ fi
 
 echo "uname -m: $(uname -m)"
 
-if [[ "$(uname -m)" == "aarch64" || "$(uname -m)" == "x86_64" ]] || [ $OS_X_VER -ge 13 ]; then
+need_core=false
+if [[ "$(uname -m)" == "aarch64" || "$(uname -m)" == "x86_64" ]] || [ $OS_X_VER -ge 13 ]; then need_core=true; fi
+if [[ $OS_X_VER -le 12 && $OS_X_VER -gt 0 ]] ; then need_core=false; fi
+if [[ $need_core == true ]]; then
     DOTNET_Url=https://dot.net/v1/dotnet-install.sh
     cmd_curl_dotnet_install="curl -ksSL -o /tmp/dotnet-install.sh $DOTNET_Url"
     cmd_dotnet_22="bash /tmp/dotnet-install.sh -c 2.2 -i ~/.dotnet"
