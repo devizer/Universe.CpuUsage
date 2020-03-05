@@ -5,15 +5,15 @@ variables:
 
 jobs:
 
-  - job: Arm64
-    variables:
-      OS: Linux
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      name: 'arm64-pool'
-    steps:
-      - template: azure-steps-nix.yml
+#  - job: Arm64
+#    variables:
+#      OS: Linux
+#    timeoutInMinutes: 99
+#    cancelTimeoutInMinutes: 1
+#    pool:
+#      name: 'arm64-pool'
+#    steps:
+#      - template: azure-steps-nix.yml
 
   - job: Ubuntu_16_04
     variables:
