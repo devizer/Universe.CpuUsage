@@ -51,7 +51,7 @@ jobs:
     timeoutInMinutes: 99
     cancelTimeoutInMinutes: 1
     pool:
-      vmImage: 'vs2017-win2016'
+      vmImage: 'windows-latest'
     steps:
       - template: azure-steps-nix.yml
 
