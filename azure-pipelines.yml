@@ -6,7 +6,7 @@ variables:
 strategy:
   matrix:
     linux_aarch64:
-      imageName: 'arm64-pool'
+      poolName: 'arm64-pool'
     linux_Xenial:
       imageName: 'ubuntu-16.04'
     linux_Bionic:
@@ -20,7 +20,9 @@ trigger:
   - master
 
 pool:
+  name: $(poolName)
   vmImage: $(imageName)
+  
 
 steps:
 #  - task: SonarCloudPrepare@1
