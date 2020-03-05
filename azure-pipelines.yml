@@ -5,6 +5,8 @@ variables:
 
 strategy:
   matrix:
+    linux_aarch64:
+      imageName: 'arm64-pool'
     linux_Xenial:
       imageName: 'ubuntu-16.04'
     linux_Bionic:
