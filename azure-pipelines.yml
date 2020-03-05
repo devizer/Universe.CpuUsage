@@ -54,7 +54,7 @@ steps:
 
   - script: |
       dotnet test --logger trx -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
-      rem $(testProject)
+      rem $(testProject) || true
     displayName: 'dotnet test'
 
 #  - script: |
