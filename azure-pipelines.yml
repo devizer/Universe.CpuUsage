@@ -3,104 +3,59 @@ variables:
     testProject: "Universe.CpuUsage.Tests/Universe.CpuUsage.Tests.csproj"
     solution: "Universe.CpuUsage.sln"
 
-strategy:
-  matrix:
-    linux_aarch64:
-      poolName: 'arm64-pool'
-    linux_Xenial:
-      imageName: 'ubuntu-16.04'
-    linux_Bionic:
-      imageName: 'ubuntu-18.04'
-    windows_2016:
-      imageName: 'vs2017-win2016'
-    windows_latest:
-      imageName: 'windows-latest'
+jobs:
+
+  - job: Arm64
+    variables:
+      OS: Linux
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      name: 'arm64-pool'
+    steps:
+      - template: azure-steps-nix.yml
+
+  - job: Ubuntu_16_04
+    variables:
+      OS: Linux
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+      - template: azure-steps-nix.yml
+
+  - job: Ubuntu_18_04
+    variables:
+      OS: Linux
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      vmImage: 'ubuntu-18.04'
+    steps:
+      - template: azure-steps-nix.yml
+
+  - job: VS2017
+    variables:
+      OS: Windows
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      vmImage: 'vs2017-win2016'
+    steps:
+      - template: azure-steps-nix.yml
+
+  - job: VS_Latest
+    variables:
+      OS: Windows
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      vmImage: 'vs2017-win2016'
+    steps:
+      - template: azure-steps-nix.yml
 
 trigger:
   - master
 
-pool:
-  name: $(poolName)
-  vmImage: $(imageName)
-  
 
-steps:
-#  - task: SonarCloudPrepare@1
-#    inputs:
-#      SonarCloud: '66420b06-0308-4157-9b80-ef53c71c6596'
-#      organization: 'wulfland-github'
-#      projectKey: 'cov-demo'
-#      projectName: 'Coverage Demo'
-#      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
-
-  - bash: |
-      echo "uname -s: $(uname -s)"
-      dotnet --info
-      dir=/usr/share/dotnet; if [[ "$(uname -s)" != "Linux" ]]; then dir=$HOME/.dotnet; fi
-      echo 3.0 to $dir
-      curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.0 -i $dir
-      echo 3.1 to $dir
-      curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.1 -i $dir
-      dotnet --info
-    displayName: 'Install dotnet sdk 3.1 on linux/osx'
-
-  - powershell: |
-       $ErrorActionPreference = "SilentlyContinue"
-       & dotnet --info
-       & mono --version
-       $true
-    displayName: 'system info'
-
-  #- script: dotnet build $(solution) --configuration $(buildConfiguration)
-  #  displayName: 'dotnet build $(buildConfiguration)'
-
-  - script: |
-      rem $(testProject) 2>/dev/null || true
-      dotnet test --logger trx -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
-    displayName: 'dotnet test'
-
-#  - script: |
-#      dotnet tool install dotnet-reportgenerator-globaltool --tool-path . 
-#      ./reportgenerator "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-#    condition: eq( variables['Agent.OS'], 'Linux' )
-#    displayName: Run Reportgenerator on Linux
-#
-#  - script: |
-#      dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
-#      .\reportgenerator.exe "-reports:$(Build.SourcesDirectory)/coverage/coverage.opencover.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
-#    condition: eq( variables['Agent.OS'], 'Windows_NT' )
-#    displayName: Run Reportgenerator on Windows
-
-#  - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-#    displayName: 'Run Code Analysis'
-
-#  - task: SonarCloudPublish@1
-#    displayName: 'Publish Quality Gate Results'
-
-  - task: PublishTestResults@2
-    inputs:
-      testRunner: VSTest
-      testResultsFiles: '**/*.trx'
-
-#  - task: PublishCodeCoverageResults@1
-#    inputs:
-#      summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
-#      reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
-#      codecoverageTool: cobertura
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: publish
-      arguments: '-f netcoreapp2.2 --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-      projects: $(solution)
-      publishWebProjects: false
-      modifyOutputPath: true
-      zipAfterPublish: true
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      # pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      pathtoPublish: '$(build.repository.localpath)'
-      artifactName: '$(imageName)-Full'
-
-  - task: PublishBuildArtifacts@1
