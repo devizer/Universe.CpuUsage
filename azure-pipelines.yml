@@ -55,15 +55,16 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: MacOS_Latest
-    variables:
-      OS: OSX
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'macOS-latest'
-    steps:
-      - template: azure-steps-nix.yml
+# needs explicit dotnet core installation
+#  - job: MacOS_Latest
+#    variables:
+#      OS: OSX
+#    timeoutInMinutes: 99
+#    cancelTimeoutInMinutes: 1
+#    pool:
+#      vmImage: 'macOS-latest'
+#    steps:
+#      - template: azure-steps-nix.yml
 
 trigger:
   - master
