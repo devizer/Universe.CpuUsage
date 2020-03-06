@@ -73,8 +73,7 @@ namespace Universe.CpuUsage.Tests
                 // CpuLoader.Run(1, 0, true);
                 Stopwatch sw = Stopwatch.StartNew();
                 while (sw.ElapsedMilliseconds < 1) ;
-                
-                // on build server sometimes fails
+                // on some build server sometimes fails (Azure - sometimes fail, AppVeyor - OK)
                 Thread.Sleep(3);
             }
             
