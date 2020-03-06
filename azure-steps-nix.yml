@@ -33,7 +33,7 @@ steps:
 
   - script: |
       rem $(testProject) 2>/dev/null || true
-      dotnet test --logger trx -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
+      dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
     displayName: 'dotnet test'
 
 #  - script: |
