@@ -17,6 +17,12 @@ namespace Universe.CpuUsage.Tests
                 // Fail CpuUsageAsyncWatcher_Tests.ParallelTests and CpuUsageAsyncWatcher_Tests.SimpleTest on Linux
                 ThreadPerTaskScheduler tpt = new ThreadPerTaskScheduler();
                 yield return new AsyncSchedulerCase("Thread Per Task Scheduler", new TaskFactory(tpt), tpt);
+                
+                LimitedConcurrencyLevelTaskScheduler lc = new LimitedConcurrencyLevelTaskScheduler(16);
+                yield return new AsyncSchedulerCase("Limited Concurrency Scheduler", new TaskFactory(lc), lc);
+
+                LimitedConcurrencyLevelTaskScheduler lc1 = new LimitedConcurrencyLevelTaskScheduler(1);
+                yield return new AsyncSchedulerCase("Limited Concurrency Scheduler. Single Thread", new TaskFactory(lc1), lc1);
 
                 if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
                 {
