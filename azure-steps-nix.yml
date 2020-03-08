@@ -39,10 +39,11 @@ steps:
       echo "uname -s: [$(uname -s)]"
       
       if [[ "$(uname -s)" == MINGW* ]]; then
+        echo "TEST in [$(pwd)]"
         dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       else
         source FULL-TIME-REPORT.sh
-        TIME="$FULL_TIME" time eval dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+        TIME="$FULL_TIME" time dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       fi
     displayName: 'dotnet test'
 
