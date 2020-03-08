@@ -37,8 +37,14 @@ steps:
       rem $(testProject) 2>/dev/null || true
       echo "Bash version: $BASH_VERSION"
       echo "uname -s: [$(uname -s)]"
-      source FULL-TIME-REPORT.sh
-      TIME="$FULL_TIME" time dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ 
+      
+      cmd="dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/"
+      if [[ "$(uname -s)" == MINGW* ]]; then
+        eval "$cmd"
+      else
+        source FULL-TIME-REPORT.sh
+        TIME="$FULL_TIME" time eval "$cmd"
+      fi
     displayName: 'dotnet test'
 
   - script: |
