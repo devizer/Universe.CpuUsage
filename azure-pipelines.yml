@@ -45,7 +45,7 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: VS2017
+  - job: VS_2017
     variables:
       OS: Windows
     timeoutInMinutes: 99
