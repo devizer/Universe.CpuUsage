@@ -1,3 +1,4 @@
+# AGENT_OS=Linux|Darwin|Windows_NT
 
 steps:
 #  - task: SonarCloudPrepare@1
