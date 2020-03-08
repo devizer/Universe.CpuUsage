@@ -40,6 +40,7 @@ steps:
       
       if [[ "$(uname -s)" == MINGW* ]]; then
         echo "TEST in [$(pwd)]"
+        echo dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
         dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       else
         source FULL-TIME-REPORT.sh
