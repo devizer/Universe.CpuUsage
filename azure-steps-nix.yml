@@ -33,20 +33,19 @@ steps:
   #- script: dotnet build $(solution) --configuration $(buildConfiguration)
   #  displayName: 'dotnet build $(buildConfiguration)'
 
-  - bash: |
+  - script: |
+      dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+    condition: eq(variables['OS'], 'Windows')
+    displayName: 'dotnet test on Windows'
+
+  - script: |
       rem $(testProject) 2>/dev/null || true
       echo "Bash version: $BASH_VERSION"
       echo "uname -s: [$(uname -s)]"
-      
-      if [[ "$(uname -s)" == MINGW* ]]; then
-        echo "TEST in [$(pwd)]"
-        echo dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
-        dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
-      else
-        source FULL-TIME-REPORT.sh
-        TIME="$FULL_TIME" time dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
-      fi
-    displayName: 'dotnet test'
+      source FULL-TIME-REPORT.sh
+      TIME="$FULL_TIME" time dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+    condition: ne(variables['OS'], 'Windows')
+    displayName: 'dotnet test on Windows'
 
   - script: |
       printenv | sort
