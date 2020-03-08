@@ -38,7 +38,7 @@ steps:
 
   - script: |
       Show-System-Stat || true
-      echo
+      echo ""
     displayName: 'System Stat'
 
   #  - script: |
