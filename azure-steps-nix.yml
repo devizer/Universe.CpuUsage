@@ -45,7 +45,7 @@ steps:
       source FULL-TIME-REPORT.sh
       TIME="$FULL_TIME" time dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: ne(variables['OS'], 'Windows')
-    displayName: 'dotnet test on Windows'
+    displayName: 'dotnet test on Linux/OSX'
 
   - script: |
       printenv | sort
