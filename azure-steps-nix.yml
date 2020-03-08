@@ -33,7 +33,7 @@ steps:
   #- script: dotnet build $(solution) --configuration $(buildConfiguration)
   #  displayName: 'dotnet build $(buildConfiguration)'
 
-  - script: |
+  - bash: |
       rem $(testProject) 2>/dev/null || true
       echo "Bash version: $BASH_VERSION"
       echo "uname -s: [$(uname -s)]"
