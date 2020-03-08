@@ -38,12 +38,11 @@ steps:
       echo "Bash version: $BASH_VERSION"
       echo "uname -s: [$(uname -s)]"
       
-      cmd="dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/"
       if [[ "$(uname -s)" == MINGW* ]]; then
-        eval "$cmd"
+        dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       else
         source FULL-TIME-REPORT.sh
-        TIME="$FULL_TIME" time eval "$cmd"
+        TIME="$FULL_TIME" time eval dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       fi
     displayName: 'dotnet test'
 
