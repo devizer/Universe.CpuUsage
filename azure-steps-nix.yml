@@ -18,7 +18,7 @@ steps:
       curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.0 -i $dir
       echo 3.1 to $dir
       curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.1 -i $dir
-      sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
+      sudo ln -f -s $dir/dotnet /usr/local/bin/dotnet
       dotnet --info
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
 
