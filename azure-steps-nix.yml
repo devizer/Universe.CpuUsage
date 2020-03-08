@@ -23,6 +23,7 @@ steps:
 
   - powershell: |
        $ErrorActionPreference = "SilentlyContinue"
+       & uname -a
        & dotnet --info
        & mono --version
        $true
