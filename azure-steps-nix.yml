@@ -35,6 +35,11 @@ steps:
   #  displayName: 'dotnet build $(buildConfiguration)'
 
   - script: |
+      dotnet restore --disable-parallel
+      echo 
+    displayName: 'dotnet restore'
+
+  - script: |
       dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: eq(variables['OS'], 'Windows')
     displayName: 'dotnet test on Windows'
