@@ -31,9 +31,6 @@ steps:
        $true
     displayName: 'system info'
 
-  #- script: dotnet build $(solution) --configuration $(buildConfiguration)
-  #  displayName: 'dotnet build $(buildConfiguration)'
-
   - script: |
       dotnet restore --disable-parallel
       echo 
