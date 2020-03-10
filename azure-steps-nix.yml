@@ -95,10 +95,15 @@ steps:
       modifyOutputPath: true
       zipAfterPublish: true
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      # pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      pathtoPublish: '$(build.repository.localpath)'
-      artifactName: '$(imageName)-Full'
+#  - task: PublishBuildArtifacts@1
+#    inputs:
+#      # pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#      pathtoPublish: '$(build.repository.localpath)'
+#      artifactName: '$(imageName)-Full'
+#
+#  - task: PublishBuildArtifacts@1
 
   - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.Repository.LocalPath)'
+      artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
