@@ -28,6 +28,8 @@ else
       done
 fi
 sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet || true
+file /usr/share/dotnet/dotnet || true
+file /usr/local/bin/dotnet || true
 
 Say "TESTING Universe.CpuUsage"
 dotnet test -f netcoreapp2.2
