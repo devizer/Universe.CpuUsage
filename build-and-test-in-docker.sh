@@ -19,7 +19,12 @@ apt-get clean;
 if [[ $(uname -m) != armv8l ]]; then
   script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
 else
-  Say "net core is not yet"
+  Say "net core for arm?"
+      DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
+      try-and-retry curl -o /tmp/_dotnet-install.sh -ksSL $DOTNET_Url
+      for v in 2.1 2.2 3.0 3.1; do
+        time try-and-retry timeout 666 sudo -E bash /tmp/_dotnet-install.sh -c 2.1 -i /usr/share/dotnet --architecture arm
+      done
 fi
 sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet || true
 
