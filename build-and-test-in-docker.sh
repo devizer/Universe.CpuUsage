@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-apt-get update -q; apt-get install -y wget p7zip-full sudo procps;
+apt-get update -q; apt-get install -y wget p7zip-full sudo procps fdisk;
 script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
 Say "ENVIRONMENT"; printenv | sort
 Say "MEMORY INFO"; free -m; 
