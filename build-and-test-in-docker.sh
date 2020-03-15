@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 apt-get update -q; apt-get install -y wget p7zip-full sudo procps bsdutils util-linux lshw;
 script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
@@ -13,6 +14,12 @@ if [[ $(uname -m) == armv7* ]]; then
 else
     7z b || true
 fi
+
+if [[ $(uname -m) == armv8l ]]; then
+  Say "ABORT! armel arch is not supported by .NET CORE"
+  exit 0;
+fi 
+
 
 apt-get install -yq locales systemd apt-utils apt-transport-https ca-certificates curl libcurl3 gnupg2 software-properties-common htop mc lsof unzip net-tools bsdutils sudo p7zip-full wget git time ncdu tree procps p7zip-full jq pv; 
 apt-get clean;
