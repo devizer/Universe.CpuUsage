@@ -19,7 +19,7 @@ name: 'ARM 32 bit: Build and test on'
 
 platform:
   os: linux
-  arch: arm
+  arch: armhf
 
 steps:
   - name: 'Build & Test on ARM 64 bit'
