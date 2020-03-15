@@ -8,7 +8,7 @@ platform:
 
 steps:
 - name: 'Build & Test'
-  image: debian
+  image: 'debian:stretch'
   commands:
     - |
       apt-get update -q; 
