@@ -1,0 +1,16 @@
+kind: pipeline
+type: docker
+name: 'What?'
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+- name: 'Build & Test'
+  image: debian
+  commands:
+    - 'script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;'
+    - 'script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;'
+    - dotnet test -f netcoreapp2.2
+
