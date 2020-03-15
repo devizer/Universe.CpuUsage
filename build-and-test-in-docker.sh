@@ -15,5 +15,6 @@ else
     7z b || true
 fi
 script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
+sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet
 Say "TESTING Universe.CpuUsage"
 dotnet test -f netcoreapp2.2
