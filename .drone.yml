@@ -1,22 +1,44 @@
 kind: pipeline
 type: docker
-name: 'What?'
+name: 'Build and test on ARM 64 bit'
 
 platform:
   os: linux
   arch: arm64
 
 steps:
-- name: 'Build & Test'
+- name: 'Build & Test  on ARM 64 bit'
   image: 'debian:stretch'
   commands:
-    - |
-      apt-get update -q; 
-      apt-get install -yq locales systemd apt-utils apt-transport-https ca-certificates curl libcurl3 gnupg2 software-properties-common htop mc lsof unzip net-tools bsdutils sudo p7zip-full wget git time ncdu tree procps p7zip-full jq pv; apt-get clean;
+    - bash -e build-and-test-in-docker.sh
 
-    - 'script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;'
-    - Say "SYSTEM INFO"; free -m; sudo fdisk -l; df -h -T
-    - 'Say "7Z BENCHMARK"; 7z b'
-    - 'script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;'
-    - dotnet test -f netcoreapp2.2
+---
+kind: pipeline
+type: docker
+name: 'Build and test on ARM 32 bit'
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: 'Build & Test on ARM 64 bit'
+    image: 'debian:stretch'
+    commands:
+      - bash -e build-and-test-in-docker.sh
+
+---
+kind: pipeline
+type: docker
+name: 'Build and test on x64'
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: 'Build & Test on x64'
+    image: 'debian:stretch'
+    commands:
+      - bash -e build-and-test-in-docker.sh
 
