@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export SKIP_POSIXRESOURCESUSAGE_ASSERTS=True
 
 set -e
 apt-get update -q; apt-get install -y wget p7zip-full sudo procps bsdutils util-linux lshw;

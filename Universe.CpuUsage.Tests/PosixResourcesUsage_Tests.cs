@@ -95,6 +95,7 @@ namespace Universe.CpuUsage.Tests
         [Test]
         [TestCase(CpuUsageScope.Thread)]
         [TestCase(CpuUsageScope.Process)]
+        // Does not work on drone.io in container
         public void IO_Reads_Test(CpuUsageScope scope)
         {
             if (!PosixResourceUsage.IsSupported) return;
