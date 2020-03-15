@@ -22,7 +22,7 @@ platform:
   arch: arm
 
 steps:
-  - name: 'Build & Test on ARM 64 bit'
+  - name: 'Build & Test on ARM 32 bit'
     image: 'debian:stretch'
     commands:
       - bash -e build-and-test-in-docker.sh
