@@ -1,13 +1,13 @@
 kind: pipeline
 type: docker
-name: 'Build and test on ARM 64 bit'
+name: 'ARM 64 bit: Build and test'
 
 platform:
   os: linux
   arch: arm64
 
 steps:
-- name: 'Build & Test  on ARM 64 bit'
+- name: 'Build & Test on ARM 64 bit'
   image: 'debian:stretch'
   commands:
     - bash -e build-and-test-in-docker.sh
@@ -15,7 +15,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: 'Build and test on ARM 32 bit'
+name: 'ARM 32 bit: Build and test on'
 
 platform:
   os: linux
@@ -30,7 +30,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: 'Build and test on x64'
+name: 'x64_86: Build and test'
 
 platform:
   os: linux
