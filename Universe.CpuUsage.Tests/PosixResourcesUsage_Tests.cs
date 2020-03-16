@@ -61,14 +61,14 @@ namespace Universe.CpuUsage.Tests
         [TestCase(CpuUsageScope.Process,1)]
         [TestCase(CpuUsageScope.Thread,42)]
         [TestCase(CpuUsageScope.Process,42)]
-        public void ContextSwitch_Test(CpuUsageScope scope, int switchCount)
+        public void ContextSwitch_Test(CpuUsageScope scope, int expectedSwitchCount)
         {
             if (!PosixResourceUsage.IsSupported) return;
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             
             // Act
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
-            for (int i = 0; i < switchCount; i++)
+            for (int i = 0; i < expectedSwitchCount; i++)
             {
                 // CpuLoader.Run(1, 0, true);
                 Stopwatch sw = Stopwatch.StartNew();
@@ -86,10 +86,11 @@ namespace Universe.CpuUsage.Tests
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             if (SkipPosixResourcesUsageAsserts) return;
-            if (scope == CpuUsageScope.Thread)
-                Assert.IsTrue(switchCount == delta.VoluntaryContextSwitches || switchCount == delta.VoluntaryContextSwitches - 1);
-            else
-                Assert.GreaterOrEqual(delta.VoluntaryContextSwitches, switchCount);
+            Assert.IsTrue(expectedSwitchCount <= delta.VoluntaryContextSwitches && expectedSwitchCount <= delta.VoluntaryContextSwitches + 7);
+//            if (scope == CpuUsageScope.Thread)
+//                Assert.IsTrue(expectedSwitchCount == delta.VoluntaryContextSwitches || expectedSwitchCount == delta.VoluntaryContextSwitches - 1);
+//            else
+//                Assert.GreaterOrEqual(delta.VoluntaryContextSwitches, expectedSwitchCount);
         }
         
         [Test]
