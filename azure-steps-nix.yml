@@ -10,6 +10,7 @@ steps:
 #      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
 
   - bash: |
+      echo "AGENT_OS: '${AGENT_OS}'"
       echo "uname -s: $(uname -s)"
       dotnet --info
       dir=/usr/share/dotnet; if [[ "$(uname -s)" != "Linux" ]]; then dir=$HOME/.dotnet; fi
