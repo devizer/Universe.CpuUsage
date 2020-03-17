@@ -15,11 +15,11 @@ steps:
       echo "PATH is '$PATH'"
       dotnet --info
       dir=/usr/share/dotnet; if [[ "$(uname -s)" != "Linux" ]]; then dir=$HOME/.dotnet; fi
-      echo 2.2 to $dir
+      echo Installing .NET Core 2.2 to $dir
       curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 2.2 -i $dir
-      echo 3.0 to $dir
+      echo Installing .NET Core 3.0 to $dir
       curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.0 -i $dir
-      echo 3.1 to $dir
+      echo Installing .NET Core 3.1 to $dir
       curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 3.1 -i $dir
       sudo ln -f -s $dir/dotnet /usr/local/bin/dotnet
       dotnet --info
