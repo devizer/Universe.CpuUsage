@@ -12,6 +12,7 @@ steps:
   - bash: |
       echo "AGENT_OS: '${AGENT_OS}'"
       echo "uname -s: $(uname -s)"
+      echo "PATH is '$PATH'"
       dotnet --info
       dir=/usr/share/dotnet; if [[ "$(uname -s)" != "Linux" ]]; then dir=$HOME/.dotnet; fi
       echo 2.2 to $dir
