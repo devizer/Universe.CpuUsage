@@ -1,13 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading;
-using System.Linq;
 // ReSharper disable PossibleInvalidOperationException
 
 namespace Universe.CpuUsage
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Text;
+    using System.Threading;
+    using System.Linq;
+
     public class CpuUsageAsyncWatcher
     {
         private volatile bool IsRunning = true;

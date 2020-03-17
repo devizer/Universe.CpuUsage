@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Universe.CpuUsage.Interop;
-
 namespace Universe.CpuUsage
 {
+    using System;
+    using System.Collections.Generic;
+    using Universe.CpuUsage.Interop;
+
     // for linux and mac os only
     public struct PosixResourceUsage
     {

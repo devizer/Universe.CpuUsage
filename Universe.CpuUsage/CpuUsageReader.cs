@@ -1,8 +1,7 @@
-using System;
-using Universe.CpuUsage.Interop;
-
 namespace Universe.CpuUsage
 {
+    using System;
+
     internal class CpuUsageReader
     {
         public static bool IsSupported => _IsSupported.Value;

@@ -1,9 +1,9 @@
-using System;
-using System.Runtime.InteropServices;
-using Universe.CpuUsage.Interop;
-
 namespace Universe.CpuUsage
 {
+    using System;
+    using System.Runtime.InteropServices;
+    using Universe.CpuUsage.Interop;
+
     public class MacOsThreadInfo
     {
         public static bool IsSupported => _IsSupported.Value;

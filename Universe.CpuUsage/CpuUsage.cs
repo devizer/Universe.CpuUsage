@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-
 namespace Universe.CpuUsage
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.InteropServices;
+
+
     // Supported by kernel 2.6.26+, mac OS 10.9+, Windows XP/2003 and above
     [StructLayout(LayoutKind.Sequential)]
     public struct CpuUsage
