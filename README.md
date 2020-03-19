@@ -15,6 +15,7 @@ Autotests using .NET Core and .NET Framework cover:
 - Linux x86_64 and Arm 64-bit on appveyor
 - Windows Server 2016 on appveyor
 - macOS 10.14 on travis-ci.org
+- Raspbian 10 Buster on Azure Piplines using self-hosted agent on Ruspberry pi
 
 Autotests using Mono:
 - Linux x86_64, Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
