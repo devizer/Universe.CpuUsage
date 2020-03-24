@@ -20,12 +20,12 @@ steps:
       chmod +x $TMPDIR/dotnet-install.sh
       dir=/usr/share/dotnet; if [[ "$(uname -s)" != "Linux" ]]; then dir=$HOME/.dotnet; fi
       echo Installing .NET Core 2.2 to $dir
-      sudo bash -с "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 2.2 -i $dir"
+      sudo bash -c "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 2.2 -i $dir"
       # PREV: curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 2.2 -i $dir
       echo Installing .NET Core 3.0 to $dir
-      sudo bash -с "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 3.0 -i $dir"
+      sudo bash -c "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 3.0 -i $dir"
       echo Installing .NET Core 3.1 to $dir
-      sudo bash -с "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 3.1 -i $dir"
+      sudo bash -c "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 3.1 -i $dir"
       sudo ln -f -s $dir/dotnet /usr/local/bin/dotnet
       dotnet --info
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
