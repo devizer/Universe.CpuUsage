@@ -24,7 +24,8 @@ namespace Universe.CpuUsage.Tests
         {
             Stopwatch sw = Stopwatch.StartNew();
             CpuUsage firstUsage = CpuUsage.GetByThread().Value;
-            var prev = firstUsage;
+            CpuUsage prev = firstUsage;
+            bool isFirstChange = true;
             bool isDone = false;
             while (!isDone)
             {
@@ -38,8 +39,10 @@ namespace Universe.CpuUsage.Tests
                 if (nextUsage.TotalMicroSeconds != prev.TotalMicroSeconds)
                 {
                     var increment = CpuUsage.Substruct(nextUsage, prev).TotalMicroSeconds;
-                    Population.Add(increment);
+                    if (!isFirstChange) Population.Add(increment);
+                    isFirstChange = false;
                 }
+                
                 prev = nextUsage;
 
                 isDone = 
