@@ -116,7 +116,7 @@ namespace Universe.CpuUsage.Tests
             
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
-            if (SkipPosixResourcesUsageAsserts) return;
+            if (SkipPosixResourcesUsageAsserts || !IsIoReadsWritesSupported()) return;
             Assert.Greater(delta.ReadOps, 0);
         }
  
@@ -140,8 +140,21 @@ namespace Universe.CpuUsage.Tests
             
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
-            if (SkipPosixResourcesUsageAsserts) return;
+            if (SkipPosixResourcesUsageAsserts || !IsIoReadsWritesSupported()) return;
             Assert.Greater(delta.WriteOps, 0);
+        }
+
+        bool IsIoReadsWritesSupported()
+        {
+            try
+            {
+                return File.Exists("/proc/self/io");
+            }
+            catch
+            {
+                // termux on non-rooted android phone. May be supported but we cant know
+                return false;
+            }
         }
     }
 }
