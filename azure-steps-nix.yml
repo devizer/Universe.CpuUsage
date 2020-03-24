@@ -83,11 +83,14 @@ steps:
 #    displayName: 'Publish Quality Gate Results'
 
   - task: PublishTestResults@2
+    condition: succeededOrFailed()
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
+      testRunTitle: 'All the tests for (Agent.JobName)'
 
-#  - task: PublishCodeCoverageResults@1
+
+  #  - task: PublishCodeCoverageResults@1
 #    inputs:
 #      summaryFileLocation: $(Build.SourcesDirectory)/coverage/Cobertura/Cobertura.xml
 #      reportDirectory: $(Build.SourcesDirectory)/coverage/Cobertura
