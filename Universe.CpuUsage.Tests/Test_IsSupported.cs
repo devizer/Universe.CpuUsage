@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
 using Tests;
 
@@ -7,12 +8,12 @@ namespace Universe.CpuUsage.Tests
     [TestFixture]
     public class Test_IsSupported: NUnitTestsBase
     {
-        [Test]
-        public void ForcedFail()
-        {
-            Console.WriteLine("IT Fails");
-            Assert.Fail("It is for a sandbox only");
-        }
+        // [Test]
+        // public void ForcedFail()
+        // {
+        //     Console.WriteLine("IT Fails");
+        //     Assert.Fail("It is for a sandbox only");
+        // }
 
         [Test]
         public void OnWindows()
