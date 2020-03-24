@@ -87,7 +87,7 @@ steps:
     inputs:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
-      testRunTitle: 'All the tests for (Agent.JobName)'
+      testRunTitle: 'All the tests for $(Agent.JobName)'
 
 
   #  - task: PublishCodeCoverageResults@1
