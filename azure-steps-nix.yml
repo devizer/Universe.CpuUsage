@@ -56,7 +56,8 @@ steps:
       echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
       echo "uname -s: [$(uname -s)]"
       source FULL-TIME-REPORT.sh
-      TIME="$FULL_TIME" time dotnet test  --collect:"XPlat Code Coverage" --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+      TIME="$FULL_TIME" time dotnet test  --collect:"XPlat Code Coverage" --logger trx -f netcoreapp2.2 -c Release 
+      # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: ne(variables['OS'], 'Windows')
     displayName: 'dotnet test on Linux/OSX'
 
