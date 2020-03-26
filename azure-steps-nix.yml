@@ -91,6 +91,16 @@ steps:
       testRunner: VSTest
       testResultsFiles: '**/*.trx'
       testRunTitle: 'All the tests for $(Agent.JobName)'
+      
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: cobertura
+      failIfCoverageEmpty: false # Optional      
+      summaryFileLocation: '**/coverage.cobertura.xml'
+      #pathToSources: # Optional
+      #reportDirectory: # Optional
+      #additionalCodeCoverageFiles: # Optional
+      
 
 
   #  - task: PublishCodeCoverageResults@1
@@ -120,3 +130,4 @@ steps:
     inputs:
       pathtoPublish: '$(Build.Repository.LocalPath)'
       artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
+      
