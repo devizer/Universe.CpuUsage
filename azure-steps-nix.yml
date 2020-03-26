@@ -45,7 +45,7 @@ steps:
 
   - script: |
       echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
-      # dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+      rem dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ --collect:"XPlat Code Coverage"
     condition: eq(variables['OS'], 'Windows')
     displayName: 'dotnet test on Windows'
