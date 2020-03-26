@@ -36,6 +36,8 @@ namespace Universe.CpuUsage.Tests
             var usage = CpuUsage.GetByProcess();
             Console.WriteLine($"Process's CPU Usage: {usage}");
             Assert.IsTrue(usage.HasValue);
+            // cool!
+            var _ = usage.Value.KernelUsage.ToString() + usage.Value.UserUsage.ToString();
         }
     }
     
