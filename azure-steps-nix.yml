@@ -69,13 +69,11 @@ steps:
     displayName: 'System Stat'
 
   - powershell: |
-      if ($isWindows) {
-          $currentVersion=Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
-          $win_10_release_id = $currentVersion.ReleaseId; if (! $win_10_release_id) { $win_10_release_id = $currentVersion.CurrentBuildNumber }
-          $win_name = $(Get-WMIObject win32_operatingsystem -EA SilentlyContinue).Caption
-          echo "$($win_name): Release [$win_10_release_id], powershell [$($PSVersionTable.PSVersion)]"
-          $cpu=Get-WmiObject Win32_Processor; echo "CPU: $($cpu.Name), $([System.Environment]::ProcessorCount) Cores";
-      }
+      $currentVersion=Get-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+      $win_10_release_id = $currentVersion.ReleaseId; if (! $win_10_release_id) { $win_10_release_id = $currentVersion.CurrentBuildNumber }
+      $win_name = $(Get-WMIObject win32_operatingsystem -EA SilentlyContinue).Caption
+      echo "$($win_name): Release [$win_10_release_id], powershell [$($PSVersionTable.PSVersion)]"
+      $cpu=Get-WmiObject Win32_Processor; echo "CPU: $($cpu.Name), $([System.Environment]::ProcessorCount) Cores";
       
       get-wmiobject win32_product | sort -Property Vendor, Name, Version | ft Version, Name, Vendor, InstallState, IdentifyingNumber -AutoSize | Out-File -Width 512 "Preintalled Software.log" 
       $true
