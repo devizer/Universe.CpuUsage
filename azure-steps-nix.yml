@@ -98,7 +98,7 @@ steps:
     inputs:
       codeCoverageTool: cobertura
       failIfCoverageEmpty: false # Optional      
-      summaryFileLocation: '**/coverage.cobertura.xml'
+      summaryFileLocation: '**/In/**/coverage.cobertura.xml'
       #pathToSources: # Optional
       #reportDirectory: # Optional
       #additionalCodeCoverageFiles: # Optional
