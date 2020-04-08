@@ -56,7 +56,7 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: WIN_2016
+  - job: WIN2016_VS2017
     variables:
       OS: Windows
     timeoutInMinutes: 99
@@ -66,7 +66,7 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: WIN_2019
+  - job: WIN2019_VS2019
     variables:
       OS: Windows
     timeoutInMinutes: 99
