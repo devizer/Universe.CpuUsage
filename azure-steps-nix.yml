@@ -77,7 +77,7 @@ steps:
           $cpu=Get-WmiObject Win32_Processor; echo "CPU: $($cpu.Name), $([System.Environment]::ProcessorCount) Cores";
       }
       
-      get-wmiobject win32_product | sort -Property Vendor, Name, Version | ft Version, Name, Vendor, InstallState, IdentifyingNumber *> "Preintalled Software.log"
+      get-wmiobject win32_product | sort -Property Vendor, Name, Version | ft Version, Name, Vendor, InstallState, IdentifyingNumber -AutoSize | Out-File -Width 512 "Preintalled Software.log" 
       $true
     condition: eq(variables['OS'], 'Windows')
     displayName: 'About Windows'
