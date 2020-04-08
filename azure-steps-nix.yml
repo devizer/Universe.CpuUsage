@@ -39,7 +39,7 @@ steps:
     displayName: 'system info'
 
   - script: |
-      dotnet restore --disable-parallel
+      dotnet restore || dotnet restore --disable-parallel
       echo 
     displayName: 'dotnet restore'
 
