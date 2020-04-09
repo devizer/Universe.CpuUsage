@@ -35,6 +35,7 @@ steps:
        & uname -a
        & dotnet --info
        & mono --version
+       & nvm --version
        $true
     displayName: 'system info'
 
