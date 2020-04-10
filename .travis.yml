@@ -68,6 +68,7 @@ before_script:
 - mono --version || true
 - 'mono --version; msbuild /version; echo ""; nuget 2>&1 | head -4 || true'
 - 'printenv | sort'
+- 'bash Info/show-platform.sh' 
   
 script:
 - export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
