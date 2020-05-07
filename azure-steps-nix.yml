@@ -37,6 +37,7 @@ steps:
        & mono --version
        & nvm --version
        & node --version
+       & npm --version
        & yarn --version
        "PATH: [" + [Environment]::GetEnvironmentVariable("PATH") + "]"
     displayName: 'system info (pwsh)'
@@ -47,6 +48,7 @@ steps:
       mono --version
       nvm --version
       node --version
+      npm --version
       yarn --version
       echo "PATH: [$PATH]"
     displayName: 'system info (bash)'
