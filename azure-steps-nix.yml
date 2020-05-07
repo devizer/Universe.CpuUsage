@@ -38,7 +38,7 @@ steps:
        & nvm --version
        & node --version
        & yarn --version
-      "PATH: [" + [Environment]::GetEnvironmentVariable("PATH") + "]"
+       "PATH: [" + [Environment]::GetEnvironmentVariable("PATH") + "]"
     displayName: 'system info (pwsh)'
 
   - script: |
