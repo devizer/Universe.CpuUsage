@@ -36,8 +36,20 @@ steps:
        & dotnet --info
        & mono --version
        & nvm --version
-       $true
-    displayName: 'system info'
+       & node --version
+       & yarn --version
+      "PATH: [" + [Environment]::GetEnvironmentVariable("PATH") + "]"
+    displayName: 'system info (pwsh)'
+
+  - powershell: |
+      uname -a
+      dotnet --info
+      mono --version
+      nvm --version
+      node --version
+      yarn --version
+      echo "PATH: [$PATH]"
+    displayName: 'system info (bash)'
 
   - script: |
       dotnet restore || dotnet restore --disable-parallel
