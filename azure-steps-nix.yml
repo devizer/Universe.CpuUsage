@@ -45,11 +45,11 @@ steps:
   - script: |
       uname -a
       dotnet --info
-      mono --version
-      nvm --version
-      node --version
-      npm --version
-      yarn --version
+      Say "mono: $(mono --version)"
+      Say "nvm: $(nvm --version)"
+      Say "node: $(node --version)"
+      Say "npm: $(npm --version)"
+      Say "yarn: $(yarn --version)"
       echo "PATH: [$PATH]"
       Say "/etc/environment"
       cat /etc/environment
