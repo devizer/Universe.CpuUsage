@@ -53,6 +53,7 @@ steps:
       echo "PATH: [$PATH]"
       Say "/etc/environment"
       cat /etc/environment
+    condition: ne(variables['OS'], 'Windows')
     displayName: 'system info (bash)'
 
   - script: |
