@@ -57,6 +57,13 @@ steps:
     displayName: 'system info (bash)'
 
   - script: |
+      time list-packages
+      time list-packages
+      true
+    condition: eq(variables['OS'], 'Linux')
+    displayName: 'List Packages'
+
+  - script: |
       dotnet restore || dotnet restore --disable-parallel
       echo 
     displayName: 'dotnet restore'
