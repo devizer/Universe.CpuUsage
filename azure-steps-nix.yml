@@ -51,6 +51,8 @@ steps:
       npm --version
       yarn --version
       echo "PATH: [$PATH]"
+      Say "/etc/environment"
+      cat /etc/environment
     displayName: 'system info (bash)'
 
   - script: |
