@@ -53,6 +53,8 @@ steps:
       echo "PATH: [$PATH]"
       Say "/etc/environment"
       cat /etc/environment
+      Say "env"
+      printenv | sort
     condition: eq(variables['OS'], 'Linux')
     displayName: 'system info (bash)'
 
