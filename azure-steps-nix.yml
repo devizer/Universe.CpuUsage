@@ -44,6 +44,10 @@ steps:
 
   - script: |
       uname -a
+      if [[ ]]; then
+        . /etc/os-release
+        Say "OS: $PRETTY_NAME v$(cat /etc/debian_version)"
+      fi;
       dotnet --info
       Say "mono: $(mono --version)"
       Say "nvm: $(nvm --version)"
