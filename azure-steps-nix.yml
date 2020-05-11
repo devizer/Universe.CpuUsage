@@ -44,7 +44,7 @@ steps:
 
   - script: |
       uname -a
-      if [[ ]]; then
+      if [[ -s /etc/debian_version ]]; then
         . /etc/os-release
         Say "OS: $PRETTY_NAME v$(cat /etc/debian_version)"
       fi;
