@@ -21,6 +21,11 @@ matrix:
     os: osx
     osx_image: xcode10.2
 
+  - name: Native ARM64 Ubuntu 18.04 (.net core & mono)
+    os: linux
+    dist: bionic
+    arch: arm64
+
   - name: Linux ARM-64 (.net core & mono)
     os: linux
     dist: xenial
