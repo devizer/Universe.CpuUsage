@@ -10,23 +10,23 @@ steps:
 #      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
 
   - bash: |
+      script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
       echo "AGENT_OS: '${AGENT_OS}'"
+      if [[ "$(uname -s)" == Darwin ]]; then
+        Say "Installing coreutils on OSX"
+        time brew install coreutils; 
+      fi
       echo "uname -s: '$(uname -s)'"
       echo "uname -m: '$(uname -m)'"
       echo "PATH    : '$PATH'"
       dotnet --info
       export TMPDIR=$HOME/.tmp-dotnet; mkdir -p $TMPDIR
-      curl -L https://dot.net/v1/dotnet-install.sh -o $TMPDIR/dotnet-install.sh
-      chmod +x $TMPDIR/dotnet-install.sh
-      dir=/usr/share/dotnet; if [[ "$(uname -s)" != "Linux" ]]; then dir=$HOME/.dotnet; fi
-      echo Installing .NET Core 2.2 to $dir
-      sudo bash -c "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 2.2 -i $dir"
-      # PREV: curl -sSL https://dot.net/v1/dotnet-install.sh | sudo bash /dev/stdin -c 2.2 -i $dir
-      echo Installing .NET Core 3.0 to $dir
-      sudo bash -c "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 3.0 -i $dir"
-      echo Installing .NET Core 3.1 to $dir
-      sudo bash -c "export TMPDIR=$TMPDIR; $TMPDIR/dotnet-install.sh -c 3.1 -i $dir"
-      sudo ln -f -s $dir/dotnet /usr/local/bin/dotnet
+      DOTNET_TARGET_DIR=/usr/share/dotnet
+      if [[ "$(uname -s)" != "Linux" ]]; then DOTNET_TARGET_DIR=$HOME/.dotnet; fi
+      export DOTNET_TARGET_DIR
+      script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+
+      sudo ln -s $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
       dotnet --info
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
 
