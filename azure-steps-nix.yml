@@ -10,6 +10,7 @@ steps:
 #      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
 
   - bash: |
+      sudo rm -f /usr/local/vib/Say || true
       script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
       echo "AGENT_OS: '${AGENT_OS}'"
       if [[ "$(uname -s)" == Darwin ]]; then
