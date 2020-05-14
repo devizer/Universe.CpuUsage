@@ -9,8 +9,10 @@ Say "Hello. Installing mono on Linux/OSX. Non-x64 arch is fully supported"
 # OSX?
 if [[ "$(uname -s)" == "Darwin" ]]; then
     MONO_Url=https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.198.macos10.xamarin.universal.pkg
+    MONO_Url=https://download.mono-project.com/archive/6.8.0/macos-10-universal/MonoFramework-MDK-6.8.0.123.macos10.xamarin.universal.pkg
     curl -o ~/mono.pkg $MONO_Url
     sudo installer -verbose -pkg ~/mono.pkg -target /
+    rm ~/mono.pkg
     export PATH="/Library/Frameworks/Mono.framework/Versions/Current/Commands:$PATH"
 else
 
