@@ -82,7 +82,7 @@ script:
 - |
    # Restore
    Say "DOTNET RESTORE"
-   dotnet restore || dotnet restore --disable-parallel || true'
+   dotnet restore || dotnet restore --disable-parallel || true
    Say "NUGET RESTORE"
    nuget restore -verbosity quiet || true
 
