@@ -3,7 +3,7 @@ export SKIP_POSIXRESOURCESUSAGE_ASSERTS=True
 
 set -e
 apt-get update -q; apt-get install -y wget p7zip-full sudo procps bsdutils util-linux lshw;
-script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
+script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
 Say "ENVIRONMENT"; printenv | sort
 Say "MEMORY INFO"; free -m; 
 Say "BLOCK STORAGE DEVICES"; sudo fdisk -l || true; 

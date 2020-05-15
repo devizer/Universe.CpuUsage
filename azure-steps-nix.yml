@@ -11,7 +11,7 @@ steps:
 
   - bash: |
       sudo rm -f /usr/local/bin/Say || true
-      script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+      script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
       [ "$(uname -s)" == "Darwin" ] && Say "kern.boottime: $(sysctl -n kern.boottime)"
       echo "AGENT_OS: '${AGENT_OS}'"
       if [[ "$(uname -s)" == Darwin ]]; then
@@ -66,7 +66,6 @@ steps:
 
   - script: |
       time list-packages
-      time list-packages
       true
     condition: eq(variables['OS'], 'Linux')
     displayName: 'List Packages'
@@ -96,7 +95,7 @@ steps:
 
   - script: |
       printenv | sort
-      script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+      script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
       Show-System-Stat || true
       echo ""
     displayName: 'System Stat'
