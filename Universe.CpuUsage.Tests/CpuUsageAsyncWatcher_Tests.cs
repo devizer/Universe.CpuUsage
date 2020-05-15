@@ -78,7 +78,7 @@ namespace Universe.CpuUsage.Tests
             
             IList<Task> tasks = new List<Task>();
             int errors = 0;
-            int maxThreads = Environment.ProcessorCount + 9;
+            int maxThreads = Math.Min(Environment.ProcessorCount + 9, 16);
             // hypothesis: each thread load should be exponential   
             for (int i = 1; i <= maxThreads; i++)
             {
