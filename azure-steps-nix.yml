@@ -66,7 +66,6 @@ steps:
 
   - script: |
       time list-packages
-      true
     condition: eq(variables['OS'], 'Linux')
     displayName: 'List Packages'
 
