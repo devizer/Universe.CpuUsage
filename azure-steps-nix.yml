@@ -22,13 +22,13 @@ steps:
       echo "uname -m: '$(uname -m)'"
       echo "PATH    : '$PATH'"
       dotnet --info
-      export TMPDIR=$HOME/.tmp-dotnet; mkdir -p $TMPDIR
+      # export TMPDIR=$HOME/.tmp-dotnet; mkdir -p $TMPDIR
       DOTNET_TARGET_DIR=/usr/share/dotnet
       if [[ "$(uname -s)" != "Linux" ]]; then DOTNET_TARGET_DIR=$HOME/.dotnet; fi
       export DOTNET_TARGET_DIR
       script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 
-      sudo ln -s $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
+      sudo ln -s -f $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
       dotnet --info
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
 
