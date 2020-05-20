@@ -69,9 +69,7 @@ steps:
     condition: eq(variables['OS'], 'Linux')
     displayName: 'List Packages'
 
-  - script: |
-      dotnet restore || dotnet restore --disable-parallel
-      echo 
+  - script: dotnet restore || dotnet restore --disable-parallel || echo
     displayName: 'dotnet restore'
 
   - script: |
