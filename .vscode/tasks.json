@@ -2,39 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
+            "label": "build-release",
+            "command": "msbuild",
+            "type": "shell",
             "args": [
-                "build",
-                "${workspaceFolder}/Universe.CpuUsage.Tests/Universe.CpuUsage.Tests.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/t:Restore,Rebuild",
+                "/p:Configuration=Release",
+                "/v:q"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
+            "label": "test",
             "command": "dotnet",
             "type": "process",
             "args": [
-                "publish",
-                "${workspaceFolder}/Universe.CpuUsage.Tests/Universe.CpuUsage.Tests.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/Universe.CpuUsage.Tests/Universe.CpuUsage.Tests.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "test",
+                "-c", "-Release",
+                "-f", "netcoreapp2.2",
             ],
             "problemMatcher": "$msCompile"
         }

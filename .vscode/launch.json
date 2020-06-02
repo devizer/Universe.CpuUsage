@@ -5,17 +5,18 @@
    "version": "0.2.0",
    "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Benchmark (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build-release",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Universe.CpuUsage.Tests/bin/Debug/netcoreapp3.0/Universe.CpuUsage.Tests.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/Universe.CpuUsage.Tests",
+            "program": "${workspaceFolder}/Universe.CpuUsage.Banchmark/bin/Release/netcoreapp3.0/Universe.CpuUsage.Banchmark.exe",
+            "args": ["--dry"],
+            "cwd": "${workspaceFolder}/Universe.CpuUsage.Banchmark/bin/Release/netcoreapp3.0",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "logging": {"engineLogging": false}
         },
         {
             "name": ".NET Core Attach",
