@@ -61,6 +61,8 @@ steps:
       cat /etc/environment
       Say "env"
       printenv | sort
+      Say "git config"
+      git config -l
     condition: eq(variables['OS'], 'Linux')
     displayName: 'system info (bash)'
 
