@@ -45,6 +45,16 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
+  - job: Ubuntu_20_04
+    variables:
+      OS: Linux
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      vmImage: 'ubuntu-20.04'
+    steps:
+      - template: azure-steps-nix.yml
+
   # needs explicit dotnet core installation
   - job: MacOS_Latest
     variables:
