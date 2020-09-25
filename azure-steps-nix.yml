@@ -200,6 +200,7 @@ steps:
       echo 'iex "& { $(irm https://aka.ms/install-artifacts-credprovider.ps1) }"' | pwsh
       # https://github.com/Microsoft/artifacts-credprovider/blob/master/README.md#environment-variables
       export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
+      Say "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS" ${VSS_NUGET_EXTERNAL_FEED_ENDPOINTS}"
       dotnet nuget push --source "devizer.nuget" --api-key az Universe.CpuUsage.*.nupkg
       popd
     displayName: 'push local nuget'
