@@ -72,6 +72,8 @@ steps:
     displayName: 'List Packages'
 
   - script: dotnet restore || dotnet restore --disable-parallel || echo
+      export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
+      echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]" 
     displayName: 'dotnet restore'
 
   - script: |
@@ -184,7 +186,13 @@ steps:
       
   - bash: |
       pushd Universe.CpuUsage/bin/Release
-      ls -la Universe.CpuUsage.1.42.0.nupkg 
+      ls -la Universe.CpuUsage.1.42.0.nupkg
+      echo 'iex "& { $(irm https://aka.ms/install-artifacts-credprovider.ps1) }"' | pwsh
+      # https://github.com/Microsoft/artifacts-credprovider/blob/master/README.md#environment-variables
+      export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
+      echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]" 
       dotnet nuget push --source "devizer.nuget" --api-key az Universe.CpuUsage.*.nupkg
       popd
     displayName: 'push local nuget'
+    env:
+      MY_NUGET_PACKAGER: $(NUGET_PACKAGER)
