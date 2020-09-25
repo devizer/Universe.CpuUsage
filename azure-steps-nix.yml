@@ -83,8 +83,8 @@ steps:
   - script: |
       echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
       export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
-      rem dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
-      REM dotnet test --logger trx -f netcoreapp3.1 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ --collect:"XPlat Code Coverage"
+      rem dotnet test --no-restore --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+      REM dotnet test --no-restore --logger trx -f netcoreapp3.1 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ --collect:"XPlat Code Coverage"
       dotnet test  --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release
     condition: eq(variables['OS'], 'Windows')
     displayName: 'dotnet test on Windows'
@@ -98,7 +98,7 @@ steps:
       echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
       echo "uname -s: [$(uname -s)]"
       source FULL-TIME-REPORT.sh
-      TIME="$FULL_TIME" time dotnet test  --collect:"XPlat Code Coverage" --logger trx -f netcoreapp2.2 -c Release 
+      TIME="$FULL_TIME" time dotnet test --no-restore --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release 
       # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: ne(variables['OS'], 'Windows')
     displayName: 'dotnet test on Linux/OSX'

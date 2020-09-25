@@ -3,7 +3,7 @@
   <Import Project="..\Shared\Version.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netcoreapp2.2;net47</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netcoreapp2.2;net47</TargetFrameworks>
     <DebugType>Full</DebugType>
     <IsPackable>false</IsPackable>
     <LangVersion>default</LangVersion>
@@ -12,8 +12,7 @@
   <PropertyGroup>
     <NoWarn>1701;1702;CS0162;CS0414;NU1701</NoWarn>
   </PropertyGroup>
-
-
+  
   <ItemGroup>
     <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
 <!--    <PackageReference Include="coverlet.collector" Version="1.2.0" />-->
