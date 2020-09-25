@@ -162,7 +162,7 @@ steps:
         Out-File -Width 512 "Preintalled Software.log"
 
       $true
-    condition: eq(variables['OS'], 'Windows')
+    condition: eq(variables['OS'], 'Windows') 
     displayName: 'About Windows'
 
 
@@ -205,5 +205,6 @@ steps:
       dotnet nuget push --source "devizer.nuget" --api-key az Universe.CpuUsage.*.nupkg
       popd
     displayName: 'push local nuget'
+    condition: eq(variables.when, 'Never') 
     env:
       MY_AZ_APIKEY: $(AZ_APIKEY)
