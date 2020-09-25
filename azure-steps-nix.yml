@@ -196,4 +196,4 @@ steps:
       popd
     displayName: 'push local nuget'
     env:
-      MY_NUGET_PACKAGER: $(NUGET_PACKAGER)
+      MY_AZ_APIKEY: $(AZ_APIKEY)
