@@ -182,3 +182,9 @@ steps:
       pathtoPublish: '$(Build.Repository.LocalPath)'
       artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
       
+  - bash: PublishTestResults@2
+      pushd Universe.CpuUsage/bin/Release
+      ls -la Universe.CpuUsage.1.42.0.nupkg 
+      dotnet nuget push --source "devizer.nuget" --api-key az Universe.CpuUsage.*.nupkg
+      popd
+    displayName: 'push local nuget'
