@@ -77,7 +77,7 @@ steps:
       dotnet restore || dotnet restore --disable-parallel || echo 
     displayName: 'dotnet restore'
     env:
-      MY_AZ_APIKEY: $(AZ_APIKEY)
+      MY_AZ_APIKEY: $(AZ_API_KEY)
 
   - script: |
       echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
