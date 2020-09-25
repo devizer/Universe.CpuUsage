@@ -71,9 +71,10 @@ steps:
     condition: eq(variables['OS'], 'Linux')
     displayName: 'List Packages'
 
-  - script: dotnet restore || dotnet restore --disable-parallel || echo
+  - script: 
       export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
-      echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]" 
+      echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
+      dotnet restore || dotnet restore --disable-parallel || echo 
     displayName: 'dotnet restore'
 
   - script: |
