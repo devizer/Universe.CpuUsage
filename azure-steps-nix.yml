@@ -76,6 +76,8 @@ steps:
       echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
       dotnet restore || dotnet restore --disable-parallel || echo 
     displayName: 'dotnet restore'
+    env:
+      MY_AZ_APIKEY: $(AZ_APIKEY)
 
   - script: |
       echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
