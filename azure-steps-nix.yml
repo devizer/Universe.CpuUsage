@@ -19,9 +19,9 @@ steps:
         Say "Installing coreutils on OSX"
         time brew install coreutils; 
       fi
-      echo "uname -s: '$(uname -s)'"
-      echo "uname -m: '$(uname -m)'"
-      echo "PATH    : '$PATH'"
+      Say "uname -s: '$(uname -s)'"
+      Say "uname -m: '$(uname -m)'"
+      Say "PATH    : '$PATH'"
       dotnet --info
       # export TMPDIR=$HOME/.tmp-dotnet; mkdir -p $TMPDIR
       DOTNET_TARGET_DIR=/usr/share/dotnet
