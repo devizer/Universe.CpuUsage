@@ -42,6 +42,7 @@ steps:
        & npm --version
        & yarn --version
        "PATH: [" + [Environment]::GetEnvironmentVariable("PATH") + "]"
+       & bash -c "Say ENVIRONMENT; printenv | sort"; $true
     displayName: 'system info (pwsh)'
 
   - script: |
