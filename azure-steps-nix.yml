@@ -1,10 +1,11 @@
 # AGENT_OS=Linux|Darwin|Windows_NT
+# condition: eq(variables['Agent.OS'], 'Linux|Darwin|Windows_NT')
 
 steps:
 #  - task: SonarCloudPrepare@1
 #    inputs:
 #      SonarCloud: '66420b06-0308-4157-9b80-ef53c71c6596'
-#      organization: 'wulfland-github'
+#      organization: 'devizer'
 #      projectKey: 'cov-demo'
 #      projectName: 'Coverage Demo'
 #      extraProperties: 'sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/coverage/coverage.opencover.xml'
