@@ -87,7 +87,7 @@ steps:
       rem dotnet test --no-restore --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       REM dotnet test --no-restore --logger trx -f netcoreapp3.1 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ --collect:"XPlat Code Coverage"
       dotnet test  --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release
-    condition: eq(variables['AGENT_OS'], 'Windows_NT')
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: 'dotnet test on Windows'
     env:
       MY_AZ_APIKEY: $(AZ_API_KEY)
@@ -102,7 +102,7 @@ steps:
       source FULL-TIME-REPORT.sh
       TIME="$FULL_TIME" time dotnet test --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release 
       # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
-    condition: ne(variables['Agent_OS'], 'Windows_NT')
+    condition: ne(variables['Agent.OS'], 'Windows_NT')
     displayName: 'dotnet test on Linux/OSX'
     env:
       MY_AZ_APIKEY: $(AZ_API_KEY)
