@@ -8,7 +8,7 @@ using Tests;
 
 namespace Universe.CpuUsage.Tests
 {
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#if NETCOREAPP3_0 || NETCOREAPP3_1 || NETCOREAPP5_0 
     [TestFixture]
     public class CpuUsageAsyncWatcher_AsyncStreamTests : NUnitTestsBase
     {
@@ -36,7 +36,8 @@ namespace Universe.CpuUsage.Tests
             
             // Assert
             Assert.GreaterOrEqual(totals.Count, 8, "Number of context switches should be 8 at least");
-            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
+            // 0.15 for qemu armhf, less for rest 
+            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.15d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
         }
         
         static async IAsyncEnumerable<int> GetLoadings([EnumeratorCancellation] CancellationToken token = default)
