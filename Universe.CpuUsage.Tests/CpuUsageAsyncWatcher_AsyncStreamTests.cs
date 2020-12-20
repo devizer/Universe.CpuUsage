@@ -18,6 +18,8 @@ namespace Universe.CpuUsage.Tests
         [Test, TestCaseSource(typeof(AsyncSchedulerCases), nameof(AsyncSchedulerCases.Schedulers))]
         public async Task AwaitForEachTests(AsyncSchedulerCase testEnvironment)
         {
+            // Pre JIT
+            await testEnvironment.Factory.StartNew(() => CpuLoader.Run(minDuration: 1, minCpuUsage: 1, needKernelLoad: true));
             // Act (durations are for debugging)
             CpuUsageAsyncWatcher watcher = new CpuUsageAsyncWatcher();
             long expectedMicroseconds = 0;
