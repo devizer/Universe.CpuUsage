@@ -110,11 +110,14 @@ build_script:
       & nuget restore -verbosity quiet
       #Say "Test using netcoreapp3.0"
       #& dotnet test -f netcoreapp3.0 -v n --test-adapter-path:. --logger:Appveyor
-      Say "Rebuild and pack Release"
       pushd Universe.CpuUsage
-      & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
-      # Say "Rebuild and pack Debug"
-      # & msbuild /t:"rebuild;pack" /p:Configuration=Debug /v:q
+      if ($isWindows) {
+        Say "Rebuild and pack Release for windows"
+        & msbuild /t:"rebuild;pack" /p:Configuration=Release /v:q
+      } else {
+        Say "Rebuild and pack Release for linux"
+        & dotnet build -c Release -v q
+      }
       popd
 
 after_build:
