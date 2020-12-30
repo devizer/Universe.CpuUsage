@@ -78,6 +78,17 @@ steps:
       # echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
       # echo "##vso[task.setvariable variable=VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]VSS_NUGET_EXTERNAL_FEED_ENDPOINTS"
       dotnet restore || (Say "Fallback to singlethreaded restore"; dotnet restore --disable-parallel)
+    condition: ne(variables['Agent.OS'], 'Windows_NT')
+    displayName: 'dotnet restore'
+    env:
+      MY_AZ_APIKEY: $(AZ_API_KEY)
+
+  - script: |
+      # export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
+      # echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
+      # echo "##vso[task.setvariable variable=VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]VSS_NUGET_EXTERNAL_FEED_ENDPOINTS"
+      dotnet restore || dotnet restore --disable-parallel
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: 'dotnet restore'
     env:
       MY_AZ_APIKEY: $(AZ_API_KEY)
