@@ -2,9 +2,12 @@
 
   <Import Project="..\Shared\Version.props" />
 
+  <PropertyGroup Condition= " '$(PROCESSOR_ARCHITECTURE)' != '' and ! '$(PROCESSOR_ARCHITECTURE.ToUpper().StartsWith(`ARM`))' ">
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;netcoreapp2.2;net47</TargetFrameworks>
-    <DebugType>Full</DebugType>
     <IsPackable>false</IsPackable>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
