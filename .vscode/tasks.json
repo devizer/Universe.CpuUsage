@@ -2,26 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-release",
-            "command": "msbuild",
+            "label": "Build using SDK 3.1 (release)",
+            "command": "dotnet build -c Release -f netcoreapp3.1",
             "type": "shell",
-            "args": [
-                "/t:Restore,Rebuild",
-                "/p:Configuration=Release",
-                "/v:q"
-            ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
-            "label": "test",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "test",
-                "-c", "-Release",
-                "-f", "netcoreapp2.2",
-            ],
-            "problemMatcher": "$msCompile"
+            "label": "Test using SDK 3.1 (release)",
+            "command": "dotnet test -c Release -f netcoreapp3.1 Universe.CpuUsage.Tests\\Universe.CpuUsage.Tests.csproj",
+            "type": "shell",
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }
