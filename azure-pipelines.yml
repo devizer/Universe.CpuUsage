@@ -7,7 +7,7 @@ jobs:
 
   - job: ARM64_Windows
     variables:
-      OS: Linux
+      OS: Windows
     timeoutInMinutes: 99
     cancelTimeoutInMinutes: 1
     pool:
