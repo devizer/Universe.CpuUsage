@@ -89,7 +89,6 @@ namespace Tests
             minWorker = 64;
             minCompletion = 64;
             ThreadPool.SetMinThreads(minWorker, minCompletion);
-
         }
 
         [OneTimeTearDown]

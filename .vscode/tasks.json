@@ -13,7 +13,7 @@
         },
         {
             "label": "Test using SDK 3.1 (release)",
-            "command": "dotnet test -c Release -f netcoreapp3.1 Universe.CpuUsage.Tests\\Universe.CpuUsage.Tests.csproj",
+            "command": "dotnet test -c Debug -f netcoreapp3.1 Universe.CpuUsage.Tests\\Universe.CpuUsage.Tests.csproj",
             "type": "shell",
             "problemMatcher": "$msCompile",
             "group": {
