@@ -50,7 +50,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine($"LinuxResourceUsageReader.IsSupported ..... : {LinuxResourceUsageReader.IsSupported}");
             Console.WriteLine($"MacOsThreadInfo.IsSupported .............. : {MacOsThreadInfo.IsSupported}");
             Console.WriteLine($"WindowsCpuUsage.IsSupported .............. : {WindowsCpuUsage.IsSupported}");
-            Console.WriteLine($"CrossInfo.IsSupported .................... : {CrossInfo.ThePlatform}");
+            Console.WriteLine($"CrossInfo.ThePlatform .................... : {CrossInfo.ThePlatform}");
         }
     }
 }
