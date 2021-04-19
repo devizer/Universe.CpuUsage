@@ -31,6 +31,7 @@ steps:
 
       sudo ln -s -f $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
       dotnet --info
+    condition: ne(variables['Agent.OS'], 'Windows_NT')
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
 
   - powershell: |
