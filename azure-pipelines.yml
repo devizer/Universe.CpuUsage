@@ -5,7 +5,17 @@ variables:
 
 jobs:
 
-  - job: Arm32
+  - job: ARM64_Windows
+    variables:
+      OS: Linux
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      name: 'ARM64Win-pool'
+    steps:
+      - template: azure-steps-nix.yml
+
+  - job: ARM32_Linux
     variables:
       OS: Linux
     timeoutInMinutes: 99
@@ -15,7 +25,7 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: Arm64
+  - job: ARM64_Linux
     variables:
       OS: Linux
     timeoutInMinutes: 99
