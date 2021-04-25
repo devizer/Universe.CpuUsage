@@ -31,7 +31,8 @@ steps:
 
       sudo ln -s -f $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
       dotnet --info
-    condition: ne(variables['Agent.OS'], 'Windows_NT')
+    # condition: ne(variables['Agent.OS'], 'Windows_NT')
+    failOnStderr: false
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
 
   - powershell: |
@@ -44,7 +45,9 @@ steps:
        & npm --version
        & yarn --version
        "PATH: [" + [Environment]::GetEnvironmentVariable("PATH") + "]"
-       & bash -c "Say ENVIRONMENT; printenv | sort"; $true
+       & bash -c "Say ENVIRONMENT; printenv | sort"; 
+       $true
+    failOnStderr: false
     displayName: 'system info (pwsh)'
 
   - script: |
