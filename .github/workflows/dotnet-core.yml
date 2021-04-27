@@ -22,4 +22,6 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --configuration Release -f net5.0
+      run: | 
+           cd Universe.CpuUsage.Tests
+           dotnet test --configuration Release -f net5.0
