@@ -34,7 +34,7 @@ Never tested on Windows Arm.
 | <br><p align="center">[![Build status](https://ci.appveyor.com/api/projects/status/udq3dip23mqxlkjf?svg=true)](https://ci.appveyor.com/project/devizer/universe-cpuusage)</p> | <br><p align="center">[![Build Status](https://travis-ci.org/devizer/Universe.CpuUsage.svg?branch=master)](https://travis-ci.org/devizer/Universe.CpuUsage)</p> |
 
 ### Integration tests on exotic platforms
-For ***mono only*** platforms (i386, ppc64, mips, arm v5/v6, etc) there is a script for integrations tests: [test-on-mono-only-platforms.sh](https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/test-on-mono-only-platforms.sh)
+For ***mono only*** platforms (i386, ppc64, mips, arm v5/v6, etc) here is the script for integration tests: [test-on-mono-only-platforms.sh](https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/test-on-mono-only-platforms.sh)
 ```
 script=https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/test-on-mono-only-platforms.sh;
 (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
