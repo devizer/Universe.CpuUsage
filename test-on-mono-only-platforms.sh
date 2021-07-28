@@ -10,7 +10,7 @@ Say --Reset-Stopwatch
 
 if [[ "$(command -v nunit3-console)" == "" ]]; then
   export XFW_VER=net47 NET_TEST_RUNNERS_INSTALL_DIR=/opt/net-test-runners; 
-  script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/NET-TEST-RUNNERS-build.sh; 
+  script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/NET-TEST-RUNNERS-build.sh;
   cmd="(wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | sudo -E bash"
   eval "$cmd" || eval "$cmd" || eval "$cmd"
 fi
