@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 set -e
 
 if [[ "$(command -v Reset-Target-Framework)" == "" ]]; then
