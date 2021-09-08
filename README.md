@@ -22,11 +22,10 @@ Autotests using Mono:
 - Mac OSX 10.10 using travis-ci.org
 
 Manually tested on:
-- Windows 7 x86 (.NET Core)
+- Windows 7 x86 (.NET Core), Windows 10 ARM64 (.NET Core)
 - FreeBSD 12 (both .NET Core and Mono).
 - Debian 8 on armv5 (Mono)
 
-Never tested on Windows Arm. 
 
 | appveyor                   | travis-ci                                                                                 |
 |----------------------------|-------------------------------------------------------------------------------------------|
