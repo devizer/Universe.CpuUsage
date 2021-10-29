@@ -124,7 +124,7 @@ steps:
         export PATH="$HOME/dotnet-3.1-builder:$PATH"
         dotnet --info
         unset MSBuildSDKsPath || true
-      } _install_prev_sdk_
+      }; _install_prev_sdk_
 
       TIME="$FULL_TIME" time dotnet test --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release 
       # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
