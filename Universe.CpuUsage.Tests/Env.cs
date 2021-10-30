@@ -10,13 +10,17 @@ namespace Universe.CpuUsage.Tests
 
         private static Lazy<double> _CpuUsagePrecision = new Lazy<double>(() =>
         {
+            double ret = 0.1d;
             var raw = Environment.ExpandEnvironmentVariables("CpuUsagePrecisionForAssert");
             var enUS = new CultureInfo("en-US");
             if (!string.IsNullOrEmpty(raw))
-                if (double.TryParse(raw, NumberStyles.AllowDecimalPoint, enUS, out var ret))
-                    return ret > 0 ? ret : 0.1d;
+                if (double.TryParse(raw, NumberStyles.AllowDecimalPoint, enUS, out ret))
+                {
+                }
 
-            return 0.1d;
+            ret = ret > 0 ? ret : 0.1d;
+            Console.WriteLine($"CpuUsagePrecisionForAssert: {ret}");
+            return ret;
         });
     }
 }
