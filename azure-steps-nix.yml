@@ -129,6 +129,7 @@ steps:
       
       if [[ -d /sys/firmware/qemu_fw_cfg ]]; then
         export CpuUsagePrecisionForAssert=0.2
+        Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
       fi
 
       TIME="$FULL_TIME" time dotnet test --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release 
