@@ -39,7 +39,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine(watch.ToHumanString(taskDescription:"SimpleTests()"));
             
             Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
-            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected.");
+            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, Env.CpuUsagePrecision * expectedMicroseconds, "Actual CPU Usage should be about as expected.");
         }
 
         [Test, TestCaseSource(typeof(AsyncSchedulerCases), nameof(AsyncSchedulerCases.Schedulers))]
@@ -66,7 +66,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine(totals.ToHumanString(taskDescription:"ParallelTests()"));
             // 7 for windows 8 cores, rarely 6 for slow 2 core machine, but 7 for single core armv5
             Assert.GreaterOrEqual(totals.Count, 6, "Number of context switches should be 6 at least");
-            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.1d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
+            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, Env.CpuUsagePrecision * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
         }
 
         [Test, TestCaseSource(typeof(AsyncSchedulerCases), nameof(AsyncSchedulerCases.Schedulers))]

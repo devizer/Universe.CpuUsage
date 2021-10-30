@@ -37,7 +37,7 @@ namespace Universe.CpuUsage.Tests
             // Assert
             Assert.GreaterOrEqual(totals.Count, 8, "Number of context switches should be 8 at least");
             // 0.15 for qemu armhf, less for rest 
-            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, 0.15d * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
+            Assert.AreEqual(expectedMicroseconds, actualMicroseconds, Env.CpuUsagePrecision * expectedMicroseconds, "Actual CPU Usage should be about as expected."); 
         }
         
         static async IAsyncEnumerable<int> GetLoadings([EnumeratorCancellation] CancellationToken token = default)

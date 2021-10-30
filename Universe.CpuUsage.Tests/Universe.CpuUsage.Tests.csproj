@@ -2,7 +2,7 @@
 
   <Import Project="..\Shared\Version.props" />
 
-  <PropertyGroup Condition= " '$(PROCESSOR_ARCHITECTURE)' != '' and ! '$(PROCESSOR_ARCHITECTURE.ToUpper().StartsWith(`ARM`))' ">
+  <PropertyGroup Condition=" '$(PROCESSOR_ARCHITECTURE)' != '' and ! '$(PROCESSOR_ARCHITECTURE.ToUpper().StartsWith(`ARM`))' ">
     <DebugType>Full</DebugType>
   </PropertyGroup>
 
