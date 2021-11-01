@@ -127,7 +127,8 @@ steps:
         unset MSBuildSDKsPath || true
       }; _install_prev_sdk_
       
-      if [[ -d /sys/firmware/qemu_fw_cfg ]]; then
+      $is_qemu="$(sudo grep -rnw /sys/devices/platform -e QEMU4444 2>/dev/null)"
+      if [[ "$is_qemu" == *QEMU* || -d /sys/firmware/qemu_fw_cfg ]]; then
         export CpuUsagePrecisionForAssert=0.2
         Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
       fi
