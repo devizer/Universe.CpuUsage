@@ -13,7 +13,13 @@ steps:
   - bash: |
       sudo rm -f /usr/local/bin/Say || true
       script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+      is_qemu="$(sudo grep -rnw /sys/devices/platform -e QEMU 2>/dev/null || true)"
+      if [[ "$is_qemu" == *"QEMU"* ]] || [[ -d /sys/firmware/qemu_fw_cfg ]]; then
+        export QEMU=True
+        echo "##vso[task.setvariable variable=QEMU]$QEMU"
+      fi
       Say --Reset-Stopwatch
+      Say "QEMU BUILD: [$QEMU]"
       [ "$(uname -s)" == "Darwin" ] && Say "kern.boottime: $(sysctl -n kern.boottime)"
       echo "AGENT_OS: '${AGENT_OS}'"
       if [[ "$(uname -s)" == Darwin ]]; then
@@ -49,6 +55,7 @@ steps:
        & bash -c "Say ENVIRONMENT; printenv | sort"; 
        $true
     failOnStderr: false
+    condition: ne(variables.QEMU, 'True')
     displayName: 'system info (pwsh)'
 
   - script: |
@@ -84,7 +91,7 @@ steps:
       # echo "##vso[task.setvariable variable=VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]VSS_NUGET_EXTERNAL_FEED_ENDPOINTS"
       dotnet --info
       dotnet restore || (Say "Fallback to singlethreaded restore"; dotnet restore --disable-parallel) || true
-    condition: ne(variables['Agent.OS'], 'Windows_NT')
+    condition: and(ne(variables['Agent.OS'], 'Windows_NT'), ne(variables.QEMU, 'True'))
     displayName: '[nix] restore'
     env:
       MY_AZ_APIKEY: $(AZ_API_KEY)
