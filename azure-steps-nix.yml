@@ -139,7 +139,7 @@ steps:
       }; _install_prev_sdk_
       
       if [[ "$QEMU" == True ]]; then
-        export CpuUsagePrecisionForAssert=0.2
+        export CpuUsagePrecisionForAssert=0.25
         Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
       fi
 
