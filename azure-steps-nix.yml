@@ -35,9 +35,11 @@ steps:
       if [[ "$(uname -s)" != "Linux" ]]; then DOTNET_TARGET_DIR=$HOME/.dotnet; fi
       export DOTNET_VERSIONS="3.1 5.0"
       export DOTNET_TARGET_DIR
-      script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
-      sudo ln -s -f $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
-      dotnet --info
+      if [[ "$QEMU" != "True" ]]; then
+        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+        sudo ln -s -f $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
+        dotnet --info
+      fi
     condition: ne(variables['Agent.OS'], 'Windows_NT')
     failOnStderr: false
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
@@ -86,15 +88,11 @@ steps:
     displayName: 'List Packages'
 
   - script: |
-      if [[ "$QEMU" != "True" ]]; then
-        # export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
-        # echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
-        # echo "##vso[task.setvariable variable=VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]VSS_NUGET_EXTERNAL_FEED_ENDPOINTS"
-        dotnet --info
-        dotnet restore || (Say "Fallback to singlethreaded restore"; dotnet restore --disable-parallel) || true
-      else
-        Say "Skip shared NET 3.1 and 5.0 installation"
-      fi
+      # export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
+      # echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
+      # echo "##vso[task.setvariable variable=VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]VSS_NUGET_EXTERNAL_FEED_ENDPOINTS"
+      dotnet --info
+      dotnet restore || (Say "Fallback to singlethreaded restore"; dotnet restore --disable-parallel) || true
     condition: and(ne(variables['Agent.OS'], 'Windows_NT'), ne(variables.QEMU, 'True'))
     displayName: '[nix] restore'
     env:
@@ -139,13 +137,10 @@ steps:
         unset MSBuildSDKsPath || true
       }; _install_prev_sdk_
       
-      set +e
-      is_qemu="$(sudo grep -rnw /sys/devices/platform -e QEMU 2>/dev/null || true)"
-      if [[ "$is_qemu" == *"QEMU"* ]] || [[ -d /sys/firmware/qemu_fw_cfg ]]; then
+      if [[ "$QEMU" == True ]]; then
         export CpuUsagePrecisionForAssert=0.2
         Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
       fi
-      set -e
 
        msbuild=$(ps -x -o pid,cmd | grep dotnet | grep -v grep | grep MSBuild.dll | awk '{print $1}')
        for pid in $msbuild; do echo Kill MSBuild Process $pid; sudo kill -9 $pid; done
