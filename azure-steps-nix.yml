@@ -133,6 +133,7 @@ steps:
         try-and-retry curl -o /tmp/_dotnet-install.sh -ksSL $DOTNET_Url
         time try-and-retry timeout 666 sudo -E bash /tmp/_dotnet-install.sh -version 3.1.120 -i $HOME/dotnet-3.1-builder
         export PATH="$HOME/dotnet-3.1-builder:$PATH"
+        export DOTNET_ROOT="$HOME/dotnet-3.1-builder"
         dotnet --info
         unset MSBuildSDKsPath || true
       }; _install_prev_sdk_
