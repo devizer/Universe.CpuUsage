@@ -148,7 +148,10 @@ steps:
 
       cd Universe.CpuUsage.Tests
       Say "Tests in [$(pwd)]"
-      TIME="$FULL_TIME" time dotnet test --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release
+      options=""; if [[ "$QEMU" != "True" ]]; then options='--collect:"XPlat Code Coverage" --logger trx'; fi
+      cmd="time dotnet test $options -f netcoreapp3.1 -c Release"
+      echo $cmd
+      TIME="$FULL_TIME" eval "$cmd"
       # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: ne(variables['Agent.OS'], 'Windows_NT')
     displayName: '[nix] test'
