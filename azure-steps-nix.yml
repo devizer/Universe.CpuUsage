@@ -83,7 +83,7 @@ steps:
       # echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
       # echo "##vso[task.setvariable variable=VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]VSS_NUGET_EXTERNAL_FEED_ENDPOINTS"
       dotnet --info
-      dotnet restore || (Say "Fallback to singlethreaded restore"; dotnet restore --disable-parallel)
+      dotnet restore || (Say "Fallback to singlethreaded restore"; dotnet restore --disable-parallel) || true
     condition: ne(variables['Agent.OS'], 'Windows_NT')
     displayName: '[nix] dotnet restore'
     env:
