@@ -142,10 +142,12 @@ steps:
         Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
       fi
 
-       msbuild=$(ps -x -o pid,cmd | grep dotnet | grep -v grep | grep MSBuild.dll | awk '{print $1}')
-       for pid in $msbuild; do echo Kill MSBuild Process $pid; sudo kill -9 $pid; done
+      msbuild=$(ps -x -o pid,cmd | grep dotnet | grep -v grep | grep MSBuild.dll | awk '{print $1}')
+      for pid in $msbuild; do echo Kill MSBuild Process $pid; sudo kill -9 $pid; done
 
-      TIME="$FULL_TIME" time dotnet test --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release 
+      cd Universe.CpuUsage.Tests
+      Say "Tests in [$(pwd)]"
+      TIME="$FULL_TIME" time dotnet test --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release
       # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: ne(variables['Agent.OS'], 'Windows_NT')
     displayName: '[nix] test'
