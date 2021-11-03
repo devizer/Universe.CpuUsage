@@ -84,7 +84,7 @@ steps:
 
   - script: |
       time list-packages
-    condition: eq(variables['OS'], 'Linux')
+    condition: and(eq(variables['OS'], 'Linux'), ne(variables.QEMU, 'True'))
     displayName: 'List Packages'
 
   - script: |
@@ -151,7 +151,7 @@ steps:
       options=""; if [[ "$QEMU" != "True" ]]; then options='--collect:"XPlat Code Coverage" --logger trx'; fi
       cmd="time dotnet test $options -f netcoreapp3.1 -c Release"
       echo $cmd
-      rm -rf bin obj || true
+      # rm -rf bin obj || true
       TIME="$FULL_TIME" eval "$cmd"
       # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: ne(variables['Agent.OS'], 'Windows_NT')
