@@ -143,6 +143,7 @@ steps:
         Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
       fi
       
+      # try --privileged and /sys/fs/cgroup forwarding
       if [[ -f /.dockerenv ]]; then
         export SKIP_POSIXRESOURCESUSAGE_ASSERTS=True
         Say "SKIP_POSIXRESOURCESUSAGE_ASSERTS=True"
