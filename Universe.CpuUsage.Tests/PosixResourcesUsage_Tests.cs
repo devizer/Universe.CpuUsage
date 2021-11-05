@@ -112,6 +112,7 @@ namespace Universe.CpuUsage.Tests
             ReadFile();
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
             var delta = PosixResourceUsage.Substruct(after, before);
+            Console.WriteLine($"Read Operations. Before: [{before.ReadOps}]. After: [{after.ReadOps}]");
             Console.WriteLine($"Operation: Read {numBytes:n0} bytes. ReadOps = {delta.ReadOps}. WriteOps = {delta.WriteOps}");
             
             // Assert
