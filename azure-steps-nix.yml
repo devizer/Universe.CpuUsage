@@ -142,6 +142,11 @@ steps:
         export CpuUsagePrecisionForAssert=0.25
         Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
       fi
+      
+      if [[ -f /.dockerenv ]]; then
+        export SKIP_POSIXRESOURCESUSAGE_ASSERTS=True
+        Say "SKIP_POSIXRESOURCESUSAGE_ASSERTS=True"
+      fi
 
       msbuild=$(ps -x -o pid,cmd | grep dotnet | grep -v grep | grep MSBuild.dll | awk '{print $1}')
       for pid in $msbuild; do echo Kill MSBuild Process $pid; sudo kill -9 $pid; done
