@@ -145,8 +145,8 @@ steps:
       
       # try --privileged and /sys/fs/cgroup forwarding
       if [[ -f /.dockerenv ]]; then
-        export SKIP_POSIXRESOURCESUSAGE_ASSERTS=True
-        Say "SKIP_POSIXRESOURCESUSAGE_ASSERTS=True"
+        # export SKIP_POSIXRESOURCESUSAGE_ASSERTS=True
+        # Say "SKIP_POSIXRESOURCESUSAGE_ASSERTS=True"
       fi
 
       msbuild=$(ps -x -o pid,cmd | grep dotnet | grep -v grep | grep MSBuild.dll | awk '{print $1}')
