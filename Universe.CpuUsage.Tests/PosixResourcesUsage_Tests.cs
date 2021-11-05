@@ -103,7 +103,7 @@ namespace Universe.CpuUsage.Tests
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
 
             // Arrange
-            var numBytes = 10*2048*1024;
+            var numBytes = 200*1048*1024;
             WriteFile(numBytes);
             LinuxKernelCacheFlusher.Sync();
             
