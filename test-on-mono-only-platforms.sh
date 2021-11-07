@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-set -e
+set -e; #v2
 
 if [[ "$(command -v Reset-Target-Framework)" == "" ]]; then
   script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; 
   (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 fi
 Say --Reset-Stopwatch
-
 
 if [[ "$(command -v nunit3-console)" == "" ]]; then
   export XFW_VER=net47 NET_TEST_RUNNERS_INSTALL_DIR=/opt/net-test-runners; 
