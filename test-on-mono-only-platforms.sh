@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e; #v2
+set -e; #v3
 
 if [[ "$(command -v Reset-Target-Framework)" == "" ]]; then
   script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; 
