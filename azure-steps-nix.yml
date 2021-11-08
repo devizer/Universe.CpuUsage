@@ -266,7 +266,7 @@ steps:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.Repository.LocalPath)'
-      artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
+      artifactName: 'BinTests'
     displayName: 'publish working folder'
 
   - bash: |
