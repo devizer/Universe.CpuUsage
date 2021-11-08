@@ -258,12 +258,7 @@ steps:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: '$(Build.Repository.LocalPath)'
-      artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
-      
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(Build.Repository.LocalPath)\Universe.CpuUsage.Tests\bin\Release\net46'
+      pathtoPublish: '$(Build.Repository.LocalPath)/Universe.CpuUsage.Tests/bin/Release/net46'
       artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
     condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04') 
     displayName: 'publish binary tests'
