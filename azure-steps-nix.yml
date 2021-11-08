@@ -263,17 +263,17 @@ steps:
       
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: '$(Build.Repository.LocalPath)'
-      artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
-    displayName: 'publish working folder'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
       pathtoPublish: '$(Build.Repository.LocalPath)\Universe.CpuUsage.Tests\bin\Release\net46'
       artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
     condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04') 
     displayName: 'publish binary tests'
       
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.Repository.LocalPath)'
+      artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
+    displayName: 'publish working folder'
+
   - bash: |
       pushd Universe.CpuUsage/bin/Release
       ls -la Universe.CpuUsage.1.42.0.nupkg
