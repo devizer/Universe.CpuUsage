@@ -29,4 +29,4 @@ Number of signals delivered to the process. %k
 Name and command-line arguments of the command being timed. [%C]
 Exit status of the command. %x
 "
-# apt-get install time -y
+# sudo apt-get install time -y
