@@ -81,6 +81,7 @@ namespace Tests
    - Console.IsInputRedirected .... {Console.IsInputRedirected}
    - Console.IsOutputRedirected ... {Console.IsOutputRedirected}
    - Console.IsErrorRedirected .... {Console.IsErrorRedirected}
+   - Environment.OSVersion.Platform {System.Environment.OSVersion.Platform}
 ");
                 Console.WriteLine($"CrossInfo.ThePlatform: {Universe.CrossInfo.ThePlatform}");
             }
