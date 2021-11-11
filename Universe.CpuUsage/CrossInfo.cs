@@ -39,6 +39,7 @@
             else
                 return GetPlatform_OnLinux_OSX_BSD();
 #else
+            Console.WriteLine($"Legacy Platform: {Environment.OSVersion.Platform} eq {(int)Environment.OSVersion.Platform} (@CrossInfo)");
             if (Environment.OSVersion.Platform == PlatformID.MacOSX)
                 return Platform.MacOSX;
 
