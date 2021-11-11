@@ -16,11 +16,11 @@
 
         public enum Platform
         {
+            Unknown,
             Windows,
             Linux,
             MacOSX,
             FreeBSD,
-            Unknown,
         }
 
         private static Lazy<Platform> _Platform = new Lazy<Platform>(() =>
