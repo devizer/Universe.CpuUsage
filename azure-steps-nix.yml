@@ -121,6 +121,7 @@ steps:
       MY_AZ_APIKEY: $(AZ_API_KEY)
 
   - script: |
+      cd Universe.CpuUsage.Tests
       msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=net46;Configuration=Release 
     condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04')
     displayName: 'BinTests: Build'
