@@ -26,6 +26,7 @@
         private static Lazy<Platform> _Platform = new Lazy<Platform>(() =>
         {
 #if NETCOREAPP || NETSTANDARD
+            Console.WriteLine($"NETCOREAPP || NETSTANDARD");
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 return Platform.MacOSX;
 
