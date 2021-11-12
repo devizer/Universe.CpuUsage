@@ -165,7 +165,7 @@ steps:
         # msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
         Say "Build NET 4.6 Release in [$(pwd)]"
         # dotnet build -f net46 -c Release || true
-        Reset-Target-Framework -fw net46,netcoreapp3.1
+        Reset-Target-Framework -fw net46
         msbuild Universe.CpuUsage.Tests.csproj /p:Configuration=Release
       fi
       Say "Tests in [$(pwd)]"
