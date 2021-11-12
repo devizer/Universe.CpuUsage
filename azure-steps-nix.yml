@@ -126,6 +126,13 @@ steps:
     condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04')
     displayName: 'BinTests: Build'
       
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.Repository.LocalPath)/Universe.CpuUsage.Tests/bin/Release/net46'
+      artifactName: 'BinTests'
+    condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04')
+    displayName: 'publish binary tests'
+
   - script: |
       rem $(testProject) 2>/dev/null || true
       set -e
@@ -271,13 +278,6 @@ steps:
 #
 #  - task: PublishBuildArtifacts@1
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(Build.Repository.LocalPath)/Universe.CpuUsage.Tests/bin/Release/net46'
-      artifactName: 'BinTests'
-    condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04') 
-    displayName: 'publish binary tests'
-      
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.Repository.LocalPath)'
