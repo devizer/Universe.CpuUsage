@@ -25,6 +25,9 @@
 
         private static Lazy<Platform> _Platform = new Lazy<Platform>(() =>
         {
+#if NET46
+            Console.WriteLine($"NET46");
+#endif
 #if (NETCOREAPP || NETSTANDARD) && !(NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472 || NET48)
             Console.WriteLine($"NETCOREAPP || NETSTANDARD");
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
