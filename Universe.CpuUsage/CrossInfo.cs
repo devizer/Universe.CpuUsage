@@ -43,16 +43,16 @@
             if (Environment.OSVersion.Platform == PlatformID.MacOSX)
                 return Platform.MacOSX;
 
-            else if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                Console.WriteLine("Windows (@CrossInfo)");
-                return Platform.Windows;
-            }
-
             else if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
                 Console.WriteLine("Linux|OSX|BSD (@CrossInfo)");
                 return GetPlatform_OnLinux_OSX_BSD();
+            }
+
+            else if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Console.WriteLine("Windows (@CrossInfo)");
+                return Platform.Windows;
             }
 
             else
