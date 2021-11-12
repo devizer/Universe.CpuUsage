@@ -121,6 +121,11 @@ steps:
       MY_AZ_APIKEY: $(AZ_API_KEY)
 
   - script: |
+      msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=net46;Configuration=Release 
+    condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04')
+    displayName: 'BinTests: Build'
+      
+  - script: |
       rem $(testProject) 2>/dev/null || true
       set -e
       export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
@@ -159,12 +164,12 @@ steps:
         Say "Installing mono"
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-MONO.sh; 
         # (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | sudo bash;
-        sudo apt-get install msbuild -y -q
+        # sudo apt-get install msbuild -y -q
         # Say "Build NET 4.6 Debug in [$(pwd)]"
         # dotnet build -f net46 -c Debug || true
         # msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
-        Say "Build NET 4.6 Release in [$(pwd)]"
-        dotnet build -f net46 -c Release || true
+        # Say "Build NET 4.6 Release in [$(pwd)]"
+        # dotnet build -f net46 -c Release || true
         # Reset-Target-Framework -fw net46
         # msbuild Universe.CpuUsage.Tests.csproj /p:Configuration=Release
       fi
