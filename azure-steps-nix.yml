@@ -156,9 +156,11 @@ steps:
 
       cd Universe.CpuUsage.Tests
       Say "Build NET 4.6 Debug in [$(pwd)]"
-      dotnet build -f net46 -c Debug || true
+      # dotnet build -f net46 -c Debug || true
+      msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
       Say "Build NET 4.6 Release in [$(pwd)]"
-      dotnet build -f net46 -c Release || true
+      # dotnet build -f net46 -c Release || true
+      msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Release
       Say "Tests in [$(pwd)]"
       options=""; if [[ "$QEMU" != "True" ]]; then options='--collect:"XPlat Code Coverage" --logger trx'; fi
       cmd="time dotnet test $options -f netcoreapp3.1 -c Release"
