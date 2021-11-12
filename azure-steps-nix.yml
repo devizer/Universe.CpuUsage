@@ -157,7 +157,8 @@ steps:
       cd Universe.CpuUsage.Tests
       if [[ "$AGENT_JOBNAME" == "Ubuntu_20_04" ]]; then
         Say "Installing mono"
-        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-MONO.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
+        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-MONO.sh; 
+        (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | sudo bash;
         Say "Build NET 4.6 Debug in [$(pwd)]"
         # dotnet build -f net46 -c Debug || true
         msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
