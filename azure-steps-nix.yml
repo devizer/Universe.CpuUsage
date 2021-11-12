@@ -162,10 +162,10 @@ steps:
         sudo apt-get install msbuild -y -q
         Say "Build NET 4.6 Debug in [$(pwd)]"
         # dotnet build -f net46 -c Debug || true
-        msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
+        msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
         Say "Build NET 4.6 Release in [$(pwd)]"
         # dotnet build -f net46 -c Release || true
-        msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Release
+        msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Release
       fi
       Say "Tests in [$(pwd)]"
       options=""; if [[ "$QEMU" != "True" ]]; then options='--collect:"XPlat Code Coverage" --logger trx'; fi
