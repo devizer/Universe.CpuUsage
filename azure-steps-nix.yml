@@ -155,12 +155,15 @@ steps:
 
 
       cd Universe.CpuUsage.Tests
-      Say "Build NET 4.6 Debug in [$(pwd)]"
-      # dotnet build -f net46 -c Debug || true
-      msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
-      Say "Build NET 4.6 Release in [$(pwd)]"
-      # dotnet build -f net46 -c Release || true
-      msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Release
+      if [[ "$AGENT_JOBNAME" == "Ubuntu_20_04" ]]; then
+        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-MONO.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash;
+        Say "Build NET 4.6 Debug in [$(pwd)]"
+        # dotnet build -f net46 -c Debug || true
+        msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
+        Say "Build NET 4.6 Release in [$(pwd)]"
+        # dotnet build -f net46 -c Release || true
+        msbuild.exe Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Release
+      fi
       Say "Tests in [$(pwd)]"
       options=""; if [[ "$QEMU" != "True" ]]; then options='--collect:"XPlat Code Coverage" --logger trx'; fi
       cmd="time dotnet test $options -f netcoreapp3.1 -c Release"
