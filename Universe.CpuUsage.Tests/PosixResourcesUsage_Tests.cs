@@ -65,6 +65,8 @@ namespace Universe.CpuUsage.Tests
         {
             if (!PosixResourceUsage.IsSupported) return;
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
+            // Jit
+            var jit = PosixResourceUsage.GetByScope(scope).Value;
             
             // Act
             PosixResourceUsage before = PosixResourceUsage.GetByScope(scope).Value;
