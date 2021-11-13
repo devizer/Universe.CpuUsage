@@ -57,11 +57,11 @@ namespace Universe.CpuUsage.Tests
 
 
         [Test]
-        [TestCase(CpuUsageScope.Thread,1)]
-        [TestCase(CpuUsageScope.Process,1)]
-        [TestCase(CpuUsageScope.Thread,42)]
-        [TestCase(CpuUsageScope.Process,42)]
-        public void ContextSwitch_Test(CpuUsageScope scope, int expectedSwitchCount)
+        [TestCase(CpuUsageScope.Thread,1,9)]
+        [TestCase(CpuUsageScope.Process,1,9)]
+        [TestCase(CpuUsageScope.Thread,42,99)]
+        [TestCase(CpuUsageScope.Process,42,99)]
+        public void ContextSwitch_Test(CpuUsageScope scope, int expectedSwitchCount, int expectedSwitchCountMax)
         {
             if (!PosixResourceUsage.IsSupported) return;
             if (scope == CpuUsageScope.Thread && CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
@@ -88,10 +88,9 @@ namespace Universe.CpuUsage.Tests
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             if (SkipPosixResourcesUsageAsserts) return;
-            var expectedMax = Math.Max(expectedSwitchCount + 10, expectedSwitchCount * 2);
             Assert.IsTrue(
-                delta.VoluntaryContextSwitches >= expectedSwitchCount && delta.VoluntaryContextSwitches <= expectedMax,
-                $"VoluntaryContextSwitches: Expected {expectedSwitchCount} ... {expectedMax+7}; actual {delta.VoluntaryContextSwitches}");
+                delta.VoluntaryContextSwitches >= expectedSwitchCount && delta.VoluntaryContextSwitches <= expectedSwitchCountMax,
+                $"VoluntaryContextSwitches: Expected {expectedSwitchCount} ... {expectedSwitchCountMax}; actual {delta.VoluntaryContextSwitches}");
 //            if (scope == CpuUsageScope.Thread)
 //                Assert.IsTrue(expectedSwitchCount == delta.VoluntaryContextSwitches || expectedSwitchCount == delta.VoluntaryContextSwitches - 1);
 //            else
