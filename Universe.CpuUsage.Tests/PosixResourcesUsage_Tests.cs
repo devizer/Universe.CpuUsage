@@ -88,7 +88,7 @@ namespace Universe.CpuUsage.Tests
             if (SkipPosixResourcesUsageAsserts) return;
             Assert.IsTrue(
                 delta.VoluntaryContextSwitches >= expectedSwitchCount && expectedSwitchCount + 7 >= delta.VoluntaryContextSwitches,
-                $"VoluntaryContextSwitches: Expected {expectedSwitchCount} ... {expectedSwitchCount+7}, actual {delta.VoluntaryContextSwitches}");
+                $"VoluntaryContextSwitches: Expected {expectedSwitchCount} ... {expectedSwitchCount+7}; actual {delta.VoluntaryContextSwitches}");
 //            if (scope == CpuUsageScope.Thread)
 //                Assert.IsTrue(expectedSwitchCount == delta.VoluntaryContextSwitches || expectedSwitchCount == delta.VoluntaryContextSwitches - 1);
 //            else
