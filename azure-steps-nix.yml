@@ -124,7 +124,7 @@ steps:
       set -e
       cd Universe.CpuUsage.Tests
       # msbuild Universe.CpuUsage.Tests.csproj /p:TargetFramework=net46;Configuration=Release
-      msbuild Universe.CpuUsage.Tests.csproj /p:TargetFramework=net46;Configuration=Release
+      msbuild Universe.CpuUsage.Tests.csproj /p:TargetFramework=net46 /p:Configuration=Release
     condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04')
     displayName: 'BinTests: Build'
       
