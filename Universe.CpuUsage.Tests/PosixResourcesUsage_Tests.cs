@@ -76,7 +76,7 @@ namespace Universe.CpuUsage.Tests
                 Stopwatch sw = Stopwatch.StartNew();
                 while (sw.ElapsedMilliseconds < 1) ;
                 // on some build server sometimes fails (Azure - sometimes fail, AppVeyor - OK)
-                Thread.Sleep(3);
+                Thread.Sleep(1);
             }
             
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
@@ -88,9 +88,10 @@ namespace Universe.CpuUsage.Tests
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             if (SkipPosixResourcesUsageAsserts) return;
+            var expectedMax = Math.Max(expectedSwitchCount + 10, expectedSwitchCount * 2);
             Assert.IsTrue(
-                delta.VoluntaryContextSwitches >= expectedSwitchCount && expectedSwitchCount + 7 >= delta.VoluntaryContextSwitches,
-                $"VoluntaryContextSwitches: Expected {expectedSwitchCount} ... {expectedSwitchCount+7}; actual {delta.VoluntaryContextSwitches}");
+                delta.VoluntaryContextSwitches >= expectedSwitchCount && delta.VoluntaryContextSwitches <= expectedMax,
+                $"VoluntaryContextSwitches: Expected {expectedSwitchCount} ... {expectedMax+7}; actual {delta.VoluntaryContextSwitches}");
 //            if (scope == CpuUsageScope.Thread)
 //                Assert.IsTrue(expectedSwitchCount == delta.VoluntaryContextSwitches || expectedSwitchCount == delta.VoluntaryContextSwitches - 1);
 //            else
