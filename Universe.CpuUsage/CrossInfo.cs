@@ -16,20 +16,16 @@
 
         public enum Platform
         {
-            Unknown,
             Windows,
             Linux,
             MacOSX,
             FreeBSD,
+            Unknown,
         }
 
         private static Lazy<Platform> _Platform = new Lazy<Platform>(() =>
         {
-#if NET46
-            Console.WriteLine($"NET46");
-#endif
-#if (NETCOREAPP || NETSTANDARD) && !(NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472 || NET48 || NETFRAMEWORK)
-            Console.WriteLine($"NETCOREAPP || NETSTANDARD");
+#if (NETCOREAPP || NETSTANDARD) && !NETFRAMEWORK
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 return Platform.MacOSX;
 
@@ -43,19 +39,16 @@
             else
                 return GetPlatform_OnLinux_OSX_BSD();
 #else
-            Console.WriteLine($"Legacy Platform: {Environment.OSVersion.Platform} eq {(int)Environment.OSVersion.Platform} (@CrossInfo)");
             if (Environment.OSVersion.Platform == PlatformID.MacOSX)
                 return Platform.MacOSX;
 
             else if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
-                Console.WriteLine("Linux|OSX|BSD (@CrossInfo)");
                 return GetPlatform_OnLinux_OSX_BSD();
             }
 
             else if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
-                Console.WriteLine("Windows (@CrossInfo)");
                 return Platform.Windows;
             }
 
