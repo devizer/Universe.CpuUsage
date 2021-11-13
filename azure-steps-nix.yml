@@ -121,8 +121,10 @@ steps:
       MY_AZ_APIKEY: $(AZ_API_KEY)
 
   - script: |
+      set -e
       cd Universe.CpuUsage.Tests
-      msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Release 
+      # msbuild Universe.CpuUsage.Tests.csproj /p:TargetFramework=net46;Configuration=Release
+      msbuild Universe.CpuUsage.Tests.csproj /p:TargetFramework=net46;Configuration=Release
     condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04')
     displayName: 'BinTests: Build'
       
@@ -131,7 +133,7 @@ steps:
       pathtoPublish: '$(Build.Repository.LocalPath)/Universe.CpuUsage.Tests/bin/Release/net46'
       artifactName: 'BinTests'
     condition: eq(variables['Agent.JobName'], 'Ubuntu_20_04')
-    displayName: 'publish binary tests'
+    displayName: 'BinTests: Publish'
 
   - script: |
       rem $(testProject) 2>/dev/null || true
