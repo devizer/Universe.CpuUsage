@@ -76,7 +76,7 @@ namespace Universe.CpuUsage.Tests
                 Stopwatch sw = Stopwatch.StartNew();
                 while (sw.ElapsedMilliseconds < 1) ;
                 // on some build server sometimes fails (Azure - sometimes fail, AppVeyor - OK)
-                Thread.Sleep(1);
+                Thread.Sleep(3);
             }
             
             PosixResourceUsage after = PosixResourceUsage.GetByScope(scope).Value;
