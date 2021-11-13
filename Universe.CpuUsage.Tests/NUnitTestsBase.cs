@@ -82,8 +82,8 @@ namespace Tests
    - Console.IsOutputRedirected ... {Console.IsOutputRedirected}
    - Console.IsErrorRedirected .... {Console.IsErrorRedirected}
    - Environment.OSVersion.Platform {System.Environment.OSVersion.Platform}
+   - CrossInfo.ThePlatform: {Universe.CrossInfo.ThePlatform}
 ");
-                Console.WriteLine($"CrossInfo.ThePlatform: {Universe.CrossInfo.ThePlatform}");
             }
             
             ThreadPool.GetMinThreads(out var minWorker, out var minCompletion);
