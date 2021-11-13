@@ -86,7 +86,8 @@ namespace Universe.CpuUsage.Tests
             // Assert
             if (CrossInfo.ThePlatform != CrossInfo.Platform.Linux) return;
             if (SkipPosixResourcesUsageAsserts) return;
-            Assert.IsTrue(expectedSwitchCount >= delta.VoluntaryContextSwitches && expectedSwitchCount <= delta.VoluntaryContextSwitches + 7,
+            Assert.IsTrue(
+                delta.VoluntaryContextSwitches >= expectedSwitchCount && expectedSwitchCount + 7 >= delta.VoluntaryContextSwitches,
                 $"VoluntaryContextSwitches: Expected {expectedSwitchCount}, actual {delta.VoluntaryContextSwitches}");
 //            if (scope == CpuUsageScope.Thread)
 //                Assert.IsTrue(expectedSwitchCount == delta.VoluntaryContextSwitches || expectedSwitchCount == delta.VoluntaryContextSwitches - 1);
