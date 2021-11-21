@@ -35,8 +35,8 @@ Manually tested on:
 ### Integration tests on exotic platforms
 For ***mono only*** platforms (i386, ppc64, mips, arm v5/v6, etc) here is the script for integration tests: [test-on-mono-only-platforms.sh](https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/test-on-mono-only-platforms.sh)
 ```
-script=https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/test-on-mono-only-platforms.sh;
-(wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+url=https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/test-on-mono-only-platforms.sh;
+(wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
 ```
 
 ## Implementation
