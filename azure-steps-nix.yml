@@ -57,6 +57,7 @@ steps:
        "PATH: [" + [Environment]::GetEnvironmentVariable("PATH") + "]"
        & bash -c "Say ENVIRONMENT; printenv | sort"; 
        $true
+       exit 0;
     failOnStderr: false
     condition: ne(variables.QEMU, 'True')
     displayName: 'system info (pwsh)'
@@ -99,6 +100,7 @@ steps:
       MY_AZ_APIKEY: $(AZ_API_KEY)
 
   - script: |
+      set
       echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
       export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
       rem dotnet test --no-restore --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
