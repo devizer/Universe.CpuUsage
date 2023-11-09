@@ -107,7 +107,7 @@ steps:
       REM dotnet test --no-restore --logger trx -f netcoreapp3.1 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ --collect:"XPlat Code Coverage"
       if Exist %SystemRoot%\System32\xtajit.dll (
          Set PROCESSOR_ARCHITECTURE=ARM64
-         echo RESET PROCESSOR_ARCHITECTURE=ARM64, (%PROCESSOR_ARCHITECTURE%)
+         echo RESET PROCESSOR_ARCHITECTURE=ARM64, [%PROCESSOR_ARCHITECTURE%]
       )
       dotnet test  --collect:"XPlat Code Coverage" --logger trx -f netcoreapp3.1 -c Release
     condition: eq(variables['Agent.OS'], 'Windows_NT')
