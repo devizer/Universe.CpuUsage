@@ -105,7 +105,7 @@ steps:
       export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
       rem dotnet test --no-restore --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
       REM dotnet test --no-restore --logger trx -f netcoreapp3.1 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ --collect:"XPlat Code Coverage"
-      if Exist %SystemRoot%\xtajit.dll (
+      if Exist %SystemRoot%\System32\xtajit.dll (
          Set PROCESSOR_ARCHITECTURE=ARM64
          echo RESET PROCESSOR_ARCHITECTURE=ARM64, (%PROCESSOR_ARCHITECTURE%)
       )
