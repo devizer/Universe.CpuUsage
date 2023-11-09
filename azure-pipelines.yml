@@ -35,26 +35,6 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: WIN11_on_ARM64
-    variables:
-      OS: Windows
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      name: 'ARM64Win-pool'
-    steps:
-      - template: azure-steps-nix.yml
-
-  - job: Ubuntu_18_04
-    variables:
-      OS: Linux
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'ubuntu-18.04'
-    steps:
-      - template: azure-steps-nix.yml
-
   - job: Ubuntu_20_04
     variables:
       OS: Linux
@@ -73,6 +53,16 @@ jobs:
     cancelTimeoutInMinutes: 1
     pool:
       vmImage: 'macOS-latest'
+    steps:
+      - template: azure-steps-nix.yml
+
+  - job: MacOS_11
+    variables:
+      OS: OSX
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      vmImage: 'macOS-11'
     steps:
       - template: azure-steps-nix.yml
 
