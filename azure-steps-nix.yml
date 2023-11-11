@@ -23,7 +23,7 @@ steps:
       script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash; test -s /usr/share/dotnet/dotnet && sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet; test -s /usr/local/share/dotnet/dotnet && sudo ln -f -s /usr/local/share/dotnet/dotnet /usr/local/bin/dotnet; 
       dotnet --info
       exit 0
-    # condition: ne(variables['Agent.JobName'], 'ARM64_Windows')
+    condition: ne(variables['Agent.JobName'], 'ARM64_Windows')
     displayName: 'Install dotnet sdk'
 
   - powershell: |
