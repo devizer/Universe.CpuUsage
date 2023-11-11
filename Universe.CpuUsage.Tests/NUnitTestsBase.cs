@@ -90,8 +90,8 @@ namespace Tests
    - Console.IsErrorRedirected .... {Console.IsErrorRedirected}
    - Environment.OSVersion.Platform {System.Environment.OSVersion.Platform}
    - CrossInfo.ThePlatform ........ {Universe.CrossInfo.ThePlatform}
-   - OS Architecture .............. {Universe.CrossInfo.ThePlatform}
-   - Process Architecture ......... {Universe.CrossInfo.ThePlatform}
+   - OS Architecture .............. {osArch}
+   - Process Architecture ......... {processArch}
 ");
             }
             
