@@ -74,6 +74,13 @@ namespace Tests
         public void BaseOneTimeSetUp()
         {
             TestConsole.Setup();
+#if NETCORE
+            var osArch = System.Runtime.InteropServices.RuntimeInformation.OSArchitecture.ToString();
+            var processArch = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString();
+#else
+            var osArch = "Not Available";
+            var processArch = "Not Available";
+#endif
             if (!SetupDone)
             {
                 SetupDone = true;
@@ -82,7 +89,9 @@ namespace Tests
    - Console.IsOutputRedirected ... {Console.IsOutputRedirected}
    - Console.IsErrorRedirected .... {Console.IsErrorRedirected}
    - Environment.OSVersion.Platform {System.Environment.OSVersion.Platform}
-   - CrossInfo.ThePlatform: {Universe.CrossInfo.ThePlatform}
+   - CrossInfo.ThePlatform ........ {Universe.CrossInfo.ThePlatform}
+   - OS Architecture .............. {Universe.CrossInfo.ThePlatform}
+   - Process Architecture ......... {Universe.CrossInfo.ThePlatform}
 ");
             }
             
