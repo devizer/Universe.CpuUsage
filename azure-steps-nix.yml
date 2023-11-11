@@ -50,9 +50,17 @@ steps:
         sudo ln -s -f $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
         dotnet --info
       fi
-    condition: ne(variables['Agent.OS'], 'Windows_NT')
+    # condition: ne(variables['Agent.OS'], 'Windows_NT')
+    condition: false
     failOnStderr: false
     displayName: 'Install dotnet sdk 3.1 on linux/osx'
+
+  - bash: |
+      export DOTNET_VERSIONS="3.1 5.0 6.0 7.0"
+      script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash; test -s /usr/share/dotnet/dotnet && sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet; test -s /usr/local/share/dotnet/dotnet && sudo ln -f -s /usr/local/share/dotnet/dotnet /usr/local/bin/dotnet; 
+      dotnet --info
+      exit 0
+    displayName: 'Install dotnet sdk'
 
   - powershell: |
        $ErrorActionPreference = "SilentlyContinue"
