@@ -19,11 +19,47 @@ steps:
     displayName: 'Bootstrap pwsh'
 
   - bash: |
+      sudo rm -f /usr/local/bin/Say || true
+      script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+      is_qemu="$(sudo grep -rnw /sys/devices/platform -e QEMU 2>/dev/null || true)"
+      # test -d /sys/firmware/qemu_fw_cfg && echo "Ampere on this Oracle Cloud"
+      if [[ "$is_qemu" == *"QEMU"* ]]; then
+        export QEMU=True
+        echo "##vso[task.setvariable variable=QEMU]$QEMU"
+      fi
+      Say --Reset-Stopwatch
+      Say "QEMU BUILD: [$QEMU]"
+      [ "$(uname -s)" == "Darwin" ] && Say "kern.boottime: $(sysctl -n kern.boottime)"
+      echo "AGENT_OS: '${AGENT_OS}'"
+      if [[ "$(uname -s)" == Darwin ]]; then
+        Say "Installing coreutils on OSX"
+        time brew install coreutils; 
+      fi
+      Say "uname -s: '$(uname -s)'"
+      Say "uname -m: '$(uname -m)'"
+      Say "PATH    : '$PATH'"
+      dotnet --info
+      # export TMPDIR=$HOME/.tmp-dotnet; mkdir -p $TMPDIR
+      DOTNET_TARGET_DIR=/usr/share/dotnet
+      if [[ "$(uname -s)" != "Linux" ]]; then DOTNET_TARGET_DIR=$HOME/.dotnet; fi
+      export DOTNET_VERSIONS="3.1 5.0"
+      sudo mkdir -p /usr/local/bin
+      export DOTNET_TARGET_DIR
+      if [[ "$QEMU" != "True" ]]; then
+        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+        sudo ln -s -f $DOTNET_TARGET_DIR/dotnet /usr/local/bin/dotnet || true
+        dotnet --info
+      fi
+    # condition: ne(variables['Agent.OS'], 'Windows_NT')
+    condition: false
+    failOnStderr: false
+    displayName: 'Install dotnet sdk 3.1 on linux/osx'
+
+  - bash: |
       export DOTNET_VERSIONS="3.1 5.0 6.0 7.0"
       script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash; test -s /usr/share/dotnet/dotnet && sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet; test -s /usr/local/share/dotnet/dotnet && sudo ln -f -s /usr/local/share/dotnet/dotnet /usr/local/bin/dotnet; 
       dotnet --info
       exit 0
-    condition: ne(variables.AGENT_JOBNAME,'ARM64_Windows')
     displayName: 'Install dotnet sdk'
 
   - powershell: |
@@ -126,8 +162,60 @@ steps:
     displayName: 'BinTests: Publish'
 
   - script: |
-      set -eu
-      time dotnet test --collect:"XPlat Code Coverage" --logger trx -f net5.0 -c Release
+      rem $(testProject) 2>/dev/null || true
+      set -e
+      export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
+      echo "Bash version: $BASH_VERSION"
+      echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
+      echo "uname -s: [$(uname -s)]"
+      source FULL-TIME-REPORT.sh
+
+      function _install_prev_sdk_() {
+        DOTNET_Url=https://dot.net/v1/dotnet-install.sh; 
+        try-and-retry curl -o /tmp/_dotnet-install.sh -ksSL $DOTNET_Url
+        time try-and-retry timeout 666 sudo -E bash /tmp/_dotnet-install.sh -version 3.1.120 -i $HOME/dotnet-3.1-builder
+        export PATH="$HOME/dotnet-3.1-builder:$PATH"
+        export DOTNET_ROOT="$HOME/dotnet-3.1-builder"
+        dotnet --info
+        unset MSBuildSDKsPath || true
+      }; _install_prev_sdk_
+      
+      if [[ "$QEMU" == True ]]; then
+        export CpuUsagePrecisionForAssert=0.25
+        Say "Overridden CpuUsagePrecisionForAssert: $CpuUsagePrecisionForAssert"
+      fi
+      
+      # try --privileged and /sys/fs/cgroup forwarding
+      # if [[ -f /.dockerenv ]]; then
+        # export SKIP_POSIXRESOURCESUSAGE_ASSERTS=True
+        # Say "SKIP_POSIXRESOURCESUSAGE_ASSERTS=True"
+      # fi
+
+      msbuild=$(ps -x -o pid,cmd | grep dotnet | grep -v grep | grep MSBuild.dll | awk '{print $1}')
+      for pid in $msbuild; do echo Kill MSBuild Process $pid; sudo kill -9 $pid; done
+
+
+      cd Universe.CpuUsage.Tests
+      if [[ "$AGENT_JOBNAME" == "Ubuntu_20_04" ]]; then
+        Say "Installing mono"
+        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-MONO.sh; 
+        # (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | sudo bash;
+        # sudo apt-get install msbuild -y -q
+        # Say "Build NET 4.6 Debug in [$(pwd)]"
+        # dotnet build -f net46 -c Debug || true
+        # msbuild Universe.CpuUsage.Tests.csproj /p:TargetFrameworkVersion=v4.6;Configuration=Debug
+        # Say "Build NET 4.6 Release in [$(pwd)]"
+        # dotnet build -f net46 -c Release || true
+        # Reset-Target-Framework -fw net46
+        # msbuild Universe.CpuUsage.Tests.csproj /p:Configuration=Release
+      fi
+      Say "Tests in [$(pwd)]"
+      options=""; if [[ "$QEMU" != "True" ]]; then options='--collect:"XPlat Code Coverage" --logger trx'; fi
+      cmd="time dotnet test $options -f netcoreapp3.1 -c Release"
+      echo $cmd
+      # rm -rf bin obj || true
+      TIME="$FULL_TIME" eval "$cmd"
+      # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
     condition: ne(variables['Agent.OS'], 'Windows_NT')
     displayName: '[nix] test'
     env:
