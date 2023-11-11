@@ -43,6 +43,7 @@ steps:
       DOTNET_TARGET_DIR=/usr/share/dotnet
       if [[ "$(uname -s)" != "Linux" ]]; then DOTNET_TARGET_DIR=$HOME/.dotnet; fi
       export DOTNET_VERSIONS="3.1 5.0"
+      sudo mkdir -p /usr/local/bin
       export DOTNET_TARGET_DIR
       if [[ "$QEMU" != "True" ]]; then
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash

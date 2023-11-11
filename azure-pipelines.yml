@@ -66,13 +66,23 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: WIN2019_VS2019
+  - job: WIN_2019
     variables:
       OS: Windows
     timeoutInMinutes: 99
     cancelTimeoutInMinutes: 1
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'windows-2019'
+    steps:
+      - template: azure-steps-nix.yml
+
+  - job: WIN_2022
+    variables:
+      OS: Windows
+    timeoutInMinutes: 99
+    cancelTimeoutInMinutes: 1
+    pool:
+      vmImage: 'windows-2022'
     steps:
       - template: azure-steps-nix.yml
 
