@@ -74,7 +74,7 @@ namespace Tests
         public void BaseOneTimeSetUp()
         {
             TestConsole.Setup();
-#if NETCORE
+#if NETCORE || NETCOREAPP3_1 || NETCOREAPP5_0
             var osArch = System.Runtime.InteropServices.RuntimeInformation.OSArchitecture.ToString();
             var processArch = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString();
 #else
