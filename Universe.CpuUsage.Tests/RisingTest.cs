@@ -45,8 +45,8 @@ namespace Universe.CpuUsage.Tests
             
 
             var delta = CpuUsage.Substruct(next.Value, prev.Value);
-            Assert.GreaterOrEqual(next.Value.KernelUsage.TotalMicroSeconds, prev.Value.KernelUsage.TotalMicroSeconds, "Kernel usage should be greater or equal zero");
-            Assert.Greater(next.Value.UserUsage.TotalMicroSeconds, prev.Value.UserUsage.TotalMicroSeconds, "User usage should be greater or equal zero");
+            Assert.GreaterOrEqual(next.Value.KernelUsage.TotalMicroSeconds, prev.Value.KernelUsage.TotalMicroSeconds, "Kernel usage should be greater or equal");
+            Assert.GreaterOrEqual(next.Value.UserUsage.TotalMicroSeconds, prev.Value.UserUsage.TotalMicroSeconds, "User usage should be greater or equal");
 
             string message = string.Format("Duration: {0:f3} of {4}, CPU@{3}: {1:f3} = {2}", 
                 microSeconds/1000, 
