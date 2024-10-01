@@ -101,7 +101,7 @@ jobs:
     steps:
       - template: azure-steps-nix.yml
 
-  - job: MacOS_11
+  - job: MacOS_12
     variables:
       OS: OSX
     timeoutInMinutes: 99
