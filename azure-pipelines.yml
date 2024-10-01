@@ -36,6 +36,7 @@ jobs:
 
     - script: |
        set -eu; set -o pipefail
+       Say "CPU: $(Get-CpuName)"
        Reset-Target-Framework -fw net47 -l latest
        cd Universe.CpuUsage.Tests
        time dotnet build -c Release -v:q Universe.CpuUsage.Tests.csproj
