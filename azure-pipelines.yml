@@ -24,24 +24,24 @@ jobs:
         - 'i386-debian-10':
           QEMU_IMAGE_ID: i386-debian-10
 
-     steps:
-     - script: |
-         set -eu; set -o pipefail
-         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash >/dev/null
-         Say --Reset-Stopwatch
-         Say "CPU: $(Get-CpuName)"
-         # sudo apt-get update; sudo apt-get install sshfs -y
-         printenv | sort;
-       displayName: 'Variables'
-
-     - script: |
+    steps:
+    - script: |
         set -eu; set -o pipefail
-        Reset-Target-Framework -fw net47 -l latest
-        cd Universe.CpuUsage.Tests
-        time dotnet build -c Release -v:q Universe.CpuUsage.Tests.csproj
-        cd bin/Release/net47
-        ls -lah
-        docker run -v $(pwd):/job -privileged -t --rm --hostname vm-container devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID nunit3-console --workers=1 Universe.CpuUsage.Tests.dll
+        script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash >/dev/null
+        Say --Reset-Stopwatch
+        Say "CPU: $(Get-CpuName)"
+        # sudo apt-get update; sudo apt-get install sshfs -y
+        printenv | sort;
+      displayName: 'Variables'
+
+    - script: |
+       set -eu; set -o pipefail
+       Reset-Target-Framework -fw net47 -l latest
+       cd Universe.CpuUsage.Tests
+       time dotnet build -c Release -v:q Universe.CpuUsage.Tests.csproj
+       cd bin/Release/net47
+       ls -lah
+       docker run -v $(pwd):/job -privileged -t --rm --hostname vm-container devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID nunit3-console --workers=1 Universe.CpuUsage.Tests.dll
 
 
 
