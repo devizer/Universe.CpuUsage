@@ -9,7 +9,7 @@ jobs:
     displayName: 'Crossplatform'
     pool:
       vmImage: ubuntu-latest
-    timeoutInMinutes: 30
+    timeoutInMinutes: 45
     strategy:
       maxParallel: 6
       matrix:
