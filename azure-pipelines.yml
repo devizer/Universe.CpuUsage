@@ -48,7 +48,7 @@ jobs:
        Say "Pull devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID"
        try-and-retry docker pull -q devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID
        Say "Test on [$QEMU_IMAGE_ID]"
-       docker run -v $(pwd):/job --privileged --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t --rm --hostname vm-container devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID nunit3-console --workers=1 Universe.CpuUsage.Tests.dll
+       docker run -e VM_VARIABLES="VAR42;Hello" -e VAR42="42" -e Hello="Hello World" -v $(pwd):/job --privileged --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t --rm --hostname vm-container devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID nunit3-console --workers=1 Universe.CpuUsage.Tests.dll
       displayName: 'Test'
 
 
