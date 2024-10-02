@@ -32,7 +32,7 @@ jobs:
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash >/dev/null
         Say --Reset-Stopwatch
         Say "CPU: $(Get-CpuName)"
-        sudo apt-get update -qq; sudo apt-get install sshfs -y -qq # REMOVE?
+        sudo apt-get update -qq; sudo apt-get install fuse -y -qq | grep "Unpack\|Setting" || true
         printenv | sort;
       displayName: 'Variables'
 
