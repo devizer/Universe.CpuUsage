@@ -38,12 +38,14 @@ jobs:
 
     - script: |
        set -eu; set -o pipefail
+       Configuration=Debug
+       FW=net472
        Say "CPU: $(Get-CpuName)"
-       Reset-Target-Framework -fw net47 -l latest
+       Reset-Target-Framework -fw $FW -l latest
        cd Universe.CpuUsage.Tests
        dotnet remove package Appveyor.TestLogger
-       time try-and-retry dotnet build -c Release -v:q Universe.CpuUsage.Tests.csproj
-       cd bin/Release/net47
+       time try-and-retry dotnet build -c $Configuration -v:q Universe.CpuUsage.Tests.csproj
+       cd bin/$Configuration/$FW
        ls -lah
        Say "Pull devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID"
        try-and-retry docker pull -q devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID
