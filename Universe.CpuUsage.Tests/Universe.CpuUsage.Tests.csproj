@@ -26,7 +26,7 @@
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" />
     <PackageReference Include="ParallelExtensionsExtras" Version="1.2.0" />
     
     <!-- for testing in the wild: https://web.archive.org/web/20190115234705/https://blogs.msdn.microsoft.com/pfxteam/2010/04/09/parallelextensionsextras-tour-7-additional-taskschedulers/ -->
