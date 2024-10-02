@@ -42,7 +42,7 @@ jobs:
        Reset-Target-Framework -fw net47 -l latest
        cd Universe.CpuUsage.Tests
        dotnet remove package Appveyor.TestLogger
-       time dotnet build -c Release -v:q Universe.CpuUsage.Tests.csproj
+       time try-and-retry dotnet build -c Release -v:q Universe.CpuUsage.Tests.csproj
        cd bin/Release/net47
        ls -lah
        Say "Pull devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID"
