@@ -32,7 +32,7 @@ jobs:
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash >/dev/null
         Say --Reset-Stopwatch
         Say "CPU: $(Get-CpuName)"
-        # sudo apt-get update; sudo apt-get install sshfs -y
+        sudo apt-get update -qq; sudo apt-get install sshfs -y -qq # REMOVE?
         printenv | sort;
       displayName: 'Variables'
 
@@ -48,7 +48,7 @@ jobs:
        Say "Pull devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID"
        try-and-retry docker pull -q devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID
        Say "Test on [$QEMU_IMAGE_ID]"
-       docker run -v $(pwd):/job --privileged -t --rm --hostname vm-container devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID nunit3-console --workers=1 Universe.CpuUsage.Tests.dll
+       docker run -v $(pwd):/job --privileged --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t --rm --hostname vm-container devizervlad/crossplatform-pipeline:$QEMU_IMAGE_ID nunit3-console --workers=1 Universe.CpuUsage.Tests.dll
       displayName: 'Test'
 
 
