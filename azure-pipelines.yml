@@ -9,12 +9,14 @@ jobs:
     displayName: 'Crossplatform'
     pool:
       vmImage: ubuntu-latest
-    timeoutInMinutes: 60
+    timeoutInMinutes: 30
     strategy:
-      maxParallel: 4
+      maxParallel: 6
       matrix:
          'armel-debian-8':
            QEMU_IMAGE_ID: armel-debian-8
+         'armel-debian-11':
+           QEMU_IMAGE_ID: armel-debian-11
          'armhf-debian-12':
            QEMU_IMAGE_ID: armhf-debian-12
          'arm64-debian-13':
