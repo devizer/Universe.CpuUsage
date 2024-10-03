@@ -69,7 +69,7 @@ jobs:
   - job: ARM32_Linux
     variables:
       OS: Linux
-    timeoutInMinutes: 99
+    timeoutInMinutes: 50
     cancelTimeoutInMinutes: 1
     pool:
       name: 'armv7-pool'
