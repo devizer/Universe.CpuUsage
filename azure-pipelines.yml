@@ -39,7 +39,7 @@ jobs:
     - script: |
        set -eu; set -o pipefail
        Configuration=Debug
-       FW=net462
+       FW=net48
        Say "CPU: $(Get-CpuName)"
        Reset-Target-Framework -fw $FW -l latest
        cd Universe.CpuUsage.Tests
