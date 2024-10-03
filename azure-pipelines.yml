@@ -39,11 +39,11 @@ jobs:
     - script: |
        set -eu; set -o pipefail
        Configuration=Debug
-       FW=net48
+       FW=net472
        Say "CPU: $(Get-CpuName)"
        Reset-Target-Framework -fw $FW -l latest
        cd Universe.CpuUsage.Tests
-       dotnet remove package Appveyor.TestLogger
+       for p in NUnit3TestAdapter Appveyor.TestLogger Microsoft.NET.Test.Sdk; do dotnet remove package $p; done
        time try-and-retry dotnet build -c $Configuration -v:q Universe.CpuUsage.Tests.csproj
        cd bin/$Configuration/$FW
        ls -lah
