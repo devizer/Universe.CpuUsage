@@ -67,6 +67,7 @@ jobs:
          'ARM64 Windows':
            POOL_NAME: 'ARM64Win-pool'
            OS: Windows
+           SKIP_SDK_INSTALL: True
          'ARMv7 Linux':
            POOL_NAME: 'armv7-pool'
            OS: Linux
