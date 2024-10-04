@@ -67,7 +67,7 @@ jobs:
          'ARM64 Windows':
            POOL_NAME: 'ARM64Win-pool'
            OS: Windows
-           SKIP_SDK_INSTALL: True
+           SKIP_SDK_INSTALL: 'True'
          'ARMv7 Linux':
            POOL_NAME: 'armv7-pool'
            OS: Linux
@@ -84,10 +84,13 @@ jobs:
       vmImage: $(VMIMAGE)
     timeoutInMinutes: 45
     strategy:
-      maxParallel: 8
+      maxParallel: 9
       matrix:
          'Ubuntu 20.04':
            VMIMAGE: 'ubuntu-20.04'
+           OS: Linux
+         'Ubuntu 24.04':
+           VMIMAGE: 'ubuntu-24.04'
            OS: Linux
          'MacOS Latest':
            VMIMAGE: 'macOS-latest'
