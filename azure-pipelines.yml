@@ -56,10 +56,9 @@ jobs:
 
 
 
-  - job: Hosted
-    displayName: 'Hosted'
+  - job: Pool
+    displayName: 'Pool'
     pool:
-      vmImage: $(VMIMAGE)
       name: $(POOL_NAME)
     timeoutInMinutes: 45
     strategy:
@@ -74,6 +73,18 @@ jobs:
          'ARM64 Linux':
            POOL_NAME: 'arm64-pool'
            OS: Linux
+    steps:
+      - template: azure-steps-nix.yml
+
+
+  - job: Hosted
+    displayName: 'Hosted'
+    pool:
+      vmImage: $(VMIMAGE)
+    timeoutInMinutes: 45
+    strategy:
+      maxParallel: 8
+      matrix:
          'Ubuntu 20.04':
            VMIMAGE: 'ubuntu-20.04'
            OS: Linux
