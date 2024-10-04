@@ -59,34 +59,35 @@ jobs:
   - job: Hosted
     displayName: 'Hosted'
     pool:
-      vmImage: $(IMAGE)
+      vmImage: $(VMIMAGE)
+      name: $(POOL_NAME)
     timeoutInMinutes: 45
     strategy:
-      maxParallel: 6
+      maxParallel: 8
       matrix:
          'ARM64 Windows':
-           IMAGE: 'ARM64Win-pool'
+           POOL_NAME: 'ARM64Win-pool'
            OS: Windows
          'ARMv7 Linux':
-           IMAGE: 'armv7-pool'
+           POOL_NAME: 'armv7-pool'
            OS: Linux
          'ARM64 Linux':
-           IMAGE: 'arm64-pool'
+           POOL_NAME: 'arm64-pool'
            OS: Linux
          'Ubuntu 20.04':
-           IMAGE: 'ubuntu-20.04'
+           VMIMAGE: 'ubuntu-20.04'
            OS: Linux
          'MacOS Latest':
-           IMAGE: 'macOS-latest'
+           VMIMAGE: 'macOS-latest'
            OS: OSX
          'MacOS 12':
-           IMAGE: 'macOS-12'
+           VMIMAGE: 'macOS-12'
            OS: OSX
          'Win 2019':
-           IMAGE: 'windows-2019'
+           VMIMAGE: 'windows-2019'
            OS: Windows
          'Win Latest':
-           IMAGE: 'windows-latest'
+           VMIMAGE: 'windows-latest'
            OS: Windows
     steps:
       - template: azure-steps-nix.yml
