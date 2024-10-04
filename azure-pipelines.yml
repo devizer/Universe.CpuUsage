@@ -5,8 +5,8 @@ variables:
 
 jobs:
 
-  - job: Crossplatform
-    displayName: 'Crossplatform'
+  - job: Virtual
+    displayName: 'Virtual'
     pool:
       vmImage: ubuntu-latest
     timeoutInMinutes: 45
@@ -32,7 +32,7 @@ jobs:
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash >/dev/null
         Say --Reset-Stopwatch
         Say "CPU: $(Get-CpuName)"
-        sudo apt-get update -qq; sudo apt-get install fuse -y -qq | grep "Unpack\|Setting" || true
+        # sudo apt-get update -qq; sudo apt-get install fuse -y -qq | grep "Unpack\|Setting" || true
         printenv | sort;
       displayName: 'Variables'
 
@@ -56,86 +56,41 @@ jobs:
 
 
 
-  - job: ARM64_Windows
-    variables:
-      OS: Windows
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
+  - job: Hosted
+    displayName: 'Hosted'
     pool:
-      name: 'ARM64Win-pool'
+      vmImage: $(IMAGE)
+    timeoutInMinutes: 45
+    strategy:
+      maxParallel: 6
+      matrix:
+         'ARM64 Windows':
+           IMAGE: 'ARM64Win-pool'
+           OS: Windows
+         'ARMv7 Linux':
+           IMAGE: 'armv7-pool'
+           OS: Linux
+         'ARM64 Linux':
+           IMAGE: 'arm64-pool'
+           OS: Linux
+         'Ubuntu 20.04':
+           IMAGE: 'ubuntu-20.04'
+           OS: Linux
+         'MacOS Latest':
+           IMAGE: 'macOS-latest'
+           OS: OSX
+         'MacOS 12':
+           IMAGE: 'macOS-12'
+           OS: OSX
+         'Win 2019':
+           IMAGE: 'windows-2019'
+           OS: Windows
+         'Win Latest':
+           IMAGE: 'windows-latest'
+           OS: Windows
     steps:
       - template: azure-steps-nix.yml
 
-  - job: ARM32_Linux
-    variables:
-      OS: Linux
-    timeoutInMinutes: 50
-    cancelTimeoutInMinutes: 1
-    pool:
-      name: 'armv7-pool'
-    steps:
-      - template: azure-steps-nix.yml
-
-  - job: ARM64_Linux
-    variables:
-      OS: Linux
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      name: 'arm64-pool'
-    steps:
-      - template: azure-steps-nix.yml
-
-  - job: Ubuntu_20_04
-    variables:
-      OS: Linux
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'ubuntu-20.04'
-    steps:
-      - template: azure-steps-nix.yml
-
-  # needs explicit dotnet core installation
-  - job: MacOS_Latest
-    variables:
-      OS: OSX
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'macOS-latest'
-    steps:
-      - template: azure-steps-nix.yml
-
-  - job: MacOS_12
-    variables:
-      OS: OSX
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'macOS-12'
-    steps:
-      - template: azure-steps-nix.yml
-
-  - job: WIN_2019
-    variables:
-      OS: Windows
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'windows-2019'
-    steps:
-      - template: azure-steps-nix.yml
-
-  - job: WIN_2022
-    variables:
-      OS: Windows
-    timeoutInMinutes: 99
-    cancelTimeoutInMinutes: 1
-    pool:
-      vmImage: 'windows-2022'
-    steps:
-      - template: azure-steps-nix.yml
 
 trigger:
   - master
