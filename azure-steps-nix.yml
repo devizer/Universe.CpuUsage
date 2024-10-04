@@ -64,6 +64,12 @@ steps:
     condition: and(eq(variables['OS'], 'Linux'), ne(variables.QEMU, 'True'))
     displayName: 'List Packages'
 
+  - bash: |
+      set -eu; set -o pipefail;
+      url=https://raw.githubusercontent.com/devizer/glist/master/install-libssl-1.1.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
+    condition: eq(variables['Agent.OS'], 'Linux') 
+    displayName: 'SSL (optional)'
+
   - script: |
       # export VSS_NUGET_EXTERNAL_FEED_ENDPOINTS='{"endpointCredentials": [{"endpoint":"https://devizer.pkgs.visualstudio.com/_packaging/devizer.nuget/nuget/v3/index.json", "username":"optional", "password":"'$MY_AZ_APIKEY'"}]}'
       # echo "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: [$VSS_NUGET_EXTERNAL_FEED_ENDPOINTS]"
