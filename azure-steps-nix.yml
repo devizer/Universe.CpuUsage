@@ -166,12 +166,19 @@ steps:
       $cpu=Get-WmiObject Win32_Processor; 
       echo "CPU: $($cpu.Name), $([System.Environment]::ProcessorCount) Cores" | tee "System Info.log" -Append
 
-      get-wmiobject win32_product | 
-        sort -Property Vendor, Name, Version | 
-        ft Version, Name, Vendor, InstallState, IdentifyingNumber -AutoSize | 
-        Out-File -Width 512 "Preintalled Software.log"
 
-      $true
+      # get-wmiobject win32_product | 
+      #   sort -Property Vendor, Name, Version | 
+      #   ft Version, Name, Vendor, InstallState, IdentifyingNumber -AutoSize | 
+      #  Out-File -Width 512 "Preintalled Software.log"
+      iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/devizer/Universe.SqlServerJam/master/SqlServer-Version-Management/Install-SqlServer-Version-Management.ps1'))
+      Get-Speedy-Software-Product-List |
+         sort -Property Vendor, Name, Version, Origin | 
+         ft IdentifyingNumber, Vendor, Name, Version, Origin -AutoSize | 
+         Out-File -Width 2048 "Preintalled Software.log"
+         
+
+      # $true
     condition: eq(variables['OS'], 'Windows') 
     displayName: 'About Windows'
 
