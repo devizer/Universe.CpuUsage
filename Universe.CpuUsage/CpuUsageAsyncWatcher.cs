@@ -88,6 +88,7 @@ namespace Universe.CpuUsage
                 {
                     // .Stop() lost, Force Stop()
                     IsRunning = false;
+                    return;
                     // throw new InvalidOperationException("CpuUsageAsyncWatcher.OnEnd: Missing contextOnStart. Please report");
                 }
 
