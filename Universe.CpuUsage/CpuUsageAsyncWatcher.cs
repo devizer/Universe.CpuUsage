@@ -84,8 +84,12 @@ namespace Universe.CpuUsage
             {
                 var contextOnStart = ContextItem.Value;
                 ContextItem.Value = null;
-                if (contextOnStart == null) throw new InvalidOperationException(
-                    "CpuUsageAsyncWatcher.OnEnd: Missing contextOnStart. Please report");
+                if (contextOnStart == null) 
+                {
+                    // .Stop() lost, Force Stop()
+                    IsRunning = false;
+                    // throw new InvalidOperationException("CpuUsageAsyncWatcher.OnEnd: Missing contextOnStart. Please report");
+                }
 
                 if (tid != contextOnStart.ThreadId) 
                     throw new InvalidOperationException(
