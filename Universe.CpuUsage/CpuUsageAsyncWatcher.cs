@@ -42,6 +42,7 @@ namespace Universe.CpuUsage
         {
             IsRunning = false;
 #if !NET20 && !NET30 && !NET35 && !NET40 && !NET45
+            ContextItem.Value = null;
             _ContextSwitchListener.Value = null;
             _ContextSwitchListener = null;
 #endif
