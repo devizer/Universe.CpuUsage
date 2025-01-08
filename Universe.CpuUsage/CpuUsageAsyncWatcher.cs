@@ -1,10 +1,11 @@
 // ReSharper disable PossibleInvalidOperationException
 
+using System.Diagnostics;
+
 namespace Universe.CpuUsage
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Text;
     using System.Threading;
     using System.Linq;
@@ -16,6 +17,8 @@ namespace Universe.CpuUsage
         {
             get
             {
+                // always not null
+                if (_Log == null) return new List<ContextSwitchMetrics>();
                 lock (_Log)
                 {
                     return new List<ContextSwitchMetrics>(_Log);
@@ -38,6 +41,11 @@ namespace Universe.CpuUsage
         public void Stop()
         {
             IsRunning = false;
+#if !NET20 && !NET30 && !NET35 && !NET40 && !NET45
+            _ContextSwitchListener.Value = null;
+            _ContextSwitchListener = null;
+#endif
+            // _Log = null; it is the results
         }
         
 #if NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6
@@ -46,7 +54,7 @@ namespace Universe.CpuUsage
 #else
         static long GetThreadId() => Thread.CurrentThread.ManagedThreadId;
         public static bool IsSupported => CpuUsageReader.IsSupported && IsFrameworkSupported;
-#endif        
+#endif
 
 
 // legacy net framework [2.0 ... 4.6) is not supported 
@@ -82,12 +90,13 @@ namespace Universe.CpuUsage
             }
             else if (args.CurrentValue == null)
             {
-                var contextOnStart = ContextItem.Value;
+                ContextSwitchInfo contextOnStart = ContextItem.Value;
                 ContextItem.Value = null;
                 if (contextOnStart == null) 
                 {
                     // .Stop() lost, Force Stop()
                     IsRunning = false;
+                    Stop();
                     return;
                     // throw new InvalidOperationException("CpuUsageAsyncWatcher.OnEnd: Missing contextOnStart. Please report");
                 }
@@ -115,13 +124,13 @@ namespace Universe.CpuUsage
             Console.ForegroundColor = ConsoleColor.Cyan;
             string AsString(object value) => value == null ? "off" : Convert.ToString(value); 
             Console.WriteLine($"Value Changed {(args.ThreadContextChanged ? $"WITH context #{tid}" : $"WITHOUT context #{tid}")}: {AsString(args.PreviousValue)} => {AsString(args.CurrentValue)}");
-#endif            
+#endif
         }
 
         public CpuUsageAsyncWatcher()
         {
             _ContextSwitchListener = new AsyncLocal<object>(ContextChangedHandler);
-            _ContextSwitchListener.Value = "Online";
+            _ContextSwitchListener.Value = new object(); // "Online" does not occupies additional memory
         }
         
 #else
