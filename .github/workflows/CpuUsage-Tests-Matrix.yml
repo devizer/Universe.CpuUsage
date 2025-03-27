@@ -54,9 +54,10 @@ jobs:
         fi
         TARGET_FRAMEWORKS_TEST="${TARGET_FRAMEWORKS_TEST:-net8.0}"
         cd Universe.CpuUsage.Tests
+        
         Say "Building $TARGET_FRAMEWORKS_TEST"
         sed -i -E 's|<TargetFrameworks>.*</TargetFrameworks>|<TargetFrameworks>'$TARGET_FRAMEWORKS_TEST'</TargetFrameworks>|' *.csproj
-        dotnet build -c Release -f $TARGET_FRAMEWORKS_TEST >/dev/null 2>&1
+        dotnet build -c Release -f $TARGET_FRAMEWORKS_TEST # >/dev/null 2>&1
         Say "Testing"
         dotnet test -c Release -f $TARGET_FRAMEWORKS_TEST
         
