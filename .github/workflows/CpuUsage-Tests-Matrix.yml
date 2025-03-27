@@ -57,9 +57,9 @@ jobs:
         
         Say "Building $TARGET_FRAMEWORKS_TEST"
         sed -i -E 's|<TargetFrameworks>.*</TargetFrameworks>|<TargetFrameworks>'$TARGET_FRAMEWORKS_TEST'</TargetFrameworks>|' *.csproj
-        time dotnet build -c Release -f $TARGET_FRAMEWORKS_TEST >/dev/null 2>&1
+        time try-and-retry dotnet build -c Release -f $TARGET_FRAMEWORKS_TEST >/dev/null 2>&1
         Say "Testing"
-        dotnet test -c Release -f $TARGET_FRAMEWORKS_TEST
+        dotnet test --no-build -c Release -f $TARGET_FRAMEWORKS_TEST
 
     - name: SHOW Precision Histogram
       run: |
