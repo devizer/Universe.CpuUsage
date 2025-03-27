@@ -34,7 +34,7 @@ jobs:
       run: |
         set -eu;
         cd Universe.CpuUsage.Tests
-        dotnet test -c Release -f net8.0
+        dotnet test -c Release -f net5.0
         
 
     - name: Upload artifacts [${{ env.THEARTIFACTS_NATIVE }}]
