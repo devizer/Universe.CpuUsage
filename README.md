@@ -51,9 +51,10 @@ The implementation utilizes platform invocation (P/Invoke) of the corresponding 
 ## Precision depends on
 Here is a summary of CPU usage precision. In general, it depends on OS and version and it does not depend on CPU performance except of FreeBSD
 
-| OS                                           | Average Precision |
-|----------------------------------------------|------------------:|
+| OS                                                                         | Average Precision |
+|----------------------------------------------------------------------------|------------------:|
 | Windows Server 2019, Xeon E5-2697 v3                                       |       _16,250 μs_ |
+| Linux, i5-10300 @ kernel 6.8                                               |        _1,100 μs_ |
 | Linux, Xeon E5-2697 v3 @ 2.60GHz, kernel 5.0                               |        _3,800 μs_ |
 | Linux, ARMv7 H3 CPU, 1.50GHz, kernel 3.4                                   |       _10,000 μs_ |
 | Linux, ARMv7 H3 CPU, 1.10GHz, kernel 4.19                                  |        _3,800 μs_ |
