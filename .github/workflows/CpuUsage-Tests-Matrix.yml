@@ -1,0 +1,68 @@
+name: CPU Usage Tests Matrix
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  Info:
+    name: Gather Benchmarks
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, windows-2022, windows-2019, ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Environment
+      run: 'printenv | sort'
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.*
+
+    - name: Build And Test
+      run: |
+        set -eu;
+        cd Universe.CpuUsage.Tests
+        dotnet test -c Release -f net8.0
+        
+
+    - name: Upload artifacts [${{ env.THEARTIFACTS_NATIVE }}]
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: 'System Info ${{ matrix.os }}'
+        path: |
+           ${{ env.THEARTIFACTS_NATIVE }}
+          
+  Combine:
+    name: Combine results in a single Artifact
+    needs: Info
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download All Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        pattern: '**'
+        path: "${{ runner.temp }}/Combined"
+        merge-multiple: true
+
+    - name: Show Download Structure
+      run: 'sudo apt-get update -qq; sudo apt-get install tree -y -qq; tree $RUNNER_TEMP'
+
+    - name: Upload Combined System Info
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'Combined CPU Usage Tests'
+        path: "${{ runner.temp }}/Combined"
+
