@@ -28,13 +28,12 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.*
+        dotnet-version: 8.0
 
     - name: .NET Info
       run: |
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash > /dev/null
         dotnet --info
-
 
     - name: Build And Test
       run: |
@@ -45,10 +44,11 @@ jobs:
            Say "Kernel: [$(uname -r)]"
         fi
         Say "Building"
+        Reset-Target-Framework -fw net8.0
         cd Universe.CpuUsage.Tests
-        dotnet build -c Release -f net5.0 >/dev/null 2>&1
+        dotnet build -c Release -f net8.0 >/dev/null 2>&1
         Say "Testing"
-        dotnet test -c Release -f net5.0
+        dotnet test -c Release -f net8.0
         
 
     - name: Upload artifacts [${{ env.THEARTIFACTS_NATIVE }}]
