@@ -66,6 +66,7 @@ jobs:
         set -eu;
         Say "Linux Kernel: [$(uname -r 2>/dev/null)]"
         cd Universe.CpuUsage.Tests
+        TARGET_FRAMEWORKS_TEST="${TARGET_FRAMEWORKS_TEST:-net8.0}"
         dotnet test -c Release -f $TARGET_FRAMEWORKS_TEST --filter "Name ~ Show_Precision_Histogram" | tee ../PRECISION.LOG
 
     - name: Upload artifacts [${{ env.THEARTIFACTS_NATIVE }}]
