@@ -10,7 +10,7 @@ defaults:
     shell: bash
 
 jobs:
-  TestCpuUsage:
+  TestCpuUsageonHost:
     name: CPU Usage Tests
     strategy:
       fail-fast: false
@@ -79,7 +79,7 @@ jobs:
           
   Combine:
     name: Combine results in a single Artifact
-    needs: Info
+    needs: TestCpuUsageonHost
     runs-on: ubuntu-latest
     steps:
     - name: Download All Artifacts
