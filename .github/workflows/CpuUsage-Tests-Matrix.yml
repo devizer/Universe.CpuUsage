@@ -37,30 +37,36 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.x
+        dotnet-version: 8.0
 
     - name: .NET Info
       run: |
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash > /dev/null
         dotnet --info
 
-    - name: Build And Test
+    - name: TEST full (and build)
       run: |
         set -eu;
         Say ".NET SDK LIST"
         dotnet --list-sdks
         if [[ "$(uname -s)" == Linux ]]; then
-           Say "Kernel: [$(uname -r)]"
+           Say "Linux Kernel: [$(uname -r 2>/dev/null)]"
         fi
         TARGET_FRAMEWORKS_TEST="${TARGET_FRAMEWORKS_TEST:-net8.0}"
         cd Universe.CpuUsage.Tests
         
         Say "Building $TARGET_FRAMEWORKS_TEST"
         sed -i -E 's|<TargetFrameworks>.*</TargetFrameworks>|<TargetFrameworks>'$TARGET_FRAMEWORKS_TEST'</TargetFrameworks>|' *.csproj
-        dotnet build -c Release -f $TARGET_FRAMEWORKS_TEST # >/dev/null 2>&1
+        time dotnet build -c Release -f $TARGET_FRAMEWORKS_TEST >/dev/null 2>&1
         Say "Testing"
         dotnet test -c Release -f $TARGET_FRAMEWORKS_TEST
-        
+
+    - name: SHOW Precision Histogram
+      run: |
+        set -eu;
+        Say "Linux Kernel: [$(uname -r 2>/dev/null)]"
+        cd Universe.CpuUsage.Tests
+        dotnet test -c Release -f $TARGET_FRAMEWORKS_TEST --filter "Name ~ Show_Precision_Histogram" | tee ../PRECISION.LOG
 
     - name: Upload artifacts [${{ env.THEARTIFACTS_NATIVE }}]
       uses: actions/upload-artifact@v4
