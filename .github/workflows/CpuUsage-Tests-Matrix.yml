@@ -31,14 +31,23 @@ jobs:
         dotnet-version: 5.*
 
     - name: .NET Info
-      run: dotnet --info
+      run: |
+        script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash > /dev/null
+        dotnet --info
+
 
     - name: Build And Test
       run: |
         set -eu;
-        echo ".NET SDK LIST"
+        Say ".NET SDK LIST"
         dotnet --list-sdks
+        if [[ "$(uname -s)" == Linux ]]; then
+           Say "Kernel: [$(uname -r)]"
+        fi
+        Say "Building"
         cd Universe.CpuUsage.Tests
+        dotnet build -c Release -f net5.0 >/dev/null 2>&1
+        Say "Testing"
         dotnet test -c Release -f net5.0
         
 
