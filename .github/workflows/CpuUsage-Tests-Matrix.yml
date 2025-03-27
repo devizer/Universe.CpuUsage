@@ -67,15 +67,15 @@ jobs:
         Say "Linux Kernel: [$(uname -r 2>/dev/null)]"
         cd Universe.CpuUsage.Tests
         TARGET_FRAMEWORKS_TEST="${TARGET_FRAMEWORKS_TEST:-net8.0}"
-        dotnet test -c Release -f $TARGET_FRAMEWORKS_TEST --filter "Name ~ Show_Precision_Histogram" | tee ../PRECISION.LOG
+        mkdir -p ../Artifact
+        dotnet test --no-build -c Release -f $TARGET_FRAMEWORKS_TEST --filter "Name ~ Show_Precision_Histogram" | tee "../Artifact/PRECISION ${{ github.job }}.LOG"
 
     - name: Upload artifacts [${{ env.THEARTIFACTS_NATIVE }}]
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: 'System Info ${{ matrix.os }}'
-        path: |
-           ${{ env.THEARTIFACTS_NATIVE }}
+        name: 'Precision ${{ matrix.os }}'
+        path: '${{ github.workspace }}/Artifact'
           
   Combine:
     name: Combine results in a single Artifact
