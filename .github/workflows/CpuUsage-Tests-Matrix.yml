@@ -30,9 +30,14 @@ jobs:
       with:
         dotnet-version: 5.*
 
+    - name: .NET Info
+      run: dotnet --info
+
     - name: Build And Test
       run: |
         set -eu;
+        echo ".NET SDK LIST"
+        dotnet --list-sdks
         cd Universe.CpuUsage.Tests
         dotnet test -c Release -f net5.0
         
