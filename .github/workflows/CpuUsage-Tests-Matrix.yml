@@ -11,14 +11,20 @@ defaults:
 
 jobs:
   TestCpuUsageOnVm:
-    name: VM CPU Usage
+    name: On VM
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: armhf-debian-10
           - os: arm64-debian-13
+          - os: armel-debian-8
+          - os: armel-debian-9
+          - os: armel-debian-10
           - os: armel-debian-11
+          - os: i386-debian-10
+          - os: i386-debian-11
+          - os: i386-debian-12
           - os: x64-ubuntu-24.04
           - os: arm64-ubuntu-24.04
           - os: armhf-ubuntu-24.04
@@ -59,7 +65,7 @@ jobs:
 
   
   TestCpuUsageonHost:
-    name: Host and CPU Usage
+    name: On Host
     strategy:
       fail-fast: false
       matrix:
