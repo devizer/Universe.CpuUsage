@@ -50,7 +50,7 @@ jobs:
         docker run --privileged -e VM_MEM=640M -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
           -v "$HOME/Artifacts":/job \
           "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
-          bash -e -c "Say Starting Tests; nunit3-console Universe.CpuUsage.Tests"
+          bash -e -c "Say Starting Tests; nunit3-console Universe.CpuUsage.Tests.dll"
 
   
   TestCpuUsageonHost:
