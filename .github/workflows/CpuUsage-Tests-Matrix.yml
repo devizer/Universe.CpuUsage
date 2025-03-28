@@ -70,7 +70,7 @@ jobs:
       run: |
         set -ue; set -o pipefail
         cd Universe.CpuUsage.Tests
-        Reset-Target-Framwork -fw net46
+        Reset-Target-Framework -fw net46
         time try-and-retry dotnet build -c Release -f net46 -o "$HOME/Artifacts" >/dev/null
 
     - name: Pull VM
