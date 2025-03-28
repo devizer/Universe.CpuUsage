@@ -84,9 +84,9 @@ jobs:
       with:
         timeout_minutes: 12
         max_attempts: 3
-        shell: powershell
+        shell: bash
         retry_wait_seconds: 1
-        on_retry_command: 'docker rm -f VM || true'
+        on_retry_command: 'docker rm -f VM 2>/dev/null || true'
         command: |
            set -ue; set -o pipefail
            cat << 'EOF' > "$HOME/Artifacts/lets-rock.sh"
