@@ -61,7 +61,7 @@ namespace Universe.CpuUsage.Tests
             Console.WriteLine($"CPU: {CrossFullInfo.ProcessorName}");
             var actualCase = new PrecisionCase(Process.GetCurrentProcess().PriorityClass, precisionCase.IncludeKernelLoad);
             Console.WriteLine($"Granularity[{actualCase}] (it may vary if Intel SpeedStep, TurboBoost, etc are active):");
-            int count = CrossFullInfo.IsMono ? 1 : 9;
+            int count = CrossFullInfo.IsMono ? 2 : 9;
             for (int i = 1; i <= count; i++)
             {
                 var cpuLoadResult = CpuLoader.Run(minDuration: 1000, needKernelLoad: precisionCase.IncludeKernelLoad);
