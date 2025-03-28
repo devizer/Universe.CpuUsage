@@ -66,7 +66,7 @@ jobs:
     - name: Run Tests
       run: |
         set -ue; set -o pipefail
-        timeout 15m docker run --privileged -e VM_MEM=640M -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
+        timeout 15m docker run --privileged -e VM_MEM=2000M -e VM_CPUS=$(nproc) -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
           -v "$HOME/Artifacts":/job \
           "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
           bash -e -c "a=1; Say \"STARTING TESTS\"; free -m; nunit3-console --workers=1 Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG; Say \"TESTS COMPLETED\""
