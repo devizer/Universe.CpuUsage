@@ -80,19 +80,26 @@ jobs:
         try-and-retry docker pull "devizervlad/crossplatform-pipeline:${{ matrix.os }}"
 
     - name: Run Tests
-      run: |
-        set -ue; set -o pipefail
-        cat << 'EOF' > "$HOME/Artifacts/letsrock.sh"
-        Say "STARTING TESTS"; 
-        free -m; 
-        nunit3-console --inprocess --workers=1 Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG;
-        Say "TESTS COMPLETED"
-        EOF
-        cat "$HOME/Artifacts/letsrock.sh"
-        timeout 666 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
-          -v "$HOME/Artifacts":/job \
-          "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
-          bash -e letsrock.sh
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 12
+        max_attempts: 3
+        shell: powershell
+        retry_wait_seconds: 1
+        on_retry_command: 'docker rm -f VM || true'
+        command: |
+           set -ue; set -o pipefail
+           cat << 'EOF' > "$HOME/Artifacts/lets-rock.sh"
+           Say "STARTING TESTS"; 
+           free -m; 
+           nunit3-console --inprocess --workers=1 Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG;
+           Say "TESTS COMPLETED"
+           EOF
+           cat "$HOME/Artifacts/lets-rock.sh"
+           timeout 666 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
+             -v "$HOME/Artifacts":/job \
+             "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
+             bash -e lets-rock.sh
 
     - name: PREPARE Artifact
       run: |
