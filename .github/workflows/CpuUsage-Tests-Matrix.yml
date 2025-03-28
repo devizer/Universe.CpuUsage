@@ -15,7 +15,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        host: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
         os:
           - 'x64-debian-10'
           - 'x64-debian-11'
@@ -53,7 +52,7 @@ jobs:
           - 'i386-debian-12'
 
 
-    runs-on: ${{ matrix.host }}
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
     - name: Checkout
@@ -73,7 +72,7 @@ jobs:
         set -ue; set -o pipefail
         cd Universe.CpuUsage.Tests
         Reset-Target-Framework -fw net48
-        time try-and-retry dotnet build -c Release -f net48 -o "$HOME/Artifacts" >/dev/null
+        time try-and-retry dotnet build -c Release -f net48 -o "$HOME/Cpu-Usage-Tests" >/dev/null
 
     - name: Pull VM
       run: |
@@ -91,37 +90,38 @@ jobs:
         on_retry_command: 'docker rm -f VM 2>/dev/null || true'
         command: |
            set -ue; set -o pipefail
-           cat << 'EOF' > "$HOME/Artifacts/lets-rock.sh"
-           Say "STARTING TESTS"; 
+           cat << 'EOF' > "$HOME/Cpu-Usage-Tests/lets-rock.sh"
+           Say "STARTING CPU USAGE TESTS"; 
            free -m;
-           nunit3-console --inprocess --workers=1 Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG;
+           nunit3-console --inprocess --workers=1 Universe.CpuUsage.Tests.dll 2>&1 | tee /job/PRECISION.LOG;
            Say "TESTS COMPLETED"
            EOF
-           cat "$HOME/Artifacts/lets-rock.sh"
+           cat "$HOME/Cpu-Usage-Tests/lets-rock.sh"
            timeout 666 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
-             -v "$HOME/Artifacts":/job \
+             -v "$HOME/Cpu-Usage-Tests":/job \
              "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
-             bash -e lets-rock.sh
+             bash -eu -o pipefail lets-rock.sh
 
     - name: PREPARE Artifact
       run: |
-        sudo chown -R $(whoami) $HOME/Artifacts
-        cp $HOME/Artifacts/PRECISION.LOG /tmp/0
+        # TRIM Show_Precision_Histogram ... Show_Precision_Histogram lines
+        sudo chown -R $(whoami) $HOME/Cpu-Usage-Tests
+        cp $HOME/Cpu-Usage-Tests/PRECISION.LOG /tmp/0
         # sed '0,/Show_Precision_Histogram/d' - it exclides matching line
         cat /tmp/0 | sed -n '/Show_Precision_Histogram/,$p' > /tmp/1
         tac /tmp/1 > /tmp/2
         cat /tmp/2 | sed -n '/Show_Precision_Histogram/,$p' > /tmp/3
         tac /tmp/3 > $HOME/Artifacts/PRECISION.LOG
+        cat $HOME/Cpu-Usage-Tests/PRECISION.LOG
 
         mkdir -p "${{ github.workspace }}/Artifact"
-        cp -f $HOME/Artifacts/PRECISION.LOG "${{ github.workspace }}/Artifact/PRECISION on ${{ matrix.os }} at ${{ matrix.host }}.LOG"
-        cat $HOME/Artifacts/PRECISION.LOG
+        cp -f $HOME/Cpu-Usage-Tests/PRECISION.LOG "${{ github.workspace }}/Artifact/PRECISION on ${{ matrix.os }}.LOG"
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: 'Precision ${{ matrix.os }} at ${{ matrix.host }}'
+        name: 'Precision ${{ matrix.os }}'
         path: '${{ github.workspace }}/Artifact'
   
   TestCpuUsageonHost:
