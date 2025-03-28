@@ -104,14 +104,14 @@ jobs:
 
     - name: PREPARE Artifact
       run: |
-        # TRIM Show_Precision_Histogram ... Show_Precision_Histogram lines
+        # TRIM Show_Precision_Histogram (first) ... Show_Precision_Histogram (last) lines
         sudo chown -R $(whoami) $HOME/Cpu-Usage-Tests
         cp $HOME/Cpu-Usage-Tests/PRECISION.LOG /tmp/0
         # sed '0,/Show_Precision_Histogram/d' - it exclides matching line
         cat /tmp/0 | sed -n '/Show_Precision_Histogram/,$p' > /tmp/1
         tac /tmp/1 > /tmp/2
         cat /tmp/2 | sed -n '/Show_Precision_Histogram/,$p' > /tmp/3
-        tac /tmp/3 > $HOME/Artifacts/PRECISION.LOG
+        tac /tmp/3 > $HOME/Cpu-Usage-Tests/PRECISION.LOG
         cat $HOME/Cpu-Usage-Tests/PRECISION.LOG
 
         mkdir -p "${{ github.workspace }}/Artifact"
