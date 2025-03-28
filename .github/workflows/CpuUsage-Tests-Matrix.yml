@@ -134,7 +134,7 @@ jobs:
         cd Universe.CpuUsage.Tests
         TARGET_FRAMEWORKS_TEST="${TARGET_FRAMEWORKS_TEST:-net8.0}"
         mkdir -p ../Artifact
-        dotnet test --no-build -c Release -f $TARGET_FRAMEWORKS_TEST --filter "Name ~ Show_Precision_Histogram" | tee "../Artifact/PRECISION on ${{ matrix.os }}.LOG"
+        dotnet test --no-build -c Release -f $TARGET_FRAMEWORKS_TEST --filter "Name ~ Show_Precision_Histogram" | tee "../Artifact/PRECISION on ${{ matrix.os }}.LOG" &
 
     - name: Upload artifacts [${{ env.THEARTIFACTS_NATIVE }}]
       uses: actions/upload-artifact@v4
