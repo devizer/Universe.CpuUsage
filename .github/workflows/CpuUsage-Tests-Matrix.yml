@@ -52,7 +52,7 @@ jobs:
           - os: 'i386-debian-12'
 
     runs-on: ubuntu-20.04
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -66,11 +66,12 @@ jobs:
         try-and-retry sudo apt-get install bsdutils -y -qq; 
         timeout --version
 
-    - name: Build NET47 Tests
+    - name: Build Tests
       run: |
         set -ue; set -o pipefail
         cd Universe.CpuUsage.Tests
-        time try-and-retry dotnet build -c Release -f net47 -o "$HOME/Artifacts" >/dev/null
+        Reset-Target-Framwork -fw net46
+        time try-and-retry dotnet build -c Release -f net46 -o "$HOME/Artifacts" >/dev/null
 
     - name: Pull VM
       run: |
@@ -81,7 +82,7 @@ jobs:
     - name: Run Tests
       run: |
         set -ue; set -o pipefail
-        timeout 900 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
+        timeout 666 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
           -v "$HOME/Artifacts":/job \
           "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
           bash -e -c "a=1; Say \"STARTING TESTS\"; free -m; nunit3-console --framework=v4.0 --workers=1 --dispose-runners Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG; Say \"TESTS COMPLETED\""
