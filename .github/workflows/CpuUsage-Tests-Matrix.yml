@@ -133,7 +133,7 @@ jobs:
           
   Combine:
     name: Combine results in a single Artifact
-    needs: TestCpuUsageonHost
+    needs: [TestCpuUsageonHost, TestCpuUsageOnVm]
     runs-on: ubuntu-latest
     steps:
     - name: Download All Artifacts
