@@ -85,7 +85,7 @@ jobs:
         cat << 'EOF' > "$HOME/Artifacts/letsrock.sh"
         Say "STARTING TESTS"; 
         free -m; 
-        nunit3-console --framework=v4.0 --workers=1 --dispose-runners Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG;
+        nunit3-console --inprocess --workers=1 Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG;
         Say "TESTS COMPLETED"
         EOF
         cat "$HOME/Artifacts/letsrock.sh"
