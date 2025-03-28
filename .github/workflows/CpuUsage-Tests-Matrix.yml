@@ -37,12 +37,20 @@ jobs:
       run: |
         set -ue; set -o pipefail
         cd Universe.CpuUsage.Tests
-        time try-and-retry dotnet build -c Release -f net47 -o "${{ github.workspace }}/Artifacts"
+        time try-and-retry dotnet build -c Release -f net47 -o "$HOME/Artifacts" >/dev/null
 
     - name: Pull VM
       run: |
         set -ue; set -o pipefail
         try-and-retry docker pull "devizervlad/crossplatform-pipeline:${{ matrix.os }}"
+
+    - name: Run Tests
+      run: |
+        set -ue; set -o pipefail
+        docker run --privileged -e VM_MEM=640M -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
+          -v "$HOME/Artifacts":/job \
+          "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
+          bash -e -c "Say Starting Tests; nunit3-console Universe.CpuUsage.Tests"
 
   
   TestCpuUsageonHost:
