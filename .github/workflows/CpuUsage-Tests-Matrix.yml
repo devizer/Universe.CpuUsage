@@ -82,10 +82,17 @@ jobs:
     - name: Run Tests
       run: |
         set -ue; set -o pipefail
+        cat << 'EOF' > "$HOME/Artifacts/letsrock.sh"
+        Say "STARTING TESTS"; 
+        free -m; 
+        nunit3-console --framework=v4.0 --workers=1 --dispose-runners Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG;
+        cat "$HOME/Artifacts/letsrock.sh"
+        Say "TESTS COMPLETED"
+        EOF
         timeout 666 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
           -v "$HOME/Artifacts":/job \
           "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
-          bash -e -c "a=1; Say \"STARTING TESTS\"; free -m; nunit3-console --framework=v4.0 --workers=1 --dispose-runners Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG; Say \"TESTS COMPLETED\""
+          bash -e letsrock.sh
 
     - name: PREPARE Artifact
       run: |
