@@ -104,9 +104,11 @@ jobs:
     - name: PREPARE Artifact
       run: |
         sudo chown -R $(whoami) $HOME/Artifacts
-        cat $HOME/Artifacts/PRECISION.LOG | sed '0,/Show_Precision_Histogram/d' > /tmp/1
+        cp $HOME/Artifacts/PRECISION.LOG /tmp/0
+        # sed '0,/Show_Precision_Histogram/d' - it exclides matching line
+        cat /tmp/0 | sed -n '/Show_Precision_Histogram/,$p' > /tmp/1
         tac /tmp/1 > /tmp/2
-        cat /tmp/2 | sed '0,/Show_Precision_Histogram/d' > /tmp/3
+        cat /tmp/2 | sed -n '/Show_Precision_Histogram/,$p' > /tmp/3
         tac /tmp/3 > $HOME/Artifacts/PRECISION.LOG
 
         mkdir -p "${{ github.workspace }}/Artifact"
