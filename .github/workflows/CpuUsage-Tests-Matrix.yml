@@ -24,14 +24,19 @@ jobs:
           - os: armhf-ubuntu-24.04
 
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: .NET Info
+    - name: Bootstrap (timeout and try-and-retry)
       run: |
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash > /dev/null
         dotnet --info
+        Say "Installing timeout"
+        try-and-retry sudo apt-get update -qq; 
+        try-and-retry sudo apt-get install bsdutils -y -qq; 
+        timeout --version
 
     - name: Build NET47 Tests
       run: |
@@ -47,7 +52,7 @@ jobs:
     - name: Run Tests
       run: |
         set -ue; set -o pipefail
-        docker run --privileged -e VM_MEM=640M -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
+        timeout 15m docker run --privileged -e VM_MEM=640M -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
           -v "$HOME/Artifacts":/job \
           "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
           bash -e -c "Say Starting Tests; nunit3-console Universe.CpuUsage.Tests.dll"
