@@ -84,7 +84,7 @@ jobs:
         timeout 900 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
           -v "$HOME/Artifacts":/job \
           "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
-          bash -e -c "a=1; Say \"STARTING TESTS\"; free -m; nunit3-console --workers=1 --dispose-runners Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG; Say \"TESTS COMPLETED\""
+          bash -e -c "a=1; Say \"STARTING TESTS\"; free -m; nunit3-console --framework=v4.0 --workers=1 --dispose-runners Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG; Say \"TESTS COMPLETED\""
 
     - name: PREPARE Artifact
       run: |
