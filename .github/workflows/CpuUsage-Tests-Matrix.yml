@@ -62,16 +62,16 @@ jobs:
         script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash > /dev/null
         dotnet --info
         Say "Installing timeout"
-        try-and-retry sudo apt-get update -qq; 
-        try-and-retry sudo apt-get install bsdutils -y -qq; 
+        try-and-retry sudo apt-get update -qq;
+        try-and-retry sudo apt-get install bsdutils -y -qq;
         timeout --version
 
     - name: Build Tests
       run: |
         set -ue; set -o pipefail
         cd Universe.CpuUsage.Tests
-        Reset-Target-Framework -fw net46
-        time try-and-retry dotnet build -c Release -f net46 -o "$HOME/Artifacts" >/dev/null
+        Reset-Target-Framework -fw net48
+        time try-and-retry dotnet build -c Release -f net48 -o "$HOME/Artifacts" >/dev/null
 
     - name: Pull VM
       run: |
