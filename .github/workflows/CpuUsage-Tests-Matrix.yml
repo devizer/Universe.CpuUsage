@@ -60,6 +60,7 @@ jobs:
     - name: Pull VM
       run: |
         set -ue; set -o pipefail
+        docker version
         try-and-retry docker pull "devizervlad/crossplatform-pipeline:${{ matrix.os }}"
 
     - name: Run Tests
