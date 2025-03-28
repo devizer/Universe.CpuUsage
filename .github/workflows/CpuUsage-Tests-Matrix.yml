@@ -16,25 +16,40 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: armhf-debian-10
-          - os: arm64-debian-13
-          - os: armel-debian-8
-          - os: armel-debian-9
-          - os: armel-debian-10
-          - os: armel-debian-11
-          - os: i386-debian-10
-          - os: i386-debian-11
-          - os: i386-debian-12
-          - os: x64-ubuntu-24.04
-          - os: arm64-ubuntu-24.04
-          - os: armhf-ubuntu-24.04
-          - os: x64-ubuntu-22.04
-          - os: arm64-ubuntu-22.04
-          - os: armhf-ubuntu-22.04
-          - os: arm64-ubuntu-14.04
-          - os: armhf-ubuntu-14.04
-          - os: arm64-ubuntu-16.04
-          - os: armhf-ubuntu-16.04
+          - os: 'x64-debian-10'
+          - os: 'x64-debian-11'
+          - os: 'x64-debian-12'
+          - os: 'x64-debian-13'
+          - os: 'x64-ubuntu-22.04'
+          - os: 'x64-ubuntu-24.04'
+          - os: 'arm64-debian-10'
+          - os: 'arm64-debian-11'
+          - os: 'arm64-debian-12'
+          - os: 'arm64-debian-13'
+          - os: 'arm64-ubuntu-14.04'
+          - os: 'arm64-ubuntu-16.04'
+          - os: 'arm64-ubuntu-18.04'
+          - os: 'arm64-ubuntu-20.04'
+          - os: 'arm64-ubuntu-22.04'
+          - os: 'arm64-ubuntu-24.04'
+          - os: 'armel-debian-8'
+          - os: 'armel-debian-9'
+          - os: 'armel-debian-10'
+          - os: 'armel-debian-11'
+          - os: 'armhf-debian-8'
+          - os: 'armhf-debian-9'
+          - os: 'armhf-debian-10'
+          - os: 'armhf-debian-11'
+          - os: 'armhf-debian-12'
+          - os: 'armhf-ubuntu-14.04'
+          - os: 'armhf-ubuntu-16.04'
+          - os: 'armhf-ubuntu-18.04'
+          - os: 'armhf-ubuntu-20.04'
+          - os: 'armhf-ubuntu-22.04'
+          - os: 'armhf-ubuntu-24.04'
+          - os: 'i386-debian-10'
+          - os: 'i386-debian-11'
+          - os: 'i386-debian-12'
 
     runs-on: ubuntu-20.04
     timeout-minutes: 20
@@ -66,10 +81,10 @@ jobs:
     - name: Run Tests
       run: |
         set -ue; set -o pipefail
-        timeout 900 docker run --privileged -e VM_MEM=2000M -e VM_CPUS=$(nproc) -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
+        timeout 900 docker run --privileged -e VM_MEM=1000M -e VM_CPUS=2 -e QEMU_TCG_ACCELERATOR=tcg --name VM --hostname VM --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined -t \
           -v "$HOME/Artifacts":/job \
           "devizervlad/crossplatform-pipeline:${{ matrix.os }}" \
-          bash -e -c "a=1; Say \"STARTING TESTS\"; free -m; nunit3-console --workers=1 Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG; Say \"TESTS COMPLETED\""
+          bash -e -c "a=1; Say \"STARTING TESTS\"; free -m; nunit3-console --workers=1 --dispose-runners Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG; Say \"TESTS COMPLETED\""
 
     - name: PREPARE Artifact
       run: |
