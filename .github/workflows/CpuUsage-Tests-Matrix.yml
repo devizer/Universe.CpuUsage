@@ -12,6 +12,7 @@ defaults:
 jobs:
   TestCpuUsageOnVm:
     name: VM CPU Usage
+    strategy:
       fail-fast: false
       matrix:
         include:
