@@ -64,8 +64,17 @@ jobs:
           bash -e -c "Say Starting; free -m; nunit3-console Universe.CpuUsage.Tests.dll | tee /job/PRECISION.LOG"
 
     - name: LOG tests
-      run: cat $HOME/Artifacts/PRECISION.LOG
+      run: |
+        mkdir -p "${{ github.workspace }}/Artifact"
+        cp -f $HOME/Artifacts/PRECISION.LOG "${{ github.workspace }}/Artifact/PRECISION on ${{ matrix.os }}.LOG"
+        cat $HOME/Artifacts/PRECISION.LOG
 
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: 'Precision ${{ matrix.os }}'
+        path: '${{ github.workspace }}/Artifact'
   
   TestCpuUsageonHost:
     name: On Host
