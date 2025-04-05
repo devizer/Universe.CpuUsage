@@ -53,6 +53,7 @@ Here is a summary of CPU usage precision. In general, it depends on OS and versi
 
 | OS                                                                         | Average Precision |
 |----------------------------------------------------------------------------|------------------:|
+| Windows Server 2025, AMD EPYC 7763                                         |       _15,625 μs_ |
 | Windows Server 2019, Xeon E5-2697 v3                                       |       _16,250 μs_ |
 | Linux, i5-10300, 4.0 GHz, kernel 6.8                                       |        _1,000 μs_ |
 | Ubuntu, x86-64 QEMU, kernel 6.8                                            |        _1,000 μs_ |
