@@ -11,20 +11,16 @@ Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
 
-Autotests using .NET Core and .NET Framework cover:
-- Linux x86_64 and Arm 64-bit on appveyor
-- Windows Server 2016 on appveyor
-- macOS 10.14 on travis-ci.org
-- Raspbian 10 Buster on Azure Piplines using self-hosted agent on Raspberry pi
+### Autotests using .NET Core and .NET Framework cover:
+- Linux running on X64, arm64, armhf, armv5 and i386, kernel varies 3.16 ... 6.8
+- Windows Server 2016 ... 2025
+- macOS on X64 and Apple Silicon
 
-Autotests using Mono:
-- Linux x86_64, Arm 64-bit, Arm-v7 32 bit, i386 using mono on travis-ci.org
-- Mac OSX 10.10 using travis-ci.org
-
-Manually tested on:
-- Windows 7 x86 (.NET Core), Windows 10 ARM64 (.NET Core)
+### Manually tested on:
+- Termux on non-rooted arm64 phone.
+- WSL v1 and v2
+- Windows 10 ARM64 (.NET Core)
 - FreeBSD 12 (both .NET Core and Mono).
-- Debian 8 on armv5 (Mono)
 
 
 | appveyor                   | travis-ci                                                                                 |
