@@ -10,6 +10,7 @@ Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
 
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
+
 CPU Usage for sub-tasks and sub-threads requires NET Core, NET Framework 4.6+
 
 ### Autotests using .NET Core and .NET Framework cover:
