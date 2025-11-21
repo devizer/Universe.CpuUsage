@@ -86,8 +86,8 @@ jobs:
     strategy:
       maxParallel: 9
       matrix:
-         'Ubuntu 20.04':
-           VMIMAGE: 'ubuntu-20.04'
+         'Ubuntu 22.04':
+           VMIMAGE: 'ubuntu-22.04'
            OS: Linux
          'Ubuntu 24.04':
            VMIMAGE: 'ubuntu-24.04'
@@ -95,8 +95,8 @@ jobs:
          'MacOS Latest':
            VMIMAGE: 'macOS-latest'
            OS: OSX
-         'MacOS 12':
-           VMIMAGE: 'macOS-12'
+         'MacOS 13':
+           VMIMAGE: 'macOS-13'
            OS: OSX
          'Win 2019':
            VMIMAGE: 'windows-2019'

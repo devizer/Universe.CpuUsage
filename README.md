@@ -11,18 +11,19 @@ Targets everywhere: Net Framework 2.0+, Net Standard 1.3+, Net Core 1.0+
 ## Coverage and supported OS
 Minimum OS requirements: Linux Kernel 2.6.26, Mac OS 10.9, Windows XP/2003
 
-CPU Usage for sub-tasks and sub-threads requires NET Core, NET Framework 4.6+
+CPU Usage for sub-tasks and sub-threads (class ```CpuUsageAsyncWatcher```) requires NET Core, NET Framework 4.6+
 
-### Autotests using .NET Core and .NET Framework cover:
+### Auto-tests using .NET Core and .NET Framework coverage
 - Linux running on X64, arm64, armhf, armv5 and i386, kernel varies 3.16 ... 6.8
 - Windows Server 2016 ... 2025
 - macOS on X64 and Apple Silicon
 
-### Manually tested on:
+### Manually tested on
 - Termux on non-rooted arm64 phone.
 - WSL v1 and v2
 - Windows 10 ARM64 (.NET Core)
 - FreeBSD 12 (both .NET Core and Mono).
+
 
 
 | appveyor                   | travis-ci                                                                                 |
